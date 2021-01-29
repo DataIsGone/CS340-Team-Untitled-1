@@ -17,6 +17,7 @@
   .dropdown {
     float: left;
     overflow: hidden;
+    padding: 0 5em 0 0;
   }
   
   .dropdown .dropbtn {
@@ -60,4 +61,21 @@
   
   .show {
     display: block;
+  }
+
+  /* --- ALIGN NAVBAR ELEMENTS --- */
+  /* Credit: https://stackoverflow.com/questions/5222523/position-a-div-container-on-the-right-side/5222570 */
+  #wrapper {
+      background: #333;
+      overflow: auto;
+  }
+
+  #logo {
+      background: red;
+      float: left;
+  }
+
+  #mode {
+      background: #333;    /* TEST */
+      float: right;
   }

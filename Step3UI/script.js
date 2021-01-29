@@ -1,3 +1,4 @@
+/* --- NAVBAR SET UP --- */
 function buildTopNav(){
 	let createButton = document.createElement("button");
 	createButton.className = "navButton";
