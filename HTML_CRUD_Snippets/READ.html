@@ -1,0 +1,79 @@
+      <!-- DIV 1: Table Menu -->
+      <div class="content">
+        <ul class="nav-list">
+        <li>
+          <div id="table-menu">
+            <form action=""> <!-- need action -->
+              <label for="tables">Table:</label>
+              <select id="tables" name="tables">
+                <option value="customers">Customers</option>
+                <option value="orders">Orders</option>
+                <option value="keyboards">Keyboards</option>
+                <option value="switches">Key Switches</option>
+                <option value="keyColors">Keycap Colors</option>
+              </select>
+            </form>
+          </div>
+        </li>
+        <li>
+          <div>
+            <!-- Row:<input><button>Find</button> -->
+          </div>
+        </li>
+        </ul>
+      </div>
+
+      <!-- DIV 2: CRUD Mode Controls (CURRENT: READ)-->
+      <div class="content" id="mode-content">
+        <form action="">  <!-- need action -->
+
+          <!-- COLUMN MENU -->
+          <div>
+            <form action=""> <!-- need action -->
+              <ul class="nav-list">
+                <li>
+                  <div id="col-list">
+                    <label for="cols">Item:</label>
+                    <select id="cols" name="cols">
+                      <option value="col0">Col 0 (PK)</option>
+                      <option value="col1">Col 1</option>
+                      <option value="col2">Col 2</option>
+                      <option value="col3">Col 3</option>
+                      <option value="col4">Col 4</option>
+                    </select>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <button id="add-filter-button">Add to Filter</button>
+                  </div>
+                </li>
+              </ul>
+            </form>
+          </div>
+
+          <!-- FILTER RESULT -->
+          <div>
+            <div class="result" id="result-pad">
+              <strong>Result</strong>: <span id="result">(results go here)</span>
+            </div>
+          </div>
+
+          <!-- BUTTONS -->
+          <div>
+            <ul class="nav-list">
+              <li>
+                <div class="div1">
+                  <button class="button">Apply</button>
+                </div>
+              </li>
+              <li><div class="div2"></div></li>
+              <li>
+                <div class="div3">
+                  <button class="button">Reset</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>

@@ -1,3 +1,4 @@
+/* --- NAVBAR SET UP --- */
 function buildTopNav(){
 	let createButton = document.createElement("button");
 	createButton.className = "navButton";
@@ -27,6 +28,7 @@ function buildTopNav(){
 }
 buildTopNav();
 
+/* --- DOM MANIPULATION --- */
 function buildCreatePage(){
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
