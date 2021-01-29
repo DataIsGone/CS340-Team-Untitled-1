@@ -6,19 +6,21 @@
       <title>CS340 Step 3</title>
       <link rel="stylesheet" href="style.css">
       <style>
-        .table-menu {
+        #table-menu {
           background-color: greenyellow;
         }
-        .mode-content {
+        #mode-content {
           background-color: orange;
         }
-        .db-table {
+        #db-table {
           background-color: lightskyblue;
         }
       </style>
     </head>
     <body>
-      <!-- NAVBAR -->
+      <div id="page-container">
+        <div id="content-wrap">
+                <!-- NAVBAR -->
       <div class="navbar" id="wrapper">
         <div id="logo">(Logo)</div>
         <div class="dropdown" id="mode">
@@ -32,29 +34,38 @@
       <!-- DIV 0 -->
       <!-- <div class=""></div> -->
       
-      <!-- DIV 1 -->
-      <div class="table-menu">
-        Test Table-Menu
+      <!-- DIV 1: Table Menu -->
+      <div class="content" id="table-menu">
+        <form action="">
+          <label for="tables">Table:</label>
+          <select id="tables" name="tables">
+            <option value="customers">Customers</option>
+            <option value="orders">Orders</option>
+            <option value="keyboards">Keyboards</option>
+            <option value="switches">Key Switches</option>
+            <option value="keyColors">Keycap Colors</option>
+          </select>
+        </form>
       </div>
 
       <!-- DIV 2 -->
-      <div class="mode-content">
+      <div class="content" id="mode-content">
         Test Mode-Content
       </div>
 
       <!-- DIV 3 -->
-      <div class="db-table">
+      <div class="content" id="db-table">
         Test DB-Table
       </div>
 
 
       <!-- FOOTER -->
-      <footer>
+      <footer id="footer">
         Footer test
       </footer>
-
-      <!-- *** SCRIPTS *** -->
-
+        </div>
+      </div>
+      <!----- SCRIPTS ----->
       <!-- Credit: W3SCHOOLS -->
       <script>
             /* When the user clicks on the button, 
