@@ -1,5 +1,5 @@
 /* --- GENERAL --- */
-body {
+body, #db-table {
     margin: 0;
 }
 
@@ -93,9 +93,9 @@ body {
 
   /* --- DIV 3: SCROLLBOX FOR DB --- */
 
-  #db-table {
+  /* #db-table {
     margin: 0;
-  }
+  } */
 
   #table-scrollbox {
       background-color: lightyellow;   /* TODO: test line, remove */
@@ -155,7 +155,7 @@ body {
   }
 
   .button {
-    background-color: #4CAF50;
+    background-color: #4CAF50;  /* TODO: CHANGE COLOR */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -173,9 +173,44 @@ body {
     background-color: white;    /* TODO: remove test line */
   }
 
-  /* --- CRUD MODE: DELETE --- */
-  #delete-button {
+  #right-button {
     width: 100%;
     text-align: right;
     padding: 5px;
   }
+
+
+  /* --- CRUD MODE: CREATE --- */
+
+  /* --- CRUD MODE: READ --- */
+  .div1 {
+    width: 25%;
+    text-align: left;
+  }
+
+  .div2 {
+    width: 50%;
+    /* text-align: center; */
+    margin: 0 45em;
+  }
+
+  .div3 {
+    width: 25%;
+    text-align: right;
+  }
+
+  #result-pad {
+    padding-left: 40px;
+  }
+
+  #col-list {
+    padding-right: 5vh;
+  }
+
+  #add-filter-button {
+    margin: 0;
+  }
+
+  /* --- CRUD MODE: UPDATE --- */
+
+  /* --- CRUD MODE: DELETE --- */

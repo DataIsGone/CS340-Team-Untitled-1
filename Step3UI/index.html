@@ -54,41 +54,65 @@
         </li>
         <li>
           <div>
-            Row:<input><button>Find</button>
+            <!-- Row:<input><button>Find</button> -->
           </div>
         </li>
         </ul>
       </div>
 
-      <!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)-->
+      <!-- DIV 2: CRUD Mode Controls (CURRENT: READ)-->
       <div class="content" id="mode-content">
-        <div class="display-col">
-          <form action="">  <!-- need action -->
-            <ul class="nav-list">
-              <li>
-                <div class="col-info"> <!-- holds col info -->
-                  <div class="col-label"> <!-- holds col label -->
-                    <span>Col 1</span>
-                  </div>
-                  <div class="col-content"> <!-- holds col content -->
-                    <input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally -->
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </form>
+        <form action="">  <!-- need action -->
 
-          <div id="delete-button">
-            <form action="">  <!-- need action -->
-              <button class="button">Update Row</button>
+          <!-- COLUMN MENU -->
+          <div>
+            <form action=""> <!-- need action -->
+              <ul class="nav-list">
+                <li>
+                  <div id="col-list">
+                    <label for="cols">Item:</label>
+                    <select id="cols" name="cols">
+                      <option value="col0">Col 0 (PK)</option>
+                      <option value="col1">Col 1</option>
+                      <option value="col2">Col 2</option>
+                      <option value="col3">Col 3</option>
+                      <option value="col4">Col 4</option>
+                    </select>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <button id="add-filter-button">Add to Filter</button>
+                  </div>
+                </li>
+              </ul>
             </form>
           </div>
 
-          <div class="result">
-            <strong>Result</strong>: <span id="result">(results go here)</span>
+          <!-- FILTER RESULT -->
+          <div>
+            <div class="result" id="result-pad">
+              <strong>Result</strong>: <span id="result">(results go here)</span>
+            </div>
           </div>
 
-        </div>
+          <!-- BUTTONS -->
+          <div>
+            <ul class="nav-list">
+              <li>
+                <div class="div1">
+                  <button class="button">Apply</button>
+                </div>
+              </li>
+              <li><div class="div2"></div></li>
+              <li>
+                <div class="div3">
+                  <button class="button">Reset</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </form>
       </div>
 
       <!-- DIV 3: DB Table -->
