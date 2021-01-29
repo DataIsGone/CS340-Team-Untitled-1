@@ -1,4 +1,9 @@
-/* W3SCHOOLS NAV BAR CSS*/
+/* --- GENERAL --- */
+body {
+    margin: 0;
+}
+
+/* --- W3SCHOOLS NAV BAR CSS --- */
 .navbar {
     overflow: hidden;
     background-color: #333;
@@ -64,6 +69,7 @@
   }
 
   /* --- CONTENT DIVS --- */
+  /* Desc: formats divs that hold different interactive portions of the page */
   .content {
       padding: 10px 5em;
   }
@@ -99,14 +105,57 @@
     min-height: 100vh;
   }
   
-  #content-wrap {
+#content-wrap {
     padding-bottom: 2.5rem;    /* Footer height */
-  }
+}
 
-  #footer {
+#footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 2.5rem;            /* Footer height */
     background-color: #333;
-  }
+}
+
+  /*  --- DISPLAYING COLUMNS --- */
+.nav-list li {
+    display: inline-block;
+}
+
+.display-col {
+    text-align: center;
+}
+
+.col-info {
+    padding: 5px 15px;
+}
+
+.col-label {
+    background-color: #333;
+    padding: 5px;
+}
+
+.col-content {
+    padding: 5px;
+}
+
+/* ----- CRUD MODES ----- */
+/* --- OVERLAPPING CSS --- */
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+/* --- CRUD MODE: DELETE --- */
+#delete-button {
+    width: 100%;
+    text-align: right;
+    padding: 5px;
+}
