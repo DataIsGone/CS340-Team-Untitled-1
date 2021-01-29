@@ -82,7 +82,7 @@ body {
   }
 
   #logo {
-      background: red;
+      background: red;  /* TODO: remove test line */
       float: left;
   }
 
@@ -91,13 +91,18 @@ body {
       float: right;
   }
 
-  /* --- SCROLLBOX FOR DB --- */
+  /* --- DIV 3: SCROLLBOX FOR DB --- */
+
+  #db-table {
+    margin: 0;
+  }
+
   #table-scrollbox {
       background-color: lightyellow;   /* TODO: test line, remove */
       max-height: 500px;
       width: 100%;
       overflow: auto;
-  }
+}
 
   /* --- FOOTER --- */
   #page-container {
@@ -105,43 +110,51 @@ body {
     min-height: 100vh;
   }
   
-#content-wrap {
+  #content-wrap {
     padding-bottom: 2.5rem;    /* Footer height */
-}
+  }
 
-#footer {
+  #footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 2.5rem;            /* Footer height */
     background-color: #333;
-}
+  }
 
   /*  --- DISPLAYING COLUMNS --- */
-.nav-list li {
+  .nav-list li {
     display: inline-block;
-}
+  }
 
-.display-col {
+  .display-col {
     text-align: center;
-}
+  }
 
-.col-info {
+  .col-info {
     padding: 5px 15px;
-}
+  }
 
-.col-label {
+  .col-label {
     background-color: #333;
     padding: 5px;
-}
+  }
 
-.col-content {
+  .col-content {
+    background-color: #FFF;
     padding: 5px;
-}
+  }
 
-/* ----- CRUD MODES ----- */
-/* --- OVERLAPPING CSS --- */
-.button {
+  /* ----- CRUD MODES ----- */
+
+  /* --- OVERLAPPING CSS --- */
+
+  #mode-content {
+      margin: 0 0 5vh 0;
+      padding: 10px 5em;
+  }
+
+  .button {
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -152,10 +165,17 @@ body {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-}
-/* --- CRUD MODE: DELETE --- */
-#delete-button {
+  }
+
+  .result {
+    text-align: left;
+    background-color: white;    /* TODO: remove test line */
+    width: 50%;
+  }
+
+  /* --- CRUD MODE: DELETE --- */
+  #delete-button {
     width: 100%;
     text-align: right;
     padding: 5px;
-}
+  }
