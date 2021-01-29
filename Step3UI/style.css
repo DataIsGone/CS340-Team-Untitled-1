@@ -99,7 +99,7 @@ body {
 
   #table-scrollbox {
       background-color: lightyellow;   /* TODO: test line, remove */
-      max-height: 500px;
+      height: 500px;
       width: 100%;
       overflow: auto;
 }
