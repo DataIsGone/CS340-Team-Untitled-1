@@ -28,6 +28,7 @@ function buildTopNav(){
 }
 buildTopNav();
 
+/* --- DOM MANIPULATION --- */
 function buildCreatePage(){
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
