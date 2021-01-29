@@ -150,7 +150,7 @@ body {
   /* --- OVERLAPPING CSS --- */
 
   #mode-content {
-      margin: 0 0 5vh 0;
+      /* margin: 0 0 5vh 0; */
       padding: 10px 5em;
   }
 
@@ -169,8 +169,8 @@ body {
 
   .result {
     text-align: left;
-    background-color: white;    /* TODO: remove test line */
     width: 50%;
+    background-color: white;    /* TODO: remove test line */
   }
 
   /* --- CRUD MODE: DELETE --- */
