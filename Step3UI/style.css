@@ -85,8 +85,15 @@
       float: right;
   }
 
-  /* --- FOOTER --- */
+  /* --- SCROLLBOX FOR DB --- */
+  #table-scrollbox {
+      background-color: lightyellow;   /* TODO: test line, remove */
+      max-height: 500px;
+      width: 100%;
+      overflow: auto;
+  }
 
+  /* --- FOOTER --- */
   #page-container {
     position: relative;
     min-height: 100vh;
