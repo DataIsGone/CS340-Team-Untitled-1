@@ -32,7 +32,6 @@ buildTopNav();
 function buildCreatePage(){
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
-		console.log(check);
 		var check = document.getElementsByClassName("pageBox");
 		check[0].parentNode.removeChild(check[0]);
 	}
@@ -42,6 +41,13 @@ function buildCreatePage(){
 	createDiv.innerText = "Create";
 	document.body.append(createDiv);
 
+	//Part 1
+	createDiv.appendChild(buildTableMenu());
+
+	//Part 2
+	createDiv.appendChild(buildCRUDModeControlsCreate());
+
+	//Part 3
 	createDiv.appendChild(buildTable());
 
 	return;
@@ -50,7 +56,6 @@ function buildCreatePage(){
 function buildReadPage(){
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
-		console.log(check);
 		var check = document.getElementsByClassName("pageBox");
 		check[0].parentNode.removeChild(check[0]);
 	}
@@ -60,7 +65,11 @@ function buildReadPage(){
 	readDiv.innerText = "Read";
 	document.body.append(readDiv);
 
-	readDiv.appendChild(buildTable());
+	//Part 1
+	readDiv.appendChild(buildTableMenu());
+
+	//Part 2
+	readDiv.appendChild(buildCRUDModeControlsRead());
 
 	return;
 }
@@ -68,7 +77,6 @@ function buildReadPage(){
 function buildUpdatePage(){
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
-		console.log(check);
 		var check = document.getElementsByClassName("pageBox");
 		check[0].parentNode.removeChild(check[0]);
 	}
@@ -78,6 +86,13 @@ function buildUpdatePage(){
 	updateDiv.innerText = "Update";
 	document.body.append(updateDiv);
 
+	//Part 1
+	updateDiv.appendChild(buildTableMenuWithFind());
+
+	//Part 2
+	updateDiv.appendChild(buildCRUDModeControlsUpdate());
+
+	//Part 3
 	updateDiv.appendChild(buildTable());
 	return;
 }
@@ -85,7 +100,6 @@ function buildUpdatePage(){
 function buildDeletePage(){
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
-		console.log(check);
 		var check = document.getElementsByClassName("pageBox");
 		check[0].parentNode.removeChild(check[0]);
 	}
@@ -95,11 +109,58 @@ function buildDeletePage(){
 	deleteDiv.innerText = "Delete";
 	document.body.append(deleteDiv);
 
+	//Part 1
+	deleteDiv.appendChild(buildTableMenuWithFind());
+
+	//Part 2
+	deleteDiv.appendChild(buildCRUDModeControlsDelete());
+
+	//Part 3
 	deleteDiv.appendChild(buildTable());
 
 	return;
 }
+function buildTableMenu(){
+	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select id="tables" name="tables"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
 
+function buildTableMenuWithFind(){
+	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select id="tables" name="tables"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div>Row:<input><button>Find</button></div></li></ul></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
+
+function buildCRUDModeControlsCreate(){
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content --><input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally --></div></div></li></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Add Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
+
+function buildCRUDModeControlsRead(){
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: READ)--><div class="content" id="mode-content"><form action="">  <!-- need action --><!-- COLUMN MENU --><div><form action=""> <!-- need action --><ul class="nav-list"><li><div id="col-list"><label for="cols">Item:</label><select id="cols" name="cols"><option value="col0">Col 0 (PK)</option><option value="col1">Col 1</option><option value="col2">Col 2</option><option value="col3">Col 3</option><option value="col4">Col 4</option></select></div></li><li><div><button id="add-filter-button">Add to Filter</button></div></li></ul></form></div><!-- FILTER RESULT --><div><div class="result" id="result-pad"><strong>Result</strong>: <span id="result">(results go here)</span></div></div><!-- BUTTONS --><div><ul class="nav-list"><li><div class="div1"><button class="button">Apply</button></div></li><li><div class="div2"></div></li><li><div class="div3"><button class="button">Reset</button></div></li></ul></div></form></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
+
+function buildCRUDModeControlsUpdate(){
+	var html = '<div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content --><input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally --></div></div></li></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Update Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
+
+function buildCRUDModeControlsDelete(){
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)--><div class="content" id="mode-content"><div class="display-col"><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content -->Col 1 Content</div></div></li></ul><div id="right-button"><form action="">  <!-- need action --><button class="button">Delete Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
 
 function buildTable(){
 	//outerTable will contain the header table and the values table
