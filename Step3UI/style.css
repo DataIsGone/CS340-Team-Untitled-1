@@ -1,4 +1,4 @@
-  /* --- GENERAL --- */
+  /* ------------- GENERAL ------------- */
   body, #db-table {
     margin: 0;
   }
@@ -98,7 +98,7 @@
       background: #333;    /* TEST */
       float: right;
   }
-  /* ----- DB CSS ----- */
+  /* --------------- DB CSS --------------- */
   /* --- DIV 3: SCROLLBOX FOR DB --- */
 
   #table-scrollbox {
@@ -121,7 +121,8 @@
   }
 
   #header-table, #cells-table {
-    width: 875px;
+    /* Credit: https://stackoverflow.com/questions/2434602/setting-width-height-as-percentage-minus-pixels */
+    width: calc(100% - 25px);
   }
 
   /* #angel-div {
@@ -176,7 +177,7 @@
     padding: 5px;
   }
 
-  /* ----- CRUD MODES ----- */
+  /* ---------- CRUD MODES ---------- */
 
   /* --- OVERLAPPING CSS --- */
 
@@ -214,11 +215,6 @@
     width: 150px;
     font-size: 16px;
   }
-
-  /* #tables option {
-    font-size: 15px;
-  } */
-
 
   /* --- CRUD MODE: CREATE --- */
 
