@@ -21,6 +21,7 @@
     <body>
       <div id="page-container">
         <div id="content-wrap">
+
       <!-- NAVBAR -->
       <div class="navbar" id="wrapper">
         <div id="logo">(Logo)</div>
@@ -41,7 +42,7 @@
         <li>
           <div id="table-menu">
             <form action=""> <!-- need action -->
-              <label for="tables">Table:</label>
+              <label for="tables" class="label">Table:</label>
               <select id="tables" name="tables">
                 <option value="customers">Customers</option>
                 <option value="orders">Orders</option>
@@ -70,7 +71,7 @@
               <ul class="nav-list">
                 <li>
                   <div id="col-list">
-                    <label for="cols">Item:</label>
+                    <label for="cols" class="label">Item:</label>
                     <select id="cols" name="cols">
                       <option value="col0">Col 0 (PK)</option>
                       <option value="col1">Col 1</option>
@@ -82,7 +83,7 @@
                 </li>
                 <li>
                   <div>
-                    <button id="add-filter-button">Add to Filter</button>
+                    <button class="button-label" id="add-filter-button">Add to Filter</button>
                   </div>
                 </li>
               </ul>
@@ -90,9 +91,9 @@
           </div>
 
           <!-- FILTER RESULT -->
-          <div>
+          <div class="label">
             <div class="result" id="result-pad">
-              <strong>Result</strong>: <span id="result">(results go here)</span>
+              Query: <span id="result">(results go here)</span>
             </div>
           </div>
 
@@ -118,9 +119,9 @@
       <!-- DIV 3: DB Table -->
       <div class="content" id="db-table">
         <div id="table-col-label">
-          <ul class="nav-list">
+          <!-- <ul class="nav-list">
             <li>Test Label</li>
-          </ul>
+          </ul> -->
         </div>
         <div id="table-scrollbox">
           Table Content Here
@@ -193,7 +194,7 @@
 
       <!-- FOOTER -->
       <footer id="footer">
-        Footer test
+        Oregon State University, CS 340: Introduction to Databases | Group 18, Team Untitled (1): Angel Tapia & Ryan Alexandra Davis
       </footer>
         </div>
       </div>

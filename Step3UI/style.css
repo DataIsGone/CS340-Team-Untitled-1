@@ -1,10 +1,18 @@
-/* --- GENERAL --- */
-body, #db-table {
+  /* --- GENERAL --- */
+  body, #db-table {
     margin: 0;
-}
+  }
 
-/* --- W3SCHOOLS NAV BAR CSS --- */
-.navbar {
+  .label {
+    font-size: 20px;
+  }
+
+  .button-label {
+    font-size: 15px;
+  }
+
+  /* --- W3SCHOOLS NAV BAR CSS --- */
+  .navbar {
     overflow: hidden;
     background-color: #333;
     font-family: Arial, Helvetica, sans-serif;
@@ -90,18 +98,19 @@ body, #db-table {
       background: #333;    /* TEST */
       float: right;
   }
-
+  /* ----- DB CSS ----- */
   /* --- DIV 3: SCROLLBOX FOR DB --- */
-
-  /* #db-table {
-    margin: 0;
-  } */
 
   #table-scrollbox {
       background-color: lightyellow;   /* TODO: test line, remove */
       height: 500px;
       width: 100%;
       overflow: auto;
+}
+
+/* --- TABLE --- */
+.outer-table {
+  
 }
 
   /* --- FOOTER --- */
@@ -158,11 +167,11 @@ body, #db-table {
     background-color: #4CAF50;  /* TODO: CHANGE COLOR */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 18px;
     margin: 4px 2px;
     cursor: pointer;
   }
@@ -179,6 +188,15 @@ body, #db-table {
     padding: 5px;
   }
 
+  #tables, #cols {
+    width: 150px;
+    font-size: 16px;
+  }
+
+  /* #tables option {
+    font-size: 15px;
+  } */
+
 
   /* --- CRUD MODE: CREATE --- */
 
@@ -190,7 +208,6 @@ body, #db-table {
 
   .div2 {
     width: 50%;
-    /* text-align: center; */
     margin: 0 45em;
   }
 
