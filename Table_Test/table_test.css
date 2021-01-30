@@ -13,11 +13,11 @@
     width: 875px;
 }
 
-#angel-div {
+/* #angel-div {
     overflow: auto;
     height: 50px;
     width: 900px;
-}
+} */
 
 .cell {
     border: 1px solid black;
