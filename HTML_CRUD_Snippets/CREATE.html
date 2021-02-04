@@ -5,10 +5,12 @@
           <div id="table-menu">
             <form action=""> <!-- need action -->
               <label for="tables">Table:</label>
-              <select id="tables" name="tables">
+              <select onchange="buildTable(this.value);">
+                <option value="none" selected disabled hidden> Select a Table </option> 
                 <option value="customers">Customers</option>
                 <option value="orders">Orders</option>
                 <option value="keyboards">Keyboards</option>
+                <option value="keyboardOrders">Keyboard Orders</option>
                 <option value="switches">Key Switches</option>
                 <option value="keyColors">Keycap Colors</option>
               </select>

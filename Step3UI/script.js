@@ -121,7 +121,7 @@ function buildDeletePage(){
 	return;
 }
 function buildTableMenu(){
-	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select id="tables" name="tables"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
+	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildTable(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select><select id="tables" name="tables"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -162,8 +162,9 @@ function buildCRUDModeControlsDelete(){
 	return wrapper;
 }
 
-function buildTable(){
+function buildTable(table){
 	//outerTable will contain the header table and the values table
+	console.log(table);
 	let outerTable = document.createElement("table");
 	outerTable.style.cellSpacing = "0px";
 	outerTable.style.cellPadding = "0px";
