@@ -18,16 +18,17 @@
           <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
             <span class="navbar-text">
-              Current Mode: <span>[current mode]</span>
+              Current Mode: <span id="titleMode" onload="">[current mode]</span>
             </span>
             <div id="navbarNavDropdown">
               <!-- <button class="dropbtn" onclick="myFunction()">Select Action Mode
                 <i class="fa fa-caret-down"></i>
               </button> -->
-              <button class="cybr-btn-nav">
-                Test<span aria-hidden>_</span>
-                <span aria-hidden class="cybr-btn__glitch">Test_</span>
-                <span aria-hidden class="cybr-btn__tag">340</span>
+              <button class="cybr-btn-nav dropbtn" onclick="myFunction()">
+                Select Mode<span aria-hidden></span>
+                <!-- <span aria-hidden class="cybr-btn__glitch">Test_</span>
+                <span aria-hidden class="cybr-btn__tag">340</span> -->
+                <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content" id="myDropdown"></div>
             </div>
@@ -75,7 +76,6 @@
 
           <div id="right-button">
             <form action="">  <!-- need action -->
-              <!-- <button class="button">Add Row</button> -->
               <button class="cybr-btn">
                 Add Row<span aria-hidden>_</span>
                 <span aria-hidden class="cybr-btn__glitch">Add Row_</span>

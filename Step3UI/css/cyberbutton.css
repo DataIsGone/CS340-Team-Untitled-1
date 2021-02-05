@@ -190,12 +190,12 @@
   }
 
   .cybr-btn-nav {
-    /* --primary: hsl(var(--primary-hue), 85%, calc(var(--primary-lightness, 50) * 1%)); */
+    --primary: hsl(var(--primary-hue), 85%, calc(var(--primary-lightness, 50) * 1%));
     --shadow-primary: hsl(var(--shadow-primary-hue), 90%, 50%);
-    --primary-hue: 0;
+    --primary-hue: 255;
     --primary-lightness: 50;
-    --color: hsl(0, 0%, 100%);
-    --font-size: 26px;
+    --color: hsl(100%, 0%, 100%);
+    --font-size: 15px;
     --shadow-primary-hue: 180;
     --label-size: 9px;
     --shadow-secondary-hue: 60;
@@ -221,7 +221,7 @@
     position: relative;
     font-weight: 700;
     border: 0;
-    width: 215px;
+    width: 150px;
     height: 50px;
     line-height: 50px;
     transition: background 0.2s;

@@ -37,10 +37,34 @@ function buildTopNav(){
 }
 buildTopNav();
 
-
+/* --- TITLE MODE CHANGE --- */
+function changeModeSpan(modeStr) {
+	switch(modeStr) {
+		case "create":
+			document.getElementById("titleMode").textContent = "CREATE";
+			break;
+		case "read":
+			document.getElementById("titleMode").textContent = "READ";
+			break;
+		case "update":
+			document.getElementById("titleMode").textContent = "UPDATE";
+			break;
+		case "delete":
+			document.getElementById("titleMode").textContent = "DELETE";
+			break;
+		default:
+			document.getElementById("titleMode").textContent = "N/A";
+			break;
+	}
+}
 
 /* --- DOM MANIPULATION --- */
+
+/* - CREATE PAGE - */
 function buildCreatePage(){
+	// Change span in navbar to reflect this mode
+	changeModeSpan("create");
+
 	// Deleting other or same page before creating new page.
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
@@ -54,7 +78,7 @@ function buildCreatePage(){
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
 	divOne.id = "divOne";
-	divOne.innerText = "Create";
+	// divOne.innerText = "Create";
 	document.body.append(divOne);
 
 	// Creates table selection menu, when one is selected, rest of page shows up
@@ -64,7 +88,11 @@ function buildCreatePage(){
 	return;
 }
 
+/* - READ PAGE - */
 function buildReadPage(){
+	// Change span in navbar to reflect this mode
+	changeModeSpan("read");
+
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
 		var check = document.getElementsByClassName("pageBox");
@@ -75,7 +103,7 @@ function buildReadPage(){
 	
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
-	divOne.innerText = "Read";
+	// divOne.innerText = "Read";
 	document.body.append(divOne);
 
 	divOne.appendChild(buildTableMenuRead());
@@ -83,7 +111,12 @@ function buildReadPage(){
 	return;
 }
 
+/* - UPDATE PAGE - */
 function buildUpdatePage(){
+	// Change span in navbar to reflect this mode
+	changeModeSpan("update");
+
+
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
 		var check = document.getElementsByClassName("pageBox");
@@ -94,7 +127,7 @@ function buildUpdatePage(){
 
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
-	divOne.innerText = "Update";
+	// divOne.innerText = "Update";
 	document.body.append(divOne);
 
 	divOne.appendChild(buildTableMenuUpdate());
@@ -102,7 +135,11 @@ function buildUpdatePage(){
 	return;
 }
 
+/* - DELETE PAGE - */
 function buildDeletePage(){
+	// Change span in navbar to reflect this mode
+	changeModeSpan("delete");
+
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
 		var check = document.getElementsByClassName("pageBox");
@@ -113,14 +150,13 @@ function buildDeletePage(){
 
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
-	divOne.innerText = "Delete";
+	// divOne.innerText = "Delete";
 	document.body.append(divOne);
 
 	divOne.appendChild(buildTableMenuDelete());
 
 	return;
 }
-
 
 
 function buildTableMenuCreate(){
