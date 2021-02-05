@@ -13,13 +13,8 @@
 
   /* --- W3SCHOOLS NAV BAR CSS --- */
   .navbar {
-<<<<<<< Updated upstream:Step3UI/style.css
-    overflow: hidden;
-    background-color: #333;
-=======
     /* overflow: hidden; */
     /* background-color: #333; */
->>>>>>> Stashed changes:Step3UI/css/style.css
     font-family: Arial, Helvetica, sans-serif;
   }
   
@@ -84,26 +79,6 @@
   /* --- CONTENT DIVS --- */
   /* Desc: formats divs that hold different interactive portions of the page */
   .content {
-<<<<<<< Updated upstream:Step3UI/style.css
-      padding: 10px 5em;
-  }
-
-  /* --- ALIGN NAVBAR ELEMENTS --- */
-  /* Credit: https://stackoverflow.com/questions/5222523/position-a-div-container-on-the-right-side/5222570 */
-  #wrapper {
-      background: #333;
-      overflow: auto;
-  }
-
-  #logo {
-      background: red;  /* TODO: remove test line */
-      float: left;
-  }
-
-  #mode {
-      background: #333;    /* TEST */
-      float: right;
-=======
       padding-top: 7em;
       padding-left: 5em;
       padding-right: 5em;
@@ -113,7 +88,6 @@
     width: auto;
     max-width: 680px;
     padding: 0 15px;
->>>>>>> Stashed changes:Step3UI/css/style.css
   }
   /* --------------- DB CSS --------------- */
   /* --- DIV 3: SCROLLBOX FOR DB --- */
