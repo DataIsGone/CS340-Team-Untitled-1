@@ -37,28 +37,30 @@ function buildTopNav(){
 }
 buildTopNav();
 
+
+
 /* --- DOM MANIPULATION --- */
 function buildCreatePage(){
+	// Deleting other or same page before creating new page.
 	var check = document.getElementsByClassName("pageBox").length;
 	if(check > 0){
 		var check = document.getElementsByClassName("pageBox");
 		check[0].parentNode.removeChild(check[0]);
 	}
 
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
+	// Container for table menu
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
 	divOne.id = "divOne";
 	divOne.innerText = "Create";
 	document.body.append(divOne);
 
-
+	// Creates table selection menu, when one is selected, rest of page shows up
 	divOne.appendChild(buildTableMenuCreate());
 
-
+	// Same process for other pages
 	return;
 }
 
@@ -69,16 +71,13 @@ function buildReadPage(){
 		check[0].parentNode.removeChild(check[0]);
 	}
 
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
 	divOne.innerText = "Read";
 	document.body.append(divOne);
 
-	//Part 1
 	divOne.appendChild(buildTableMenuRead());
 
 	return;
@@ -91,17 +90,14 @@ function buildUpdatePage(){
 		check[0].parentNode.removeChild(check[0]);
 	}
 
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 
-	let updateDiv = document.createElement("div");
-	updateDiv.className = "pageBox";
-	updateDiv.innerText = "Update";
-	document.body.append(updateDiv);
+	let divOne = document.createElement("div");
+	divOne.className = "pageBox";
+	divOne.innerText = "Update";
+	document.body.append(divOne);
 
-	//Part 1
-	updateDiv.appendChild(buildTableMenuWithFind());
+	divOne.appendChild(buildTableMenuUpdate());
 
 	return;
 }
@@ -113,29 +109,17 @@ function buildDeletePage(){
 		check[0].parentNode.removeChild(check[0]);
 	}
 	
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 
-	let deleteDiv = document.createElement("div");
-	deleteDiv.className = "pageBox";
-	deleteDiv.innerText = "Delete";
-	document.body.append(deleteDiv);
+	let divOne = document.createElement("div");
+	divOne.className = "pageBox";
+	divOne.innerText = "Delete";
+	document.body.append(divOne);
 
-	//Part 1
-	deleteDiv.appendChild(buildTableMenuWithFind());
-
-	//Part 2
-	deleteDiv.appendChild(buildCRUDModeControlsDelete());
-
-	//Part 3
-	deleteDiv.appendChild(buildTable());
+	divOne.appendChild(buildTableMenuDelete());
 
 	return;
 }
-
-
-
 
 
 
@@ -153,8 +137,15 @@ function buildTableMenuRead(){
 	return wrapper;
 }
 
-function buildTableMenuWithFind(){
-	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select id="tables" name="tables"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div>Row:<input><button>Find</button></div></li></ul></div>';
+function buildTableMenuUpdate(){
+	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsUpdate(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div>Row:<input><button>Find</button></div></li></ul></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+	return wrapper;
+}
+
+function buildTableMenuDelete(){
+	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div>Row:<input><button>Find</button></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -162,17 +153,13 @@ function buildTableMenuWithFind(){
 
 
 
-
-
-
 function buildCRUDModeControlsCreate(table){
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
 	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Add Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
+
 	var divTwo = document.createElement("div");
 	divTwo.class = "pageBox";
 	divTwo.id = "divTwo";
@@ -183,46 +170,168 @@ function buildCRUDModeControlsCreate(table){
 	var list = document.getElementById("crudControls");
 
 	if (table == "customers"){
-		for (variable of customersVariables){
-			list.appendChild(fillCreateControls(variable));
-		}
+		for (variable of customersVariables){list.appendChild(fillCreateControls(variable));}
 		buildTable(table, customersVariables);
 	}
 	else if(table == "orders"){
-		for (variable of ordersVariables){
-			list.appendChild(fillCreateControls(variable));
-		}
+		for (variable of ordersVariables){list.appendChild(fillCreateControls(variable));}
 		buildTable(table, ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){
-			list.appendChild(fillCreateControls(variable));
-		}
+		for (variable of keyboardOrdersVariables){list.appendChild(fillCreateControls(variable));}
 		buildTable(table, keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){
-			list.appendChild(fillCreateControls(variable));
-		}
+		for (variable of keyboardsVariables){list.appendChild(fillCreateControls(variable));}
 		buildTable(table, keyboardsVariables);
 	}
 	else if(table == "switches"){
-		for (variable of switchesVariables){
-			list.appendChild(fillCreateControls(variable));
-		}
+		for (variable of switchesVariables){list.appendChild(fillCreateControls(variable));}
 		buildTable(table, switchesVariables);
 	}
 	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){
-			list.appendChild(fillCreateControls(variable));
-		}
+		for (variable of keyColorsVariables){list.appendChild(fillCreateControls(variable));}
 		buildTable(table, keyColorsVariables);
 	}
 	
 	return;
 }
 
-function fillCreateControls(variable){
+function buildCRUDModeControlsRead(table){
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
+	
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: READ)--><div class="content" id="mode-content"><form action="">  <!-- need action --><!-- COLUMN MENU --><div><form action=""> <!-- need action --><ul class="nav-list"><li><div id="col-list"><label for="cols">Item:</label><select id="cols" name="cols"></select></div></li><li><div><button id="add-filter-button">Add to Filter</button></div></li></ul></form></div><!-- FILTER RESULT --><div><div class="result" id="result-pad"><strong>Result</strong>: <span id="result">(results go here)</span></div></div><!-- BUTTONS --><div><ul class="nav-list"><li><div class="div1"><button class="button">Apply</button></div></li><li><div class="div2"></div></li><li><div class="div3"><button class="button">Reset</button></div></li></ul></div></form></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+
+	var divTwo = document.createElement("div");
+	divTwo.class = "pageBox";
+	divTwo.id = "divTwo";
+	divTwo.appendChild(wrapper);
+
+	document.body.append(divTwo);
+
+	var select = document.getElementById("cols");
+	 
+	if (table == "customers"){
+		for (variable of customersVariables){select.appendChild(fillReadControls(variable));}
+		buildTable(table, customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){select.appendChild(fillReadControls(variable));}
+		buildTable(table, ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){select.appendChild(fillReadControls(variable));}
+		buildTable(table, keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){select.appendChild(fillReadControls(variable));}
+		buildTable(table, keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){select.appendChild(fillReadControls(variable));}
+		buildTable(table, switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){select.appendChild(fillReadControls(variable));}
+		buildTable(table, keyColorsVariables);
+	}
+	
+	return;
+}
+
+function buildCRUDModeControlsUpdate(table){
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
+	
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: UPDATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list" id="crudControls"><!-- Gets filled by JS --></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Update Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+
+	var divTwo = document.createElement("div");
+	divTwo.class = "pageBox";
+	divTwo.id = "divTwo";
+	divTwo.appendChild(wrapper);
+
+	document.body.append(divTwo);
+
+	var list = document.getElementById("crudControls");
+
+	if (table == "customers"){
+		for (variable of customersVariables){list.appendChild(fillUpdateControls(variable));}
+		buildTable(table, customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){list.appendChild(fillUpdateControls(variable));}
+		buildTable(table, ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){list.appendChild(fillUpdateControls(variable));}
+		buildTable(table, keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){list.appendChild(fillUpdateControls(variable));}
+		buildTable(table, keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){list.appendChild(fillUpdateControls(variable));}
+		buildTable(table, switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){list.appendChild(fillUpdateControls(variable));}
+		buildTable(table, keyColorsVariables);
+	}
+
+	return;
+}
+
+function buildCRUDModeControlsDelete(table){
+	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
+	
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)--><div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action="">  <!-- need action --><button class="button">Delete Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var wrapper= document.createElement('div');
+	wrapper.innerHTML= html;
+
+	var divTwo = document.createElement("div");
+	divTwo.class = "pageBox";
+	divTwo.id = "divTwo";
+	divTwo.appendChild(wrapper);
+
+	document.body.append(divTwo);
+
+	var list = document.getElementById("crudControls");
+
+	if (table == "customers"){
+		for (variable of customersVariables){list.appendChild(fillDeleteControls(variable));}
+		buildTable(table, customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){list.appendChild(fillDeleteControls(variable));}
+		buildTable(table, ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
+		buildTable(table, keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){list.appendChild(fillDeleteControls(variable));}
+		buildTable(table, keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){list.appendChild(fillDeleteControls(variable));}
+		buildTable(table, switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){list.appendChild(fillDeleteControls(variable));}
+		buildTable(table, keyColorsVariables);
+	}
+
+	return;
+}
+
+
+
+function fillCreateControls(variable){ //this is copied in three functions, could probably try to make it one. Will check later.
 	var list = document.createElement("li");
 
 	var outerDiv = document.createElement("div");
@@ -248,106 +357,67 @@ function fillCreateControls(variable){
 	return list;
 }
 
-function buildCRUDModeControlsRead(table){
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
-	
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: READ)--><div class="content" id="mode-content"><form action="">  <!-- need action --><!-- COLUMN MENU --><div><form action=""> <!-- need action --><ul class="nav-list"><li><div id="col-list"><label for="cols">Item:</label><select id="cols" name="cols"></select></div></li><li><div><button id="add-filter-button">Add to Filter</button></div></li></ul></form></div><!-- FILTER RESULT --><div><div class="result" id="result-pad"><strong>Result</strong>: <span id="result">(results go here)</span></div></div><!-- BUTTONS --><div><ul class="nav-list"><li><div class="div1"><button class="button">Apply</button></div></li><li><div class="div2"></div></li><li><div class="div3"><button class="button">Reset</button></div></li></ul></div></form></div>';
-	var wrapper= document.createElement('div');
-	wrapper.innerHTML= html;
-	var divTwo = document.createElement("div");
-	divTwo.class = "pageBox";
-	divTwo.id = "divTwo";
-	divTwo.appendChild(wrapper);
-
-	document.body.append(divTwo);
-
-	var select = document.getElementById("cols");
-	 
-	if (table == "customers"){
-		for (variable of customersVariables){
-			select.appendChild(fillReadControls(variable));
-		}
-		buildTable(table, customersVariables);
-	}
-	else if(table == "orders"){
-		for (variable of ordersVariables){
-			select.appendChild(fillReadControls(variable));
-		}
-		buildTable(table, ordersVariables);
-	}
-	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){
-			select.appendChild(fillReadControls(variable));
-		}
-		buildTable(table, keyboardOrdersVariables);
-	}
-	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){
-			select.appendChild(fillReadControls(variable));
-		}
-		buildTable(table, keyboardsVariables);
-	}
-	else if(table == "switches"){
-		for (variable of switchesVariables){
-			select.appendChild(fillReadControls(variable));
-		}
-		buildTable(table, switchesVariables);
-	}
-	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){
-			select.appendChild(fillReadControls(variable));
-		}
-		buildTable(table, keyColorsVariables);
-	}
-	
-	return;
-}
-
 function fillReadControls(variable){
 	var option = document.createElement("option");
 	option.value = variable;
 	option.innerText = variable;
 	return option;
 
-	{/* <option value="col0">Col 0 (PK)</option>
-                      <option value="col1">Col 1</option>
-                      <option value="col2">Col 2</option>
-                      <option value="col3">Col 3</option>
-                      <option value="col4">Col 4</option> 
- */}
-}
-
-function buildCRUDModeControlsUpdate(){
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
-	
-	var html = '<div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content --><input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally --></div></div></li></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Update Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
-	var wrapper= document.createElement('div');
-	wrapper.innerHTML= html;
-	return wrapper;
 }
 
 function fillUpdateControls(variable){
+	var list = document.createElement("li");
 
-}
+	var outerDiv = document.createElement("div");
+	outerDiv.className = "col-info";
+	list.appendChild(outerDiv);
 
-function buildCRUDModeControlsDelete(){
-	if(document.body.contains(document.getElementById("divTwo"))){
-		document.getElementById("divTwo").remove();
-	}
-	
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)--><div class="content" id="mode-content"><div class="display-col"><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content -->Col 1 Content</div></div></li></ul><div id="right-button"><form action="">  <!-- need action --><button class="button">Delete Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
-	var wrapper= document.createElement('div');
-	wrapper.innerHTML= html;
-	return wrapper;
+	var divLabel = document.createElement("div");
+	divLabel.className = "col-label";
+	outerDiv.appendChild(divLabel);
+
+	var label = document.createElement("span");
+	label.textContent = variable;
+	divLabel.appendChild(label);
+
+	var divLabelTwo = document.createElement("div");
+	divLabelTwo.className = "col-content";
+	outerDiv.appendChild(divLabelTwo);
+
+	var input = document.createElement("input");			
+	input.setAttribute("type", "text");
+	divLabelTwo.appendChild(input);
+
+	return list;
 }
 
 function fillDeleteControls(variable){
+	var list = document.createElement("li");
 
+	var outerDiv = document.createElement("div");
+	outerDiv.className = "col-info";
+	list.appendChild(outerDiv);
+
+	var divLabel = document.createElement("div");
+	divLabel.className = "col-label";
+	outerDiv.appendChild(divLabel);
+
+	var label = document.createElement("span");
+	label.textContent = variable;
+	divLabel.appendChild(label);
+
+	var divLabelTwo = document.createElement("div");
+	divLabelTwo.className = "col-content";
+	outerDiv.appendChild(divLabelTwo);
+
+	var input = document.createElement("input");			
+	input.setAttribute("type", "text");
+	divLabelTwo.appendChild(input);
+
+	return list;
 }
+
+
 
 function buildTable(table, variables){
 	//outerTable will contain the header table and the values table
