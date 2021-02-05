@@ -7,10 +7,12 @@
           <div id="table-menu">
             <form action=""> <!-- need action -->
               <label for="tables">Table:</label>
-              <select id="tables" name="tables">
+              <select onchange="buildCRUDModeControlsDelete(this.value);">
+                <option value="none" selected disabled hidden> Select a Table </option> 
                 <option value="customers">Customers</option>
                 <option value="orders">Orders</option>
                 <option value="keyboards">Keyboards</option>
+                <option value="keyboardOrders">Keyboard Orders</option>
                 <option value="switches">Key Switches</option>
                 <option value="keyColors">Keycap Colors</option>
               </select>
@@ -28,17 +30,8 @@
       <!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)-->
       <div class="content" id="mode-content">
         <div class="display-col">
-          <ul class="nav-list">
-            <li>
-              <div class="col-info"> <!-- holds col info -->
-                <div class="col-label"> <!-- holds col label -->
-                  <span>Col 1</span>
-                </div>
-                <div class="col-content"> <!-- holds col content -->
-                  Col 1 Content
-                </div>
-              </div>
-            </li>
+          <ul class="nav-list" id="crudControls">
+            
           </ul>
 
           <div id="right-button">
@@ -51,80 +44,5 @@
             <strong>Result</strong>: <span id="result">(results go here)</span>
           </div>
 
-        </div>
-      </div>
-
-      <!-- DIV 3: DB Table -->
-      <div class="content" id="db-table">
-        <div id="table-col-label">
-          <ul class="nav-list">
-            <li>Test Label</li>
-          </ul>
-        </div>
-        <div id="table-scrollbox">
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
         </div>
       </div>
