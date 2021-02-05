@@ -19,185 +19,21 @@
       </style>
     </head>
     <body>
-      <div id="page-container">
-        <div id="content-wrap">
+      <!-- <div id="page-container">
+        <div id="content-wrap"> -->
 
-      <!-- NAVBAR -->
-      <div class="navbar" id="wrapper">
-        <div id="logo">(Logo)</div>
-        <div class="dropdown" id="mode">
-          <button class="dropbtn" onclick="myFunction()">Select CRUD Mode
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="dropdown-content" id="myDropdown"></div>
-        </div> 
-      </div>
-
-      <!-- DIV 0 -->
-      <!-- <div class=""></div> -->
-      
-      <!-- DIV 1: Table Menu -->
-      <div class="content">
-        <ul class="nav-list">
-        <li>
-          <div id="table-menu">
-            <form action=""> <!-- need action -->
-              <label for="tables" class="label">Table:</label>
-              <select id="tables" name="tables">
-                <option value="customers">Customers</option>
-                <option value="orders">Orders</option>
-                <option value="keyboards">Keyboards</option>
-                <option value="switches">Key Switches</option>
-                <option value="keyColors">Keycap Colors</option>
-              </select>
-            </form>
-          </div>
-        </li>
-        <li>
-          <div>
-            <!-- Row:<input><button>Find</button> -->
-          </div>
-        </li>
-        </ul>
-      </div>
-
-      <!-- DIV 2: CRUD Mode Controls (CURRENT: READ)-->
-      <div class="content" id="mode-content">
-        <form action="">  <!-- need action -->
-
-          <!-- COLUMN MENU -->
-          <div>
-            <form action=""> <!-- need action -->
-              <ul class="nav-list">
-                <li>
-                  <div id="col-list">
-                    <label for="cols" class="label">Item:</label>
-                    <select id="cols" name="cols">
-                      <option value="col0">Col 0 (PK)</option>
-                      <option value="col1">Col 1</option>
-                      <option value="col2">Col 2</option>
-                      <option value="col3">Col 3</option>
-                      <option value="col4">Col 4</option>
-                    </select>
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    <button class="button-label" id="add-filter-button">Add to Filter</button>
-                  </div>
-                </li>
-              </ul>
-            </form>
-          </div>
-
-          <!-- FILTER RESULT -->
-          <div class="label">
-            <div class="result" id="result-pad">
-              Query: <span id="result">(results go here)</span>
-            </div>
-          </div>
-
-          <!-- BUTTONS -->
-          <div>
-            <ul class="nav-list">
-              <li>
-                <div class="div1">
-                  <button class="button">Apply</button>
-                </div>
-              </li>
-              <li><div class="div2"></div></li>
-              <li>
-                <div class="div3">
-                  <button class="button">Reset</button>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </form>
-      </div>
-
-      <!-- DIV 3: DB Table -->
-      <div class="content" id="db-table">
-        <div id="table-col-label">
-          <!-- <ul class="nav-list">
-            <li>Test Label</li>
-          </ul> -->
+        <!-- NAVBAR -->
+        <div class="navbar" id="wrapper">
+          <div id="logo">(Logo)</div>
+          <div class="dropdown" id="mode">
+            <button class="dropbtn" onclick="myFunction()">Select CRUD Mode
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content" id="myDropdown"></div>
+          </div> 
         </div>
-        <div id="table-scrollbox">
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-          Table Content Here
-          <br>
-        </div>
-      </div>
 
 
-      <!-- FOOTER -->
-      <footer id="footer">
-        Oregon State University, CS 340: Introduction to Databases | Group 18, Team Untitled (1): Angel Tapia & Ryan Alexandra Davis
-      </footer>
-        </div>
-      </div>
       <!----- SCRIPTS ----->
       <!-- Credit: W3SCHOOLS -->
       <script>
