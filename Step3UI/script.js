@@ -1,3 +1,12 @@
+/* --- Table variables for setting up UI --- */
+var customersVariables = ["customerNum", "firstName", "lastName", "phoneNumber"];
+var ordersVariables = ["orderNum", "customerNum", "orderDate", "paymentType"];
+var keyboardOrdersVariables = ["orderNum", "keyboardNum", "quantityOrdered", "pricePerUnit"];
+var keyboardsVariables = ["keyboardNum", "name", "quantityInStock", "switchNum", "keyColorNum"];
+var switchesVariables = ["switchNum", "typeName"];
+var keyColorsVariables = ["keyColorNum", "keyColorName"];
+
+
 /* --- NAVBAR SET UP --- */
 function buildTopNav(){
 	let createButton = document.createElement("button");
@@ -36,19 +45,15 @@ function buildCreatePage(){
 		check[0].parentNode.removeChild(check[0]);
 	}
 	
-	let createDiv = document.createElement("div");
-	createDiv.className = "pageBox";
-	createDiv.innerText = "Create";
-	document.body.append(createDiv);
+	let createDivOne = document.createElement("div");
+	createDivOne.className = "pageBox";
+	createDivOne.id = "createDivOne";
+	createDivOne.innerText = "Create";
+	document.body.append(createDivOne);
 
-	//Part 1
-	createDiv.appendChild(buildTableMenu());
 
-	//Part 2
-	createDiv.appendChild(buildCRUDModeControlsCreate());
+	createDivOne.appendChild(buildTableMenu());
 
-	//Part 3
-	createDiv.appendChild(buildTable());
 
 	return;
 }
@@ -120,8 +125,14 @@ function buildDeletePage(){
 
 	return;
 }
+
+
+
+
+
+
 function buildTableMenu(){
-	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildTable(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
+	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsCreate(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -134,11 +145,94 @@ function buildTableMenuWithFind(){
 	return wrapper;
 }
 
-function buildCRUDModeControlsCreate(){
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content --><input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally --></div></div></li></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Add Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+
+
+
+
+
+function buildCRUDModeControlsCreate(table){
+	if(document.body.contains(document.getElementById("createDivTwo"))){
+		document.getElementById("createDivTwo").remove();
+	}
+	
+	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Add Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
-	return wrapper;
+	var createDivTwo = document.createElement("div");
+	createDivTwo.class = "pageBox";
+	createDivTwo.id = "createDivTwo";
+	createDivTwo.appendChild(wrapper);
+
+	document.body.append(createDivTwo);
+
+	var list = document.getElementById("crudControls");
+
+	if (table == "customers"){
+		for (variable of customersVariables){
+			list.appendChild(fillCreateControls(variable));
+		}
+		
+		buildTable(table, customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){
+			list.appendChild(fillCreateControls(variable));
+		}
+		buildTable(table, ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){
+			list.appendChild(fillCreateControls(variable));
+		}
+		buildTable(table, keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){
+			list.appendChild(fillCreateControls(variable));
+		}
+		buildTable(table, keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){
+			list.appendChild(fillCreateControls(variable));
+		}
+		buildTable(table, switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){
+			list.appendChild(fillCreateControls(variable));
+		}
+		buildTable(table, keyColorsVariables);
+	}
+	
+	
+	return;
+}
+
+function fillCreateControls(variable){
+	var list = document.createElement("li");
+
+	var outerDiv = document.createElement("div");
+	outerDiv.className = "col-info";
+	list.appendChild(outerDiv);
+
+	var divLabel = document.createElement("div");
+	divLabel.className = "col-label";
+	outerDiv.appendChild(divLabel);
+
+	var label = document.createElement("span");
+	label.textContent = variable;
+	divLabel.appendChild(label);
+
+	var divLabelTwo = document.createElement("div");
+	divLabelTwo.className = "col-content";
+	outerDiv.appendChild(divLabelTwo);
+
+	var input = document.createElement("input");			//have to find way to set correct input type. Or maybe just allow text for all. not sure
+	input.setAttribute("type", "text");
+	divLabelTwo.appendChild(input);
+
+	return list;
 }
 
 function buildCRUDModeControlsRead(){
@@ -148,11 +242,19 @@ function buildCRUDModeControlsRead(){
 	return wrapper;
 }
 
+function fillReadControls(table){
+
+}
+
 function buildCRUDModeControlsUpdate(){
 	var html = '<div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list"><li><div class="col-info"> <!-- holds col info --><div class="col-label"> <!-- holds col label --><span>Col 1</span></div><div class="col-content"> <!-- holds col content --><input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally --></div></div></li></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Update Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
+}
+
+function fillUpdateControls(table){
+
 }
 
 function buildCRUDModeControlsDelete(){
@@ -162,9 +264,13 @@ function buildCRUDModeControlsDelete(){
 	return wrapper;
 }
 
-function buildTable(table){
+function fillDeleteControls(table){
+
+}
+
+function buildTable(table, variables){
 	//outerTable will contain the header table and the values table
-	console.log(table);
+
 	let outerTable = document.createElement("table");
 	outerTable.style.cellSpacing = "0px";
 	outerTable.style.cellPadding = "0px";
@@ -188,30 +294,14 @@ function buildTable(table){
 	let headerTableRow = document.createElement("tr");
 	headerTable.appendChild(headerTableRow);
 
-	let headerOne = document.createElement("th");
-	headerOne.textContent = "keyboardNum";
-	headerOne.style.width = '20%';			//needs to change depending on # of columns given by db
-	headerTableRow.appendChild(headerOne);
+	var size = 100/variables.length + "%";
 
-	let headerTwo = document.createElement("th");
-	headerTwo.textContent = "name";
-	headerTwo.style.width = '20%';
-	headerTableRow.appendChild(headerTwo);
-
-	let headerThree = document.createElement("th");
-	headerThree.textContent = "quantityInStock";
-	headerThree.style.width = '20%';
-	headerTableRow.appendChild(headerThree);
-
-	let headerFour = document.createElement("th");
-	headerFour.textContent = "switchNum";
-	headerFour.style.width = '20%';
-	headerTableRow.appendChild(headerFour);
-
-	let headerFive = document.createElement("th");
-	headerFive.textContent = "keyColorNum";
-	headerFive.style.width = '20%';
-	headerTableRow.appendChild(headerFive);
+	for (each of variables){
+		let header = document.createElement("th");
+		header.textContent = each;
+		header.style.width = size;			//needs to change depending on # of columns given by db
+		headerTableRow.appendChild(header);
+	}
 
 	headerDataOne.appendChild(headerTable);
 
@@ -233,9 +323,10 @@ function buildTable(table){
 	valueTable.style.cellPadding = "1px";
 	valueTable.style.width = "875px"; // this has to be 25 px less than tableHolder width
 
-	for(var i = 1; i < 6; i++){	//data from db will be put into table, could make other function
+	//start with this
+	for(var i = 1; i < variables.length + 1; i++){	//data from db will be put into table, could make other function
         var row = document.createElement("tr");
-        for(var j = 1; j < 6; j++) {
+        for(var j = 1; j < variables.length + 1; j++) {
             var column = document.createElement("td");
             column.textContent = i + ", " + j;
 			column.style.border = "1px solid black";
@@ -247,7 +338,10 @@ function buildTable(table){
 	
 	tableHolder.appendChild(valueTable);
 
-	return outerTable;
+	createDivTwo = document.getElementById("createDivTwo");
+	createDivTwo.appendChild(outerTable);
+
+	return;
 }
 
 
