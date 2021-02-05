@@ -13,9 +13,10 @@
 
   /* --- W3SCHOOLS NAV BAR CSS --- */
   .navbar {
-    overflow: hidden;
+    /* overflow: hidden; */
     background-color: #333;
     font-family: Arial, Helvetica, sans-serif;
+    display: grid;
   }
   
   .navbar a {
@@ -84,20 +85,31 @@
 
   /* --- ALIGN NAVBAR ELEMENTS --- */
   /* Credit: https://stackoverflow.com/questions/5222523/position-a-div-container-on-the-right-side/5222570 */
-  #wrapper {
+  /* #wrapper {
       background: #333;
       overflow: auto;
   }
 
   #logo {
-      background: red;  /* TODO: remove test line */
       float: left;
   }
 
-  #mode {
-      background: #333;    /* TEST */
+  #title {
+    margin: 0;
+    width: 25%;
+  } */
+
+  /* #mode {
+      background: #333;   
       float: right;
+  }*/
+
+  .container {
+    width: auto;
+    max-width: 680px;
+    padding: 0 15px;
   }
+  
   /* --------------- DB CSS --------------- */
   /* --- DIV 3: SCROLLBOX FOR DB --- */
 
