@@ -1,10 +1,18 @@
+@font-face {
+  font-family: Cyber;
+  src: url("https://assets.codepen.io/605876/Blender-Pro-Bold.otf");
+  font-display: swap;
+}
+  
   /* ------------- GENERAL ------------- */
   body, #db-table {
     margin: 0;
+    font-family: 'Cyber', sans-serif;
   }
 
   .label {
     font-size: 20px;
+    font-family: 'Cyber', sans-serif;
   }
 
   .button-label {
@@ -15,7 +23,7 @@
   .navbar {
     /* overflow: hidden; */
     /* background-color: #333; */
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Cyber', sans-serif;
   }
   
   .navbar a {
@@ -164,6 +172,7 @@
 
   .col-label {
     background-color: #333;
+    color: white;
     padding: 5px;
   }
 

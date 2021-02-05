@@ -20,7 +20,7 @@
   .cybr-btn {
     --primary: hsl(var(--primary-hue), 85%, calc(var(--primary-lightness, 50) * 1%));
     --shadow-primary: hsl(var(--shadow-primary-hue), 90%, 50%);
-    --primary-hue: 0;
+    --primary-hue: 0; /* this changes the actual color of the button */
     --primary-lightness: 50;
     --color: hsl(0, 0%, 100%);
     --font-size: 26px;

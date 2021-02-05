@@ -10,25 +10,25 @@ var keyColorsVariables = ["keyColorNum", "keyColorName"];
 /* --- NAVBAR SET UP --- */
 function buildTopNav(){
 	let createButton = document.createElement("button");
-	createButton.className = "navButton";
+	createButton.className = "navButton cybr-btn-nav";
 	createButton.innerText = "Create";
 	createButton.addEventListener('click', buildCreatePage);
     document.getElementById("myDropdown").append(createButton);
 	
 	let readButton = document.createElement("button");
-	readButton.className = "navButton";
+	readButton.className = "navButton cybr-btn-nav";
 	readButton.innerText = "Read";
 	readButton.addEventListener('click', buildReadPage);
     document.getElementById("myDropdown").append(readButton);
     
 	let updateButton = document.createElement("button");
-	updateButton.className = "navButton";
+	updateButton.className = "navButton cybr-btn-nav";
 	updateButton.innerText = "Update";
 	updateButton.addEventListener('click', buildUpdatePage);
     document.getElementById("myDropdown").append(updateButton);
 	
 	let deleteButton = document.createElement("button");
-	deleteButton.className = "navButton";
+	deleteButton.className = "navButton cybr-btn-nav";
 	deleteButton.innerText = "Delete";
 	deleteButton.addEventListener('click', buildDeletePage);
     document.getElementById("myDropdown").append(deleteButton);
