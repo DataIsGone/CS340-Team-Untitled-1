@@ -34,10 +34,19 @@
     height: 75%;
   }
 
+  /* --- FOOTER --- */
+  #page-container {
+    position: relative;
+    min-height: 100vh;
+  }
+    
+  #content-wrap {
+    padding-bottom: 2.5rem;    /* Footer height */
+  }
+  
+
   /* --- W3SCHOOLS NAV BAR CSS --- */
   .navbar {
-    /* overflow: hidden; */
-    /* background-color: #333; */
     font-family: 'Cyber', sans-serif;
   }
   
@@ -161,14 +170,12 @@
     text-align: center;
   }
 
-  /* --- FOOTER --- */
-  #page-container {
-    position: relative;
-    min-height: 100vh;
+  td.cell:hover {
+    background-color: white;
   }
-  
-  #content-wrap {
-    padding-bottom: 2.5rem;    /* Footer height */
+
+  table#cells-table > tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   /*  --- DISPLAYING COLUMNS --- */
@@ -187,11 +194,14 @@
   .col-label {
     background-color: #333; /* TODO: change color */
     color: white;
+    font-family: 'Cyber', sans-serif;
+    font-size: 17px;
     padding: 5px;
   }
 
   .col-content {
     background-color: #FFF;
+    /* font-family: 'Cyber', sans-serif; */
     padding: 1px;
   }
 
