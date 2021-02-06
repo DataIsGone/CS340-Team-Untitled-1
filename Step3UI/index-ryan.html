@@ -32,71 +32,94 @@
           </div>
         </nav>
       
-<!-- CRUD MODE Snippet: DELETE -->
-      
-      <!-- DIV 1: Table Menu -->
-      <div class="content">
-        <ul class="nav-list">
-        <li>
+        <!-- DIV 1: Table Menu -->
+        <div class="content">
+          <ul class="nav-list">
+          <li>
+            <div>
+              <form action=""> <!-- need action -->
+                <label for="tables" class="label">SELECT TABLE:</label>
+                <select onchange="buildCRUDModeControlsDelete(this.value);">
+                  <option value="none" selected disabled hidden> Select a Table </option> 
+                  <option value="customers">Customers</option>
+                  <option value="orders">Orders</option>
+                  <option value="keyboards">Keyboards</option>
+                  <option value="keyboardOrders">Keyboard Orders</option>
+                  <option value="switches">Key Switches</option>
+                  <option value="keyColors">Keycap Colors</option>
+                </select>
+              </form>
+            </div>
+          </li>
+          </ul>
+        </div>
+
+      <!-- DIV 2: CRUD Mode Controls (CURRENT: READ)-->
+      <div class="content" id="mode-content">
+        <form action="">  <!-- need action -->
+
+          <!-- COLUMN MENU -->
           <div>
             <form action=""> <!-- need action -->
-              <label for="tables" class="label">SELECT TABLE:</label>
-              <select onchange="buildCRUDModeControlsDelete(this.value);">
-                <option value="none" selected disabled hidden> Select a Table </option> 
-                <option value="customers">Customers</option>
-                <option value="orders">Orders</option>
-                <option value="keyboards">Keyboards</option>
-                <option value="keyboardOrders">Keyboard Orders</option>
-                <option value="switches">Key Switches</option>
-                <option value="keyColors">Keycap Colors</option>
-              </select>
-            </form>
-          </div>
-        </li>
-        <li><div class="spacer"></div></li>
-        <li>
-          <div>
-            <label for="row" class="label">CHOOSE ROW:</label>
-            <input for="row" class="row-input">
-          </div>
-        </li>
-        <li><div class="spacer"></div></li>
-        <li>
-          <button class="cybr-btn-small">
-            Search<span aria-hidden>_</span>
-            <span aria-hidden class="cybr-btn-small__glitch">Find_</span>
-            <span aria-hidden class="cybr-btn-small__tag"></span>
-          </button>
-        </li>
-        </ul>
-      </div>
-
-      <!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)-->
-      <div class="content" id="mode-content">
-        <div class="display-col">
-          <ul class="nav-list" id="crudControls">
-
-          </ul>
-
-          <div id="right-button">
-            <form action="">  <!-- need action -->
-              <button class="cybr-btn">
-                Delete Row<span aria-hidden>_</span>
-                <span aria-hidden class="cybr-btn__glitch">Delete Row_</span>
-                <span aria-hidden class="cybr-btn__tag">340</span>
-              </button>
+              <ul class="nav-list">
+                <li>
+                  <div id="col-list">
+                    <label for="cols" class="label">SELECT COLUMN:</label>
+                    <select id="cols" name="cols">
+                      <!-- Gets filled by JS -->
+                    </select>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <button class="cybr-btn-small">
+                      Add<span aria-hidden>_</span>
+                      <span aria-hidden class="cybr-btn-small__glitch">Add_</span>
+                      <span aria-hidden class="cybr-btn-small__tag"></span>
+                    </button>
+                  </div>
+                </li>
+              </ul>
             </form>
           </div>
 
+          <!-- FILTER RESULT -->
           <div class="result">
             <ul class="nav-list">
               <li>
-                <span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span>
+                <span class="label">CURRENT FILTER SELECTION:</span> <span class="label-content" id="text-result">(results go here)</span>
               </li>
             </ul>
           </div>
 
-        </div>
+                    <!-- SPACER -->
+                    <ul class="nav-list"><li><div class="spacer"></div></li></ul>
+
+          <!-- BUTTONS -->
+          <div>
+            <ul class="nav-list">
+              <li>
+                <div class="div1">
+                  <button class="cybr-btn-med">
+                    Filter<span aria-hidden>_</span>
+                    <span aria-hidden class="cybr-btn-med__glitch">Filter_</span>
+                    <span aria-hidden class="cybr-btn-med__tag"></span>
+                  </button>
+                </div>
+              </li>
+              <li><div class="div2"></div></li>
+              <li>
+                <div class="div3">
+                  <button class="cybr-btn-med">
+                    Reset<span aria-hidden>_</span>
+                    <span aria-hidden class="cybr-btn-med__glitch">Reset_</span>
+                    <span aria-hidden class="cybr-btn-med__tag"></span>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </form>
       </div>
 
       <!-- BOOTSTRAP FOOTER -->
