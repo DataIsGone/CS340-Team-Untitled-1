@@ -78,7 +78,6 @@ function buildCreatePage(){
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
 	divOne.id = "divOne";
-	// divOne.innerText = "Create";
 	document.body.append(divOne);
 
 	// Creates table selection menu, when one is selected, rest of page shows up
@@ -103,7 +102,6 @@ function buildReadPage(){
 	
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
-	// divOne.innerText = "Read";
 	document.body.append(divOne);
 
 	divOne.appendChild(buildTableMenuRead());
@@ -127,7 +125,6 @@ function buildUpdatePage(){
 
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
-	// divOne.innerText = "Update";
 	document.body.append(divOne);
 
 	divOne.appendChild(buildTableMenuUpdate());
@@ -150,7 +147,6 @@ function buildDeletePage(){
 
 	let divOne = document.createElement("div");
 	divOne.className = "pageBox";
-	// divOne.innerText = "Delete";
 	document.body.append(divOne);
 
 	divOne.appendChild(buildTableMenuDelete());
