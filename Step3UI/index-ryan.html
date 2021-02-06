@@ -19,13 +19,10 @@
         <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
             <a class="navbar-brand" href="#">DEFINITELY NOT A CULT</a>
-            <span class="navbar-text" style="font-size:20px">
+            <span class="navbar-text" style="font-size:25px">
               CURRENT MODE: <span id="titleMode" onload="">N/A</span>
             </span>
             <div id="navbarNavDropdown">
-              <!-- <button class="dropbtn" onclick="myFunction()">Select Action Mode
-                <i class="fa fa-caret-down"></i>
-              </button> -->
               <button class="cybr-btn-nav dropbtn" style="font-size:20px" onclick="myFunction()">
                 SELECT MODE<span aria-hidden></span>
                 <i class="fa fa-caret-down"></i>
@@ -35,14 +32,17 @@
           </div>
         </nav>
       
+<!-- CRUD MODE Snippet: DELETE -->
+      
       <!-- DIV 1: Table Menu -->
       <div class="content">
         <ul class="nav-list">
         <li>
-          <div id="table-menu">
+          <div>
             <form action=""> <!-- need action -->
               <label for="tables" class="label">SELECT TABLE:</label>
-              <select id="tables" name="tables">
+              <select onchange="buildCRUDModeControlsDelete(this.value);">
+                <option value="none" selected disabled hidden> Select a Table </option> 
                 <option value="customers">Customers</option>
                 <option value="orders">Orders</option>
                 <option value="keyboards">Keyboards</option>
@@ -53,48 +53,56 @@
             </form>
           </div>
         </li>
+        <li><div class="spacer"></div></li>
+        <li>
+          <div>
+            <label for="row" class="label">CHOOSE ROW:</label>
+            <input for="row" class="row-input">
+          </div>
+        </li>
+        <li><div class="spacer"></div></li>
+        <li>
+          <button class="cybr-btn-small">
+            Search<span aria-hidden>_</span>
+            <span aria-hidden class="cybr-btn-small__glitch">Find_</span>
+            <span aria-hidden class="cybr-btn-small__tag"></span>
+          </button>
+        </li>
         </ul>
       </div>
 
-      <!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)-->
+      <!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)-->
       <div class="content" id="mode-content">
         <div class="display-col">
-          <form action="">  <!-- need action -->
-            <ul class="nav-list">
-              <li>
-                <div class="col-info"> <!-- holds col info -->
-                  <div class="col-label"> <!-- holds col label -->
-                    <span>Col 1</span>
-                  </div>
-                  <div class="col-content"> <!-- holds col content -->
-                    <input type="text" name="col1"> <!-- NOTE: need DOM to add `name` and `value` attributes procedurally -->
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </form>
+          <ul class="nav-list" id="crudControls">
+
+          </ul>
 
           <div id="right-button">
             <form action="">  <!-- need action -->
               <button class="cybr-btn">
-                Add Row<span aria-hidden>_</span>
-                <span aria-hidden class="cybr-btn__glitch">Add Row_</span>
+                Delete Row<span aria-hidden>_</span>
+                <span aria-hidden class="cybr-btn__glitch">Delete Row_</span>
                 <span aria-hidden class="cybr-btn__tag">340</span>
               </button>
             </form>
           </div>
 
-          <div class="result label" id="result-pad">
-            <strong>RESULT</strong>: <span id="result">(results go here)</span>
+          <div class="result">
+            <ul class="nav-list">
+              <li>
+                <span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span>
+              </li>
+            </ul>
           </div>
 
         </div>
       </div>
 
-        <!-- BOOTSTRAP FOOTER -->
-        <footer class="navbar fixed-bottom navbar-light bg-light">
-          <a class="navbar-brand" href="#">Oregon State University, CS Post Bacc | CS 340: Intro to Databases | Angel Tapia, Ryan Alexandra Davis</a>
-        </footer>
+      <!-- BOOTSTRAP FOOTER -->
+      <footer class="navbar fixed-bottom navbar-light bg-light">
+        <a class="navbar-brand" href="#">Oregon State University, CS Post Bacc | CS 340: Intro to Databases | Angel Tapia, Ryan Alexandra Davis</a>
+      </footer>
 
       <!----- SCRIPTS ----->
       <!-- Credit: W3SCHOOLS -->

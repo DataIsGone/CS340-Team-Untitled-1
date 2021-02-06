@@ -4,9 +4,9 @@
       <div class="content">
         <ul class="nav-list">
         <li>
-          <div id="table-menu">
+          <div>
             <form action=""> <!-- need action -->
-              <label for="tables">Table:</label>
+              <label for="tables" class="label">SELECT TABLE:</label>
               <select onchange="buildCRUDModeControlsDelete(this.value);">
                 <option value="none" selected disabled hidden> Select a Table </option> 
                 <option value="customers">Customers</option>
@@ -19,10 +19,20 @@
             </form>
           </div>
         </li>
+        <li><div class="spacer"></div></li>
         <li>
           <div>
-            Row:<input><button>Find</button>
+            <label for="row" class="label">CHOOSE ROW:</label>
+            <input for="row" class="row-input">
           </div>
+        </li>
+        <li><div class="spacer"></div></li>
+        <li>
+          <button class="cybr-btn-small">
+            Search<span aria-hidden>_</span>
+            <span aria-hidden class="cybr-btn-small__glitch">Search_</span>
+            <span aria-hidden class="cybr-btn-small__tag"></span>
+          </button>
         </li>
         </ul>
       </div>
@@ -31,17 +41,25 @@
       <div class="content" id="mode-content">
         <div class="display-col">
           <ul class="nav-list" id="crudControls">
-            
+
           </ul>
 
           <div id="right-button">
             <form action="">  <!-- need action -->
-              <button class="button">Delete Row</button>
+              <button class="cybr-btn">
+                Delete Row<span aria-hidden>_</span>
+                <span aria-hidden class="cybr-btn__glitch">Delete Row_</span>
+                <span aria-hidden class="cybr-btn__tag">340</span>
+              </button>
             </form>
           </div>
 
           <div class="result">
-            <strong>Result</strong>: <span id="result">(results go here)</span>
+            <ul class="nav-list">
+              <li>
+                <span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span>
+              </li>
+            </ul>
           </div>
 
         </div>
