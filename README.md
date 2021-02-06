@@ -1,5 +1,8 @@
 # CS340 Team Untitled (1)
-CS 340 Winter 2021 (Ryan Alexandra Davis &amp; Angel Tapia)
+- Group: 18
+- Team Name: Team Untitled (1)
+- Students: Ryan Alexandra Davis (davisrya) &amp; Angel Tapia (tapiaang)
+- Session: Winter 2021
 
 # Project Citations
 ## HTML
@@ -18,6 +21,11 @@ CS 340 Winter 2021 (Ryan Alexandra Davis &amp; Angel Tapia)
 - Author: Jhey (on CodePen)
 - Date: 02/04/2021
 - Adapted from: [Source URL](https://codepen.io/jh3y/pen/PoGbxLp)
+
+### Sticky Navbar & Footer:
+- Author: Bootstrap 5
+- Date: 02/03/2021
+- Adapted from: [Source URL]([need to add])
       
 ## JavaScript
 ### Converting HTML to Dom Elements:
