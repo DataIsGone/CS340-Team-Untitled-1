@@ -141,11 +141,17 @@
     width: calc(100% - 25px);
   }
 
+  .header-cell {
+    padding: 1px;
+    text-align: center;
+  }
+
   #angel-div {
     /* Desc: original div styling made by Angel (script.js) */
     overflow: auto;
-    height: 50px;
-    width: 900px;
+    height: 50px;   /* TODO: change to 50% later? */
+    /* height: 50%; */
+    width: 1500px;
   }
 
   .cell {
@@ -197,8 +203,8 @@
       padding: 10px 5em;
   }
 
-  .button {
-    background-color: #4CAF50;  /* TODO: CHANGE COLOR */
+  /* .button {
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 15px 25px;
@@ -208,7 +214,7 @@
     font-size: 18px;
     margin: 4px 2px;
     cursor: pointer;
-  }
+  } */
 
   .result {
     margin: 0;

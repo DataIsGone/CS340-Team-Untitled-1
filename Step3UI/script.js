@@ -7,7 +7,7 @@ var switchesVariables = ["switchNum", "typeName"];
 var keyColorsVariables = ["keyColorNum", "keyColorName"];
 
 
-/* --- NAVBAR SET UP --- */
+/* --- NAVBAR BUTTON SET UP --- */
 function buildTopNav(){
 	let createButton = document.createElement("button");
 	createButton.className = "navButton cybr-btn-nav";
@@ -459,12 +459,13 @@ function buildTable(table, variables){
 	//outerTable will contain the header table and the values table
 
 	let outerTable = document.createElement("table");
-	outerTable.style.cellSpacing = "0px";
-	outerTable.style.cellPadding = "0px";
-	outerTable.style.border = "0px";
-	outerTable.style.width = "900px";	//find way to change depending on window size
-	outerTable.style.marginLeft = "auto";
-	outerTable.style.marginRight = "auto";
+	outerTable.setAttribute("id", "outer-table");
+	// outerTable.style.cellSpacing = "0px";
+	// outerTable.style.cellPadding = "0px";
+	// outerTable.style.border = "0px";
+	// outerTable.style.width = "900px";	//find way to change depending on window size
+	// outerTable.style.marginLeft = "auto";
+	// outerTable.style.marginRight = "auto";
 
 	//headerRowOne and headerDataOne will contain header table
 	let headerRowOne = document.createElement("tr");
@@ -474,9 +475,10 @@ function buildTable(table, variables){
 	headerRowOne.appendChild(headerDataOne);
 
 	let headerTable = document.createElement("table");
-	headerTable.style.cellSpacing = "0px";
-	headerTable.style.cellPadding = "1px";
-	headerTable.style.width = "875px"; // has to be 25 px less than outerTable width
+	headerTable.setAttribute("id", "header-table");
+	// headerTable.style.cellSpacing = "0px";
+	// headerTable.style.cellPadding = "1px";
+	// headerTable.style.width = "875px"; // has to be 25 px less than outerTable width
 
 	let headerTableRow = document.createElement("tr");
 	headerTable.appendChild(headerTableRow);
@@ -487,6 +489,7 @@ function buildTable(table, variables){
 		let header = document.createElement("th");
 		header.textContent = each;
 		header.style.width = size;			//needs to change depending on # of columns given by db
+		header.setAttribute("class", "header-cell");
 		headerTableRow.appendChild(header);
 	}
 
@@ -500,15 +503,18 @@ function buildTable(table, variables){
 	headerRowTwo.appendChild(headerDataTwo);
 
 	let tableHolder = document.createElement("div");
-	tableHolder.style.overflow = "auto";
-	tableHolder.style.height = "50px";
-	tableHolder.style.width = "900px"; 
+	tableHolder.setAttribute("id", "angel-div");
+	// tableHolder.style.overflow = "auto";
+	// tableHolder.style.height = "50px";
+	// tableHolder.style.width = "900px"; 
 	headerDataTwo.appendChild(tableHolder);
 
 	let valueTable = document.createElement("table");
-	valueTable.style.cellSpacing = "0px";
-	valueTable.style.cellPadding = "1px";
-	valueTable.style.width = "875px"; // this has to be 25 px less than tableHolder width
+	valueTable.setAttribute("id", "cells-table");
+
+	// valueTable.style.cellSpacing = "0px";
+	// valueTable.style.cellPadding = "1px";
+	// valueTable.style.width = "875px"; // this has to be 25 px less than tableHolder width
 
 	//start with this
 	for(var i = 1; i < variables.length + 1; i++){	//data from db will be put into table, could make other function
@@ -516,8 +522,9 @@ function buildTable(table, variables){
         for(var j = 1; j < variables.length + 1; j++) {
             var column = document.createElement("td");
             column.textContent = i + ", " + j;
-			column.style.border = "1px solid black";
-			column.style.textAlign = "center";
+			column.setAttribute("class", "cell");
+			// column.style.border = "1px solid black";
+			// column.style.textAlign = "center";
             row.appendChild(column);
         }
         valueTable.appendChild(row);

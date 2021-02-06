@@ -1,48 +1,65 @@
-      <!-- DIV 1: Table Menu -->
-      <div class="content">
-        <ul class="nav-list">
-        <li>
-          <div id="table-menu">
-            <form action=""> <!-- need action -->
-              <label for="tables">Table:</label>
-              <select onchange="buildCRUDModeControlsUpdate(this.value);">
-                <option value="none" selected disabled hidden> Select a Table </option> 
-                <option value="customers">Customers</option>
-                <option value="orders">Orders</option>
-                <option value="keyboards">Keyboards</option>
-                <option value="keyboardOrders">Keyboard Orders</option>
-                <option value="switches">Key Switches</option>
-                <option value="keyColors">Keycap Colors</option>
-              </select>
-            </form>
-          </div>
-        </li>
-        <li>
-          <div>
-            Row:<input><button>Find</button>
-          </div>
-        </li>
-        </ul>
-      </div>
-
-      <!-- DIV 2: CRUD Mode Controls (CURRENT: UPDATE)-->
-      <div class="content" id="mode-content">
-        <div class="display-col">
-          <form action="">  <!-- need action -->
-            <ul class="nav-list" id="crudControls">
-              <!-- Gets filled by JS -->
-            </ul>
+<!-- CRUD MODE Snippet: UPDATE -->
+    <!-- DIV 1: Table Menu -->
+    <div class="content">
+      <ul class="nav-list">
+      <li>
+        <div>
+          <form action=""> <!-- need action -->
+            <label for="tables" class="label">SELECT TABLE:</label>
+            <select onchange="buildCRUDModeControlsDelete(this.value);">
+              <option value="none" selected disabled hidden> Select a Table </option> 
+              <option value="customers">Customers</option>
+              <option value="orders">Orders</option>
+              <option value="keyboards">Keyboards</option>
+              <option value="keyboardOrders">Keyboard Orders</option>
+              <option value="switches">Key Switches</option>
+              <option value="keyColors">Keycap Colors</option>
+            </select>
           </form>
-
-          <div id="right-button">
-            <form action="">  <!-- need action -->
-              <button class="button">Update Row</button>
-            </form>
-          </div>
-
-          <div class="result">
-            <strong>Result</strong>: <span id="result">(results go here)</span>
-          </div>
-
         </div>
+      </li>
+      <li><div class="spacer"></div></li>
+      <li>
+        <div>
+          <label for="row" class="label">CHOOSE ROW:</label>
+          <input for="row" class="row-input">
+        </div>
+      </li>
+      <li><div class="spacer"></div></li>
+      <li>
+        <button class="cybr-btn-small">
+          Search<span aria-hidden>_</span>
+          <span aria-hidden class="cybr-btn-small__glitch">Search_</span>
+          <span aria-hidden class="cybr-btn-small__tag"></span>
+        </button>
+      </li>
+      </ul>
+    </div>
+
+    <!-- DIV 2: CRUD Mode Controls (CURRENT: UPDATE)-->
+    <div class="content" id="mode-content">
+      <div class="display-col">
+        <ul class="nav-list" id="crudControls">
+          <!-- COLUMNS HERE -->
+        </ul>
+
+        <div id="right-button">
+          <form action="">  <!-- need action -->
+            <button class="cybr-btn">
+              Update Row<span aria-hidden>_</span>
+              <span aria-hidden class="cybr-btn__glitch">Update Row_</span>
+              <span aria-hidden class="cybr-btn__tag">340</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="result">
+          <ul class="nav-list">
+            <li>
+              <span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span>
+            </li>
+          </ul>
+        </div>
+
       </div>
+    </div>
