@@ -154,30 +154,29 @@ function buildDeletePage(){
 	return;
 }
 
-
 function buildTableMenuCreate(){
-	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsCreate(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""><label for="tables" class="label">SELECT TABLE:</label><select name="tables" onchange="buildCRUDModeControlsCreate(this.value);"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
 }
 
 function buildTableMenuRead(){
-	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsRead(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div><!-- Row:<input><button>Find</button> --></div></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsRead(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
 }
 
 function buildTableMenuUpdate(){
-	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsUpdate(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div>Row:<input><button>Find</button></div></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsUpdate(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
 }
 
 function buildTableMenuDelete(){
-	var html = '<!-- DIV 1: Table Menu --><div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""> <!-- need action --><label for="tables">Table:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div>Row:<input><button>Find</button></div></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div class="spacer"></div></li><li><div><label for="row" class="label">CHOOSE ROW:</label><input for="row" class="row-input"></div></li><li><div class="spacer"></div></li><li><button class="cybr-btn-small">Search<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Search_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -188,7 +187,7 @@ function buildTableMenuDelete(){
 function buildCRUDModeControlsCreate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: CREATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Add Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var html = '<div class="content" id="mode-content"><div class="display-col"><form action=""><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action=""><button class="cybr-btn">Add Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Add Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result label" id="result-pad"><strong>RESULT</strong>: <span id="result">(results go here)</span></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -232,7 +231,7 @@ function buildCRUDModeControlsCreate(table){
 function buildCRUDModeControlsRead(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: READ)--><div class="content" id="mode-content"><form action="">  <!-- need action --><!-- COLUMN MENU --><div><form action=""> <!-- need action --><ul class="nav-list"><li><div id="col-list"><label for="cols">Item:</label><select id="cols" name="cols"></select></div></li><li><div><button id="add-filter-button">Add to Filter</button></div></li></ul></form></div><!-- FILTER RESULT --><div><div class="result" id="result-pad"><strong>Result</strong>: <span id="result">(results go here)</span></div></div><!-- BUTTONS --><div><ul class="nav-list"><li><div class="div1"><button class="button">Apply</button></div></li><li><div class="div2"></div></li><li><div class="div3"><button class="button">Reset</button></div></li></ul></div></form></div>';
+	var html = '<div class="content" id="mode-content"><form action=""><form action=""><ul class="nav-list"><li><div id="col-list"><label for="cols" class="label">SELECT FILTER:</label><select id="cols" name="cols"></select></div></li><li><div><button class="cybr-btn-small">Add<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Add_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></div></li></ul></form><div class="result"><ul class="nav-list"><li><span class="label">CURRENT FILTER SELECTION:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div><ul class="nav-list"><li><div class="spacer"></div></li></ul><ul class="nav-list"><li><div class="div1"><button class="cybr-btn-med">FILTER<span aria-hidden>_</span><span aria-hidden class="cybr-btn-med__glitch">Apply_</span><span aria-hidden class="cybr-btn-med__tag"></span></button></div></li><li><div class="div2"></div></li><li><div class="div3"><button class="cybr-btn-med">Reset<span aria-hidden>_</span><span aria-hidden class="cybr-btn-med__glitch">Reset_</span><span aria-hidden class="cybr-btn-med__tag"></span></button></div></li></ul></form></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -276,7 +275,7 @@ function buildCRUDModeControlsRead(table){
 function buildCRUDModeControlsUpdate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: UPDATE)--><div class="content" id="mode-content"><div class="display-col"><form action="">  <!-- need action --><ul class="nav-list" id="crudControls"><!-- Gets filled by JS --></ul></form><div id="right-button"><form action="">  <!-- need action --><button class="button">Update Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action=""><button class="cybr-btn">Update Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Update Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -320,7 +319,7 @@ function buildCRUDModeControlsUpdate(table){
 function buildCRUDModeControlsDelete(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<!-- DIV 2: CRUD Mode Controls (CURRENT: DELETE)--><div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action="">  <!-- need action --><button class="button">Delete Row</button></form></div><div class="result"><strong>Result</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action=""><button class="cybr-btn">Delete Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Delete Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 

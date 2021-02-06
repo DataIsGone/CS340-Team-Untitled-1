@@ -150,7 +150,7 @@
   #angel-div {
     /* Desc: original div styling made by Angel (script.js) */
     overflow: auto;
-    height: 50px;   /* TODO: change to 50% later? */
+    height: 1000px;   /* TODO: change to 50% later? */
     /* height: 50%; */
     width: 1500px;
   }

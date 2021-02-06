@@ -1,22 +1,22 @@
 <!-- DIV 1: Table Menu -->
 <div class="content">
   <ul class="nav-list">
-  <li>
-    <div>
-      <form action=""> <!-- need action -->
-        <label for="tables" class="label">SELECT TABLE:</label>
-        <select onchange="buildCRUDModeControlsDelete(this.value);">
-          <option value="none" selected disabled hidden> Select a Table </option> 
-          <option value="customers">Customers</option>
-          <option value="orders">Orders</option>
-          <option value="keyboards">Keyboards</option>
-          <option value="keyboardOrders">Keyboard Orders</option>
-          <option value="switches">Key Switches</option>
-          <option value="keyColors">Keycap Colors</option>
-        </select>
-      </form>
-    </div>
-  </li>
+    <li>
+      <div>
+        <form action="">
+          <label for="tables" class="label">SELECT TABLE:</label>
+          <select onchange="buildCRUDModeControlsRead(this.value);">
+            <option value="none" selected disabled hidden> Select a Table </option>
+            <option value="customers">Customers</option>
+            <option value="orders">Orders</option>
+            <option value="keyboards">Keyboards</option>
+            <option value="keyboardOrders">Keyboard Orders</option>
+            <option value="switches">Key Switches</option>
+            <option value="keyColors">Keycap Colors</option>
+          </select>
+        </form>
+      </div>
+    </li>
   </ul>
 </div>
 
@@ -25,12 +25,11 @@
 <form action="">  <!-- need action -->
 
   <!-- COLUMN MENU -->
-  <div>
     <form action=""> <!-- need action -->
       <ul class="nav-list">
         <li>
           <div id="col-list">
-            <label for="cols" class="label">SELECT COLUMN:</label>
+            <label for="cols" class="label">SELECT FILTER:</label>
             <select id="cols" name="cols">
               <!-- Gets filled by JS -->
             </select>
@@ -47,7 +46,6 @@
         </li>
       </ul>
     </form>
-  </div>
   
   <!-- FILTER RESULT -->
   <div class="result">
@@ -62,7 +60,6 @@
   <ul class="nav-list"><li><div class="spacer"></div></li></ul>
 
   <!-- BUTTONS -->
-  <div>
     <ul class="nav-list">
       <li>
         <div class="div1">
@@ -84,6 +81,5 @@
         </div>
       </li>
     </ul>
-  </div>
 </form>
 </div>
