@@ -1,6 +1,6 @@
 # CS340 Team Untitled (1)
 - Group: 18
-- Team Name: Team Untitled (1)
+- Team Name: Untitled (1)
 - Students: Ryan Alexandra Davis (davisrya) &amp; Angel Tapia (tapiaang)
 - Session: Winter 2021
 
