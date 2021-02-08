@@ -33,7 +33,7 @@
 - Date: 02/01/2021
 - Adapted from: [Source URL](https://www.pixelstech.net/article/1503112480-Convert-HTML-to-DOM-elements-using-JavaScript)
 
-### Javascript, HTML, and CSS Dropdown Menu:
+### Javascript, HTML, and CSS Dropdown Menu (Step 3 Draft):
 - Author: w3schools
 - Date: 02/01/2021
 - Adapted from: [Source URL](https://www.w3schools.com/howto/howto_js_dropdown.asp)
