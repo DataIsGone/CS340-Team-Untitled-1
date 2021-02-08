@@ -25,7 +25,7 @@
 ### Sticky Navbar & Footer:
 - Author: Bootstrap 5
 - Date: 02/03/2021
-- Adapted from: [Source URL]([need to add])
+- Adapted from: [Source URL]([https://getbootstrap.com/docs/5.0/examples/sticky-footer/])
       
 ## JavaScript
 ### Converting HTML to Dom Elements:
