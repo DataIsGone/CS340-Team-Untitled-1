@@ -60,6 +60,48 @@ function changeModeSpan(modeStr) {
 
 /* --- DOM MANIPULATION --- */
 
+/* - INDEX PAGE - */
+function buildIndexPage(){
+	// Change span in navbar to reflect this mode
+	changeModeSpan("index");
+
+	// Deleting other or same page before creating new page.
+	// var check = document.getElementsByClassName("pageBox").length;
+	// if(check > 0){
+	// 	var check = document.getElementsByClassName("pageBox");
+	// 	check[0].parentNode.removeChild(check[0]);
+	// }
+
+	// if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
+	
+	// Stack div containers to hold title
+	let title = document.createElement("div");
+	title.className = "content";
+	document.body.append(title);
+
+	let app = document.createElement("div");
+	app.className = "app";
+	title.append(app);
+
+	let wrapper = document.createElement("div");
+	wrapper.className = "wrapper";
+	app.append(wrapper);
+
+	// Create title itself
+	let titleText = document.createElement("h1");
+	titleText.className = "glitch";
+	// titleText.value = "Definitely Not a Cult";
+	// dataText = titleText.createAttribute("data-text");
+	// dataText.value = "DEFINITELY NOT A CULT";
+	wrapper.append(titleText);
+
+	// Create title sub text
+	// let subText = document.createElement()
+
+	// Same process for other pages
+	return;
+}
+
 /* - CREATE PAGE - */
 function buildCreatePage(){
 	// Change span in navbar to reflect this mode
@@ -455,12 +497,6 @@ function buildTable(table, variables){
 
 	let outerTable = document.createElement("table");
 	outerTable.setAttribute("id", "outer-table");
-	// outerTable.style.cellSpacing = "0px";
-	// outerTable.style.cellPadding = "0px";
-	// outerTable.style.border = "0px";
-	// outerTable.style.width = "900px";	//find way to change depending on window size
-	// outerTable.style.marginLeft = "auto";
-	// outerTable.style.marginRight = "auto";
 
 	//headerRowOne and headerDataOne will contain header table
 	let headerRowOne = document.createElement("tr");
@@ -471,9 +507,6 @@ function buildTable(table, variables){
 
 	let headerTable = document.createElement("table");
 	headerTable.setAttribute("id", "header-table");
-	// headerTable.style.cellSpacing = "0px";
-	// headerTable.style.cellPadding = "1px";
-	// headerTable.style.width = "875px"; // has to be 25 px less than outerTable width
 
 	let headerTableRow = document.createElement("tr");
 	headerTable.appendChild(headerTableRow);
@@ -499,17 +532,10 @@ function buildTable(table, variables){
 
 	let tableHolder = document.createElement("div");
 	tableHolder.setAttribute("id", "angel-div");
-	// tableHolder.style.overflow = "auto";
-	// tableHolder.style.height = "50px";
-	// tableHolder.style.width = "900px"; 
 	headerDataTwo.appendChild(tableHolder);
 
 	let valueTable = document.createElement("table");
 	valueTable.setAttribute("id", "cells-table");
-
-	// valueTable.style.cellSpacing = "0px";
-	// valueTable.style.cellPadding = "1px";
-	// valueTable.style.width = "875px"; // this has to be 25 px less than tableHolder width
 
 	//start with this
 	for(var i = 1; i < variables.length + 1; i++){	//data from db will be put into table, could make other function
