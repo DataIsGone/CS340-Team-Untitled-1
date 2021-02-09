@@ -36,6 +36,7 @@ function buildTopNav(){
 	return;
 }
 buildTopNav();
+document.body.appendChild(buildIndexPage());
 
 /* --- TITLE MODE CHANGE --- */
 function changeModeSpan(modeStr) {
@@ -65,41 +66,13 @@ function buildIndexPage(){
 	// Change span in navbar to reflect this mode
 	changeModeSpan("index");
 
-	// Deleting other or same page before creating new page.
-	// var check = document.getElementsByClassName("pageBox").length;
-	// if(check > 0){
-	// 	var check = document.getElementsByClassName("pageBox");
-	// 	check[0].parentNode.removeChild(check[0]);
-	// }
+	// Add title to page
+	var html = '<div class="content"><div id="app"><div id="wrapper"><h1 class="glitch" data-text="DEFINITELY NOT A CULT">DEFINITELY <em>NOT</em> A CULT</h1><span class="sub">sell keyboards | organize orders | join us</span></div></div></div>';
+    var wrapper = document.createElement('div');
+	wrapper.className = "pageBox";
+    wrapper.innerHTML= html;
+    return wrapper;
 
-	// if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
-	
-	// Stack div containers to hold title
-	let title = document.createElement("div");
-	title.className = "content";
-	document.body.append(title);
-
-	let app = document.createElement("div");
-	app.className = "app";
-	title.append(app);
-
-	let wrapper = document.createElement("div");
-	wrapper.className = "wrapper";
-	app.append(wrapper);
-
-	// Create title itself
-	let titleText = document.createElement("h1");
-	titleText.className = "glitch";
-	// titleText.value = "Definitely Not a Cult";
-	// dataText = titleText.createAttribute("data-text");
-	// dataText.value = "DEFINITELY NOT A CULT";
-	wrapper.append(titleText);
-
-	// Create title sub text
-	// let subText = document.createElement()
-
-	// Same process for other pages
-	return;
 }
 
 /* - CREATE PAGE - */
