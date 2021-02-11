@@ -1,5 +1,11 @@
--- Create customers table
+DROP TABLE IF EXISTS `keyboardOrders`;
+DROP TABLE IF EXISTS `keyboards`;
+DROP TABLE IF EXISTS `orders`;
+DROP TABLE IF EXISTS `keyColors`;
+DROP TABLE IF EXISTS `switches`;
 DROP TABLE IF EXISTS `customers`;
+
+-- Create customers table
 
 CREATE TABLE `customers`(
 	`customerNum` INT(11) NOT NULL AUTO_INCREMENT,  
@@ -11,7 +17,6 @@ CREATE TABLE `customers`(
 
 
 -- Create switches table
-DROP TABLE IF EXISTS `switches`;
 
 CREATE TABLE `switches`(
 	`switchNum` INT(11) NOT NULL AUTO_INCREMENT,  
@@ -21,7 +26,6 @@ CREATE TABLE `switches`(
 
 
 -- Create keyColors table
-DROP TABLE IF EXISTS `keyColors`;
 
 CREATE TABLE `keyColors`(
 	`keyColorNum` INT(11) NOT NULL AUTO_INCREMENT, 
@@ -31,7 +35,6 @@ CREATE TABLE `keyColors`(
 
 
 -- Create keyboards table
-DROP TABLE IF EXISTS `keyboards`;
 
 CREATE TABLE `keyboards`(
 	`keyboardNum` INT(11)  NOT NULL AUTO_INCREMENT,
@@ -52,7 +55,6 @@ CREATE TABLE `keyboards`(
 
 
 -- Create orders table
-DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE `orders`(
 	`orderNum` INT(11) NOT NULL AUTO_INCREMENT,  
@@ -68,7 +70,6 @@ CREATE TABLE `orders`(
 
 
 -- Create keyboardOrders table
-DROP TABLE IF EXISTS `keyboardOrders`;
 
 CREATE TABLE `keyboardOrders`(
 	`orderNum` INT(11) NOT NULL,
