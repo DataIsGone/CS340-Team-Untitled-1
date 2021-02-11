@@ -41,9 +41,13 @@ CREATE TABLE `keyboards`(
 	`keyColorNum` INT(11) NOT NULL,
 	PRIMARY KEY (`keyboardNum`), 
 	FOREIGN KEY (`switchNum`)
-	REFERENCES `switches`(`switchNum`), 
+	REFERENCES `switches`(`switchNum`)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE, 
 	FOREIGN KEY (`keyColorNum`)
 	REFERENCES `keyColors`(`keyColorNum`)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
 );
 
 
@@ -58,6 +62,8 @@ CREATE TABLE `orders`(
 	PRIMARY KEY (`orderNum`),
 	FOREIGN KEY (`customerNum`)
 	REFERENCES `customers`(`customerNum`)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
 );
 
 
@@ -71,9 +77,13 @@ CREATE TABLE `keyboardOrders`(
 	`pricePerUnit` DECIMAL(6,2) NOT NULL, 
 	PRIMARY KEY (`orderNum`,`keyboardNum`), 
 	FOREIGN KEY (`orderNum`)
-	REFERENCES `orders`(`orderNum`), 
+	REFERENCES `orders`(`orderNum`)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE, 
 	FOREIGN KEY (`keyboardNum`)
 	REFERENCES `keyboards`(`keyboardNum`)
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
 );
 
 
