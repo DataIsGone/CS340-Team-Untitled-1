@@ -6,30 +6,30 @@ VALUES (:nameInput, :quantityInput, :switchNumFromDropdownInput, :keyColorNumFro
 
 -- insert data, example 2 (`keyboardOrders` entity)
 -- inserting into table that organizes m:m relationship between keyboards and orders
-INSERT INTO keyboardOrders (orderNum, keyboardNum, quantityOrdered, pricePerUnit)
+INSERT INTO `keyboardOrders` (orderNum, keyboardNum, quantityOrdered, pricePerUnit)
 VALUES (:orderNumFromDropdownInput, :keyBoardNumFromDropdownInput, :quantityInput, :priceInput)
 
 -- select data, example 1 (`customers` entity)
 -- getting all names of customers
 SELECT :firstNameInputFilter, :lastNameInputFilter
-FROM customers 
+FROM `customers` 
 
 -- select data, example 2 (`keyboards` entity)
 -- checking stock for certain keyboard configuration
 SELECT quantityInStock
-FROM keyboards 
+FROM `keyboards` 
 WHERE name = :nameInput;
 
 -- update data, example 1 (`orders` entity)
 -- changing name of keySwitches, not recommended once table is filled since it will update
 -- corresponding FK in keyboards entity, which may or may not reflect key switches in that keyboard
-UPDATE switches
+UPDATE `switches`
 SET switchName = :switchNameInput
 WHERE switchName = :switchNameInput;
 
 -- update data, example 2 (`customers` entity)
 -- get rid of phone number for customer
-UPDATE customers
+UPDATE `customers`
 SET phoneNumber = NULL
 WHERE lastName = :lastNameInput AND firstName = :firstNameInput;
 
