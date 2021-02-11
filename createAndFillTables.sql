@@ -129,10 +129,10 @@ SET quantityInStock = 48
 WHERE name = "Flaming Hot Cheeto";
 
 
--- update dummy data, example 2 (`switches` entity)
-UPDATE switches
-SET keyColorName = "silent red"
-WHERE keycolorName = "red";
+-- update dummy data, example 2 (`orders` entity)
+UPDATE orders
+SET orderDate = "2021-09-25"
+WHERE customerNum = 2;
 
 
 -- update dummy data, example 3 (`customers` entity)
