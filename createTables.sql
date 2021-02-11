@@ -34,11 +34,11 @@ CREATE TABLE `keyColors`(
 DROP TABLE IF EXISTS `keyboards`;
 
 CREATE TABLE `keyboards`(
-	`keyboardNum` INT NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR NOT NULL,  
-	`quantityInStock` INT NOT NULL, 
-	`switchNum` INT, 
-	`keyColorNum` INT, NOT NULL,
+	`keyboardNum` INT(11)  NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL,  
+	`quantityInStock` INT(11)  NOT NULL, 
+	`switchNum` INT(11), 
+	`keyColorNum` INT(11) NOT NULL,
 	PRIMARY KEY (`keyboardNum`), 
 	FOREIGN KEY (`switchNum`)
 	REFERENCES `switches`(`switchNum`), 
@@ -52,9 +52,9 @@ DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE `orders`(
 	`orderNum` INT(11) NOT NULL AUTO_INCREMENT,  
-	`customerNum` INT NOT NULL, 
+	`customerNum` INT(11) NOT NULL, 
 	`orderDate` DATE NOT NULL, 
-	`paymentType` INT NOT NULL,
+	`paymentType` INT(11) NOT NULL,
 	PRIMARY KEY (`orderNum`),
 	FOREIGN KEY (`customerNum`)
 	REFERENCES `customers`(`customerNum`)
@@ -66,8 +66,8 @@ DROP TABLE IF EXISTS `keyboardOrders`;
 
 CREATE TABLE `keyboardOrders`(
 	`orderNum` INT(11) NOT NULL,
-	`keyboardNum` INT NOT NULL,  
-	`quantityOrdered` INT NOT NULL, 
+	`keyboardNum` INT(11) NOT NULL,  
+	`quantityOrdered` INT(11) NOT NULL, 
 	`pricePerUnit` DECIMAL(6,2) NOT NULL, 
 	PRIMARY KEY (`orderNum`,`keyboardNum`), 
 	FOREIGN KEY (`orderNum`)
@@ -75,7 +75,3 @@ CREATE TABLE `keyboardOrders`(
 	FOREIGN KEY (`keyboardNum`)
 	REFERENCES `keyboards`(`keyboardNum`)
 );
-
-
-
-
