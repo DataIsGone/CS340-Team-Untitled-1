@@ -10,10 +10,10 @@ DROP TABLE IF EXISTS keyColors;
 -- Create customers table
 
 CREATE TABLE customers
-(customerNum INT NOT NULL AUTO_INCREMENT,  
-lastName VARCHAR NOT NULL, 
-firstName VARCHAR NOT NULL, 
-phoneNumber VARCHAR,
+(customerNum INT(10) NOT NULL AUTO_INCREMENT,  
+lastName VARCHAR(255) NOT NULL, 
+firstName VARCHAR(255) NOT NULL, 
+phoneNumber VARCHAR(255) DEFAULT NULL,
 PRIMARY KEY (customerNum)
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE orders
 customerNum INT NOT NULL, 
 orderDate DATE NOT NULL, 
 paymentType INT NOT NULL,
-PRIMARY KEY (orderNum)
+PRIMARY KEY (orderNum),
 FOREIGN KEY (customerNum)
 REFERENCES customers(customerNum)
 	ON UPDATE CASCADE
@@ -40,7 +40,7 @@ keyboardNum INT NOT NULL,
 quantityOrdered INT NOT NULL, 
 pricePerUnit DECIMAL(6,2) NOT NULL, 
 PRIMARY KEY (orderNum,customerNum), 
-FOREIGN KEY (orderNum)
+FOREIGN KEY (orderNum),
 REFERENCES orders(orderNum)
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT, 
