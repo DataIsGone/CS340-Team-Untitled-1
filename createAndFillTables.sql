@@ -121,3 +121,21 @@ INSERT INTO keyboardOrders (orderNum, keyboardNum, quantityOrdered, pricePerUnit
 VALUES (1, 1, 2, 500.00),
 	   (2, 3, 1, 300.00),
 	   (3, 1, 50, 500.00);
+
+
+-- update dummy data, example 1 (`keyboards` entity)
+UPDATE keyboards
+SET quantityInStock = 48
+WHERE name = "Flaming Hot Cheeto";
+
+
+-- update dummy data, example 2 (`switches` entity)
+UPDATE switches
+SET keyColorName = "silent red"
+WHERE keycolorName = "red";
+
+
+-- update dummy data, example 3 (`customers` entity)
+UPDATE customers
+SET phoneNumber = NULL
+WHERE lastName = "Champ" AND firstName = "Pog";
