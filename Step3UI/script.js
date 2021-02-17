@@ -1,3 +1,4 @@
+const baseURL = `http://flip1.engr.oregonstate.edu:21895/`;
 /* --- Table variables for setting up UI --- */
 var customersVariables = ["customerNum", "firstName", "lastName", "phoneNumber"];
 var ordersVariables = ["orderNum", "customerNum", "orderDate", "paymentType"];
@@ -261,7 +262,16 @@ function buildCRUDModeControlsRead(table){
 	 
 	if (table == "customers"){
 		for (variable of customersVariables){select.appendChild(fillReadControls(variable));}
-		buildTable(table, customersVariables);
+		var req = new XMLHttpRequest();
+		req.open("GET", baseURL, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.addEventListener('load',function(){
+  			if(req.status >= 200 && req.status < 400){
+    			buildTable(JSON.parse(req.responseText), customersVariables);
+  			}
+ 		});
+		req.send();
+
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){select.appendChild(fillReadControls(variable));}
@@ -466,9 +476,10 @@ function fillDeleteControls(variable){
 
 
 function buildTable(table, variables){
+	console.log(table);
 	//outerTable will contain the header table and the values table
 
-	let outerTable = document.createElement("table");
+	/* let outerTable = document.createElement("table");
 	outerTable.setAttribute("id", "outer-table");
 
 	//headerRowOne and headerDataOne will contain header table
@@ -527,7 +538,7 @@ function buildTable(table, variables){
 	tableHolder.appendChild(valueTable);
 
 	divTwo = document.getElementById("divTwo");
-	divTwo.appendChild(outerTable);
+	divTwo.appendChild(outerTable); */
 
 	return;
 }
