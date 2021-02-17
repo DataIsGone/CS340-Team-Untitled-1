@@ -479,7 +479,7 @@ function buildTable(table, variables){
 	console.log(table);
 	//outerTable will contain the header table and the values table
 
-	/* let outerTable = document.createElement("table");
+	let outerTable = document.createElement("table");
 	outerTable.setAttribute("id", "outer-table");
 
 	//headerRowOne and headerDataOne will contain header table
@@ -522,7 +522,29 @@ function buildTable(table, variables){
 	valueTable.setAttribute("id", "cells-table");
 
 	//start with this
-	for(var i = 1; i < variables.length + 1; i++){	//data from db will be put into table, could make other function
+	var count = table.rows.length;
+
+	 // For each object in the returned data, make new row and put in the exercise data
+	if(count > 0){
+		var rows = table.rows;
+		//console.log(rows);
+
+		for (i in rows) {
+			//console.log(rows[i]);
+			var dataRow = document.createElement("tr");
+			
+			for (j in rows[i]){
+				var valueCell = document.createElement("td");
+				valueCell.textContent = each;
+				valueCell.style.width = size;
+		  		valueCell.innerText = rows[i][j];
+				valueCell.setAttribute("class", "cell");
+		  		dataRow.appendChild(valueCell);
+			};
+			valueTable.appendChild(dataRow);
+		};
+	};
+	/* for(var i = 1; i < variables.length + 1; i++){	//data from db will be put into table, could make other function
         var row = document.createElement("tr");
         for(var j = 1; j < variables.length + 1; j++) {
             var column = document.createElement("td");
@@ -533,12 +555,12 @@ function buildTable(table, variables){
             row.appendChild(column);
         }
         valueTable.appendChild(row);
-	}
+	} */
 	
 	tableHolder.appendChild(valueTable);
 
 	divTwo = document.getElementById("divTwo");
-	divTwo.appendChild(outerTable); */
+	divTwo.appendChild(outerTable);
 
 	return;
 }
