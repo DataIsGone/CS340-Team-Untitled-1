@@ -10,10 +10,15 @@ app.use(CORS());
 
 
 // queries placed here for easier editing, place them where needed
-const getAllQuery = 'SELECT * FROM customers';
+const getCustomersQuery = 'SELECT * FROM customers';
+const getOrdersQuery = 'SELECT * FROM orders';
+const getKeyboardOrdersQuery = 'SELECT * FROM keyboardOrders';
+const getKeyboardsQuery = 'SELECT * FROM keyboards';
+const getSwitchesQuery = 'SELECT * FROM switches';
+const getKeyColorsQuery = 'SELECT * FROM keyColors';
 const insertQuery = "INSERT INTO customers (`firstName`,`lastName`,`phoneNumber`) VALUES (?,?,?)";
-//const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? ";
-//const deleteQuery = "DELETE FROM workout WHERE id=?";
+/* const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? ";
+const deleteQuery = "DELETE FROM workout WHERE id=?";
 const dropTableQuery = "DROP TABLE IF EXISTS customers";
 const makeTableQuery = `CREATE TABLE customers(
 	                      customerNum INT(11) NOT NULL AUTO_INCREMENT,  
@@ -21,12 +26,11 @@ const makeTableQuery = `CREATE TABLE customers(
 	                      firstName VARCHAR(255) NOT NULL, 
 	                      phoneNumber VARCHAR(255) DEFAULT NULL,
 	                      PRIMARY KEY (customerNum)
-                        )`;
-                       
+                        )`; */
+                    
 
-
-const getAllData = (res) => { 
-  mysql.pool.query(getAllQuery, (err, rows, fields) => {
+const getData = (query, res) => { 
+  mysql.pool.query(query, (err, rows, fields) => {
     if (err){
       next(err);
       return;
@@ -35,14 +39,48 @@ const getAllData = (res) => {
   })
 }
 
-// get table data and send to client
-app.get('/', function (req,res,next) {
-  getAllData(res);
+// new way to get table
+app.post('/', function (req,res,next) {
+  var body = req.body
+
+  if(body.request == "read"){
+    if(body.table == "customers"){
+      getData(getCustomersQuery,res);
+    }
+    if(body.table == "orders"){
+      getData(getOrdersQuery,res);
+    }
+    if(body.table == "keyboardOrders"){
+      getData(getKeyboardOrdersQuery,res);
+    }
+    if(body.table == "keyboards"){
+      getData(getKeyboardsQuery,res);
+    }
+    if(body.table == "switches"){
+      getData(getSwitchesQuery,res);
+    }
+    if(body.table == "keyColors"){
+      getData(getKeyColorsQuery,res);
+    }
+  }
+  /* if(body.request == "create"){
+
+  } */
+  /* var {customerNum, firstName, lastName, phoneNumber} = req.body;
+  
+  mysql.pool.query(insertQuery,
+     [customerNum, firstName, lastName, phoneNumber], (err, result) => {
+
+    if(err){
+      next(err);
+      return;
+    }
+    getAllData(res); 
+  }); */
 });
 
-
 // to insert
-app.post('/', function (req,res,next) {
+/* app.post('/', function (req,res,next) {
   var {customerNum, firstName, lastName, phoneNumber} = req.body;
   
   mysql.pool.query(insertQuery,
@@ -54,7 +92,7 @@ app.post('/', function (req,res,next) {
     }
     getAllData(res); 
   });
-});
+}); */
 
 
 /* // to delete

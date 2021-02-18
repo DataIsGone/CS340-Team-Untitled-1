@@ -171,7 +171,7 @@ function buildDeletePage(){
 }
 
 function buildTableMenuCreate(){
-	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""><label for="tables" class="label">SELECT TABLE:</label><select name="tables" onchange="buildCRUDModeControlsCreate(this.value);"><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""><label for="tables" class="label">SELECT TABLE:</label><select name="tables" onchange="buildCRUDModeControlsCreate(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -218,27 +218,27 @@ function buildCRUDModeControlsCreate(table){
 
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillCreateControls(variable));}
-		buildTable(table, customersVariables);
+		sendForReadQuery("read", "customers", customersVariables);
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){list.appendChild(fillCreateControls(variable));}
-		buildTable(table, ordersVariables);
+		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
 		for (variable of keyboardOrdersVariables){list.appendChild(fillCreateControls(variable));}
-		buildTable(table, keyboardOrdersVariables);
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
 		for (variable of keyboardsVariables){list.appendChild(fillCreateControls(variable));}
-		buildTable(table, keyboardsVariables);
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
 		for (variable of switchesVariables){list.appendChild(fillCreateControls(variable));}
-		buildTable(table, switchesVariables);
+		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
 		for (variable of keyColorsVariables){list.appendChild(fillCreateControls(variable));}
-		buildTable(table, keyColorsVariables);
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
 	
 	return;
@@ -262,36 +262,27 @@ function buildCRUDModeControlsRead(table){
 	 
 	if (table == "customers"){
 		for (variable of customersVariables){select.appendChild(fillReadControls(variable));}
-		var req = new XMLHttpRequest();
-		req.open("GET", baseURL, true);
-		req.setRequestHeader('Content-Type', 'application/json');
-		req.addEventListener('load',function(){
-  			if(req.status >= 200 && req.status < 400){
-    			buildTable(JSON.parse(req.responseText), customersVariables);
-  			}
- 		});
-		req.send();
-
+		sendForReadQuery("read", "customers", customersVariables);
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){select.appendChild(fillReadControls(variable));}
-		buildTable(table, ordersVariables);
+		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
 		for (variable of keyboardOrdersVariables){select.appendChild(fillReadControls(variable));}
-		buildTable(table, keyboardOrdersVariables);
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
 		for (variable of keyboardsVariables){select.appendChild(fillReadControls(variable));}
-		buildTable(table, keyboardsVariables);
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
 		for (variable of switchesVariables){select.appendChild(fillReadControls(variable));}
-		buildTable(table, switchesVariables);
+		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
 		for (variable of keyColorsVariables){select.appendChild(fillReadControls(variable));}
-		buildTable(table, keyColorsVariables);
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
 	
 	return;
@@ -315,27 +306,27 @@ function buildCRUDModeControlsUpdate(table){
 
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillUpdateControls(variable));}
-		buildTable(table, customersVariables);
+		sendForReadQuery("read", "customers", customersVariables);
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){list.appendChild(fillUpdateControls(variable));}
-		buildTable(table, ordersVariables);
+		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
 		for (variable of keyboardOrdersVariables){list.appendChild(fillUpdateControls(variable));}
-		buildTable(table, keyboardOrdersVariables);
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
 		for (variable of keyboardsVariables){list.appendChild(fillUpdateControls(variable));}
-		buildTable(table, keyboardsVariables);
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
 		for (variable of switchesVariables){list.appendChild(fillUpdateControls(variable));}
-		buildTable(table, switchesVariables);
+		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
 		for (variable of keyColorsVariables){list.appendChild(fillUpdateControls(variable));}
-		buildTable(table, keyColorsVariables);
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
 
 	return;
@@ -359,27 +350,27 @@ function buildCRUDModeControlsDelete(table){
 
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillDeleteControls(variable));}
-		buildTable(table, customersVariables);
+		sendForReadQuery("read", "customers", customersVariables);
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){list.appendChild(fillDeleteControls(variable));}
-		buildTable(table, ordersVariables);
+		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
 		for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
-		buildTable(table, keyboardOrdersVariables);
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
 		for (variable of keyboardsVariables){list.appendChild(fillDeleteControls(variable));}
-		buildTable(table, keyboardsVariables);
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
 		for (variable of switchesVariables){list.appendChild(fillDeleteControls(variable));}
-		buildTable(table, switchesVariables);
+		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
 		for (variable of keyColorsVariables){list.appendChild(fillDeleteControls(variable));}
-		buildTable(table, keyColorsVariables);
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
 
 	return;
@@ -473,10 +464,21 @@ function fillDeleteControls(variable){
 	return list;
 }
 
-
+function sendForReadQuery(requestType, tableName, variablesToUse){
+	var req = new XMLHttpRequest();
+	var payload = {request:requestType, table:tableName}
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+    		buildTable(JSON.parse(req.responseText), variablesToUse);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
 
 function buildTable(table, variables){
-	console.log(table);
 	//outerTable will contain the header table and the values table
 
 	let outerTable = document.createElement("table");
