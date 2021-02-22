@@ -5,7 +5,7 @@
           <div id="table-menu">
             <form action=""> <!-- need action -->
               <label for="tables" class="label">SELECT TABLE:</label>
-              <select name="tables" onchange="buildCRUDModeControlsDelete(this.value);">
+              <select id="tableSelected" name="tables" onchange="buildCRUDModeControlsDelete(this.value);">
                 <option value="none" selected disabled hidden> Select a Table </option>
 				<option value="customers">Customers</option>
                 <option value="orders">Orders</option>

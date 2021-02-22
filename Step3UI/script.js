@@ -4,8 +4,15 @@ var customersVariables = ["customerNum", "firstName", "lastName", "phoneNumber"]
 var ordersVariables = ["orderNum", "customerNum", "orderDate", "paymentType"];
 var keyboardOrdersVariables = ["orderNum", "keyboardNum", "quantityOrdered", "pricePerUnit"];
 var keyboardsVariables = ["keyboardNum", "name", "quantityInStock", "switchNum", "keyColorNum"];
-var switchesVariables = ["switchNum", "typeName"];
+var switchesVariables = ["switchNum", "switchName"];
 var keyColorsVariables = ["keyColorNum", "keyColorName"];
+
+var customersNarrowVariables = ["firstName", "lastName", "phoneNumber"];
+var ordersNarrowVariables = ["customerNum", "orderDate", "paymentType"];
+var keyboardOrdersNarrowVariables = ["orderNum", "keyboardNum", "quantityOrdered", "pricePerUnit"];
+var keyboardsNarrowVariables = ["name", "quantityInStock", "switchNum", "keyColorNum"];
+var switchesNarrowVariables = ["switchName"];
+var keyColorsNarrowVariables = ["keyColorName"];
 
 
 /* --- NAVBAR BUTTON SET UP --- */
@@ -171,7 +178,7 @@ function buildDeletePage(){
 }
 
 function buildTableMenuCreate(){
-	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""><label for="tables" class="label">SELECT TABLE:</label><select name="tables" onchange="buildCRUDModeControlsCreate(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div id="table-menu"><form action=""><label for="tables" class="label">SELECT TABLE:</label><select id="tableSelected" name="tables" onchange="buildCRUDModeControlsCreate(this.value);"><option value="none" selected disabled hidden> Select a Table </option><option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -200,10 +207,63 @@ function buildTableMenuDelete(){
 
 
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+	return;
+}
+
+function buildBottomHalfCreate(table){
+	var list = document.getElementById("crudControls");
+	removeAllChildNodes(list);
+
+	if (table == "customers"){
+		for (variable of customersVariables){
+			if(variable != "customerNum"){
+				list.appendChild(fillCreateControls(variable));}
+			}
+		sendForReadQuery("read", "customers", customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){
+			if(variable != "orderNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "orders", ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){list.appendChild(fillCreateControls(variable));}
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){
+			if(variable != "keyboardNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){
+			if(variable != "switchNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "switches", switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){
+			if(variable != "keyColorNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
+	}
+	return;
+}
+
 function buildCRUDModeControlsCreate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<div class="content" id="mode-content"><div class="display-col"><form action=""><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action=""><button class="cybr-btn">Add Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Add Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result label" id="result-pad"><strong>RESULT</strong>: <span id="result">(results go here)</span></div></div></div>';
+	var html = '<div class="content" id="mode-content"><div class="display-col"><form action=""><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action=""><button id="createButton" class="cybr-btn">Add Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Add Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result label" id="result-pad"><strong>RESULT</strong>: <span id="result">(results go here)</span></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -214,32 +274,27 @@ function buildCRUDModeControlsCreate(table){
 
 	document.body.append(divTwo);
 
-	var list = document.getElementById("crudControls");
+	document.getElementById("createButton").addEventListener("click", (event) =>{
+		
+		tableSelected = document.getElementById("tableSelected");
+		console.log(tableSelected.value);
+		var values = checkInput(tableSelected.value);
+		var insertedValues = []
+		for(i=0;i<values.length;i++){
+			insertedValues += values[i].value;
+		}
+		event.stopPropagation(); //don't think I need this anymore, but keeping for now
+		event.preventDefault(); // I think this is keeping the page from changing. don't remove
+		buildBottomHalfCreate(table);
+		resultSpan = document.getElementById("result");
+		resultSpan.innerText = "Inserted "
+		for(i=0;i<insertedValues.length;i++){
+			resultSpan.innerText += insertedValues[i];
+			resultSpan.innerText +=" ";
+		}
 
-	if (table == "customers"){
-		for (variable of customersVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "customers", customersVariables);
-	}
-	else if(table == "orders"){
-		for (variable of ordersVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "orders", ordersVariables);
-	}
-	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
-	}
-	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "keyboards", keyboardsVariables);
-	}
-	else if(table == "switches"){
-		for (variable of switchesVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "switches", switchesVariables);
-	}
-	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "keyColors", keyColorsVariables);
-	}
+	});
+	buildBottomHalfCreate(table);
 	
 	return;
 }
@@ -399,6 +454,7 @@ function fillCreateControls(variable){ //this is copied in three functions, coul
 
 	var input = document.createElement("input");			//have to find way to set correct input type. Or maybe just allow text for all. not sure
 	input.setAttribute("type", "text");
+	input.className = "toBeInput";
 	divLabelTwo.appendChild(input);
 
 	return list;
@@ -478,9 +534,94 @@ function sendForReadQuery(requestType, tableName, variablesToUse){
 	req.send(payload);
 }
 
-function buildTable(table, variables){
-	//outerTable will contain the header table and the values table
+function checkInput(table){
+	console.log("Adding to "+table);
+	//check which table so I know how many li to check for in crudControls
+	//then go through each li in ul to get the value in each one
+	//if empty, do nothing
+	//if good, send post request
+	// might not need this var unorderedList = document.getElementById("crudControls");
+	var listItems = document.getElementsByClassName("toBeInput");
+	
+	if (table == "customers"){
+		if(listItems[0].value == "" || listItems[1].value == ""){
+			var response = {response:"Error during input"};
+			return response;
+		}
+		insertPostCreation(listItems,table,customersVariables, customersNarrowVariables);
+	}
+	else if(table == "orders"){
+		if(listItems[0].value == "" || listItems[1].value == "" || listItems[2].value == ""){
+			var response = {response:"Error during input"};
+			return response;
+		}
+		insertPostCreation(listItems,table,ordersVariables, ordersNarrowVariables);
+	}
+	else if(table == "keyboardOrders"){
+		if(listItems[0].value == "" || listItems[1].value == "" || listItems[2].value == "" || listItems[3].value == ""){
+			var response = {response:"Error during input"};
+			return response;
+		}
+		insertPostCreation(listItems,table,keyboardOrdersVariables, keyboardOrdersNarrowVariables);
+	}
+	else if(table == "keyboards"){
+		if(listItems[0].value == "" || listItems[1].value == "" || listItems[2].value == "" || listItems[3].value == ""){
+			var response = {response:"Error during input"};
+			return response;
+		}
+		insertPostCreation(listItems,table,keyboardsVariables, keyboardsNarrowVariables);
+	}
+	else if(table == "switches"){
+		if(listItems[0].value == ""){
+			var response = {response:"Error during input"};
+			return response;
+		}
+		insertPostCreation(listItems,table,switchesVariables,switchesNarrowVariables);
+	}
+	else if(table == "keyColors"){
+		if(listItems[0].value == ""){
+			var response = {response:"Error during input"};
+			return response;
+		}
+		insertPostCreation(listItems,table,keyColorsVariables,keyColorsNarrowVariables);
+	}
+	else{
+		var response = {response:"Error during input"};
+		return response;
+	}
 
+	return listItems;
+}
+
+
+function insertPostCreation(inputItems, table, variablesToUse, narrowVariablesToUse){
+	var req = new XMLHttpRequest();
+	var payload = {request:"insert", table:table}
+	for(i=0;i<inputItems.length;i++){
+		if(inputItems[i].value == ""){
+			var value = null;
+		}
+		else{
+			var value = inputItems[i].value;
+		}
+		payload[narrowVariablesToUse[i]]=value;
+	}
+	console.log(payload);
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+    		buildTable(JSON.parse(req.responseText), variablesToUse);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
+
+
+function buildTable(table, variables){
+	if(document.body.contains(document.getElementById("outer-table"))){document.getElementById("outer-table").remove();}
+	//outerTable will contain the header table and the values table
 	let outerTable = document.createElement("table");
 	outerTable.setAttribute("id", "outer-table");
 
@@ -523,16 +664,14 @@ function buildTable(table, variables){
 	let valueTable = document.createElement("table");
 	valueTable.setAttribute("id", "cells-table");
 
-	//start with this
+	// starting to fill table 
 	var count = table.rows.length;
 
-	 // For each object in the returned data, make new row and put in the exercise data
+	 // For each object in the returned data, make new row and put in the data
 	if(count > 0){
 		var rows = table.rows;
-		//console.log(rows);
 
 		for (i in rows) {
-			//console.log(rows[i]);
 			var dataRow = document.createElement("tr");
 			
 			for (j in rows[i]){
@@ -546,18 +685,6 @@ function buildTable(table, variables){
 			valueTable.appendChild(dataRow);
 		};
 	};
-	/* for(var i = 1; i < variables.length + 1; i++){	//data from db will be put into table, could make other function
-        var row = document.createElement("tr");
-        for(var j = 1; j < variables.length + 1; j++) {
-            var column = document.createElement("td");
-            column.textContent = i + ", " + j;
-			column.setAttribute("class", "cell");
-			// column.style.border = "1px solid black";
-			// column.style.textAlign = "center";
-            row.appendChild(column);
-        }
-        valueTable.appendChild(row);
-	} */
 	
 	tableHolder.appendChild(valueTable);
 

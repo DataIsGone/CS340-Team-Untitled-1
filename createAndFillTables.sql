@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS `customers`;
 
 CREATE TABLE `customers`(
 	`customerNum` INT(11) NOT NULL AUTO_INCREMENT,  
-	`lastName` VARCHAR(255) NOT NULL, 
 	`firstName` VARCHAR(255) NOT NULL, 
+	`lastName` VARCHAR(255) NOT NULL, 
 	`phoneNumber` VARCHAR(255) DEFAULT NULL,
 	PRIMARY KEY (`customerNum`)
 );
