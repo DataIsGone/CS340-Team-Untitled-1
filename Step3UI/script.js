@@ -207,62 +207,15 @@ function buildTableMenuDelete(){
 
 
 
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
-	return;
-}
 
-function buildBottomHalfCreate(table){
-	var list = document.getElementById("crudControls");
-	removeAllChildNodes(list);
 
-	if (table == "customers"){
-		for (variable of customersVariables){
-			if(variable != "customerNum"){
-				list.appendChild(fillCreateControls(variable));}
-			}
-		sendForReadQuery("read", "customers", customersVariables);
-	}
-	else if(table == "orders"){
-		for (variable of ordersVariables){
-			if(variable != "orderNum"){
-				list.appendChild(fillCreateControls(variable));}
-		}
-		sendForReadQuery("read", "orders", ordersVariables);
-	}
-	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){list.appendChild(fillCreateControls(variable));}
-		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
-	}
-	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){
-			if(variable != "keyboardNum"){
-				list.appendChild(fillCreateControls(variable));}
-		}
-		sendForReadQuery("read", "keyboards", keyboardsVariables);
-	}
-	else if(table == "switches"){
-		for (variable of switchesVariables){
-			if(variable != "switchNum"){
-				list.appendChild(fillCreateControls(variable));}
-		}
-		sendForReadQuery("read", "switches", switchesVariables);
-	}
-	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){
-			if(variable != "keyColorNum"){
-				list.appendChild(fillCreateControls(variable));}
-		}
-		sendForReadQuery("read", "keyColors", keyColorsVariables);
-	}
-	return;
-}
+// the following four buildCRUDModeControls functions are created on their respective page when a table is selected
+
 
 function buildCRUDModeControlsCreate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
+	//provides template for input boxes to be put into, submit button is created, and result div is placed below those
 	var html = '<div class="content" id="mode-content"><div class="display-col"><form action=""><ul class="nav-list" id="crudControls"></ul></form><div id="right-button"><form action=""><button id="createButton" class="cybr-btn">Add Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Add Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result label" id="result-pad"><strong>RESULT</strong>: <span id="result">(results go here)</span></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
@@ -274,6 +227,7 @@ function buildCRUDModeControlsCreate(table){
 
 	document.body.append(divTwo);
 
+	// putting event listener on submit button
 	document.getElementById("createButton").addEventListener("click", (event) =>{
 		
 		tableSelected = document.getElementById("tableSelected");
@@ -281,19 +235,38 @@ function buildCRUDModeControlsCreate(table){
 		var values = checkInput(tableSelected.value);
 		var insertedValues = []
 		for(i=0;i<values.length;i++){
-			insertedValues += values[i].value;
+			insertedValues.push(values[i].value);
 		}
 		event.stopPropagation(); //don't think I need this anymore, but keeping for now
 		event.preventDefault(); // I think this is keeping the page from changing. don't remove
+
+		//rebuilding input and table after updated
 		buildBottomHalfCreate(table);
+
+		//trying to show what was input
 		resultSpan = document.getElementById("result");
-		resultSpan.innerText = "Inserted "
+		var stringToInsert = "Inserted"
+		
+		//start here
 		for(i=0;i<insertedValues.length;i++){
-			resultSpan.innerText += insertedValues[i];
-			resultSpan.innerText +=" ";
+			if (insertedValues[i] == "" & i == insertedValues.length-1){
+				stringToInsert +="into";
+				stringToInsert +=table;
+				break
+			}
+			if (insertedValues[i] == ""){
+				continue
+			}
+			stringToInsert +=" ";
+			stringToInsert += insertedValues[i];
+			if(i != insertedValues.length-1){
+				stringToInsert +=",";
+			}
 		}
+		resultSpan.innerText = stringToInsert;
 
 	});
+	// begins process of building rest of page, which includes the input boxes depending on the specific table, and retrieving that table's data to display
 	buildBottomHalfCreate(table);
 	
 	return;
@@ -432,7 +405,6 @@ function buildCRUDModeControlsDelete(table){
 }
 
 
-
 function fillCreateControls(variable){ //this is copied in three functions, could probably try to make it one. Will check later.
 	var list = document.createElement("li");
 
@@ -519,6 +491,7 @@ function fillDeleteControls(variable){
 
 	return list;
 }
+
 
 function sendForReadQuery(requestType, tableName, variablesToUse){
 	var req = new XMLHttpRequest();
@@ -618,6 +591,59 @@ function insertPostCreation(inputItems, table, variablesToUse, narrowVariablesTo
 	req.send(payload);
 }
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+	return;
+}
+
+// checks which table is selected, makes inputs for each variable, then begins process of retrieving data to build table with
+function buildBottomHalfCreate(table){
+	var list = document.getElementById("crudControls");
+	removeAllChildNodes(list);
+
+	if (table == "customers"){
+		for (variable of customersVariables){
+			if(variable != "customerNum"){
+				list.appendChild(fillCreateControls(variable));}
+			}
+		sendForReadQuery("read", "customers", customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){
+			if(variable != "orderNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "orders", ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){list.appendChild(fillCreateControls(variable));}
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){
+			if(variable != "keyboardNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){
+			if(variable != "switchNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "switches", switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){
+			if(variable != "keyColorNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
+	}
+	return;
+}
 
 function buildTable(table, variables){
 	if(document.body.contains(document.getElementById("outer-table"))){document.getElementById("outer-table").remove();}
@@ -693,10 +719,3 @@ function buildTable(table, variables){
 
 	return;
 }
-
-
-
-
-
-
-

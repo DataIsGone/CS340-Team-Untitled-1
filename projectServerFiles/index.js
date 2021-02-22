@@ -24,6 +24,11 @@ const insertSwitchesQuery = "INSERT INTO switches (`switchName`) VALUES (?)";
 const insertKeyColorsQuery = "INSERT INTO keyColors (`keyColorName`) VALUES (?)";
 /* const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? ";
 const deleteQuery = "DELETE FROM workout WHERE id=?";
+const deleteQuery = "DELETE FROM workout WHERE id=?";
+const deleteQuery = "DELETE FROM workout WHERE id=?";
+const deleteQuery = "DELETE FROM workout WHERE id=?";
+const deleteQuery = "DELETE FROM workout WHERE id=?";
+const deleteQuery = "DELETE FROM workout WHERE id=?";
 const dropTableQuery = "DROP TABLE IF EXISTS customers";
 const makeTableQuery = `CREATE TABLE customers(
 	                      customerNum INT(11) NOT NULL AUTO_INCREMENT,  
