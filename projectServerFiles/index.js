@@ -46,37 +46,42 @@ const getData = (query, res) => {
       return;
     }
     res.json({"rows":rows});
+    console.log("query2");
   })
 }
 
 // new way to get table
 app.post('/', function (req,res,next) {
-  var body = req.body
+  var body = req.body;
 
   if(body.request == "read"){
-    if(body.table == "customers"){
+    if(body.hasOwnProperty('query')){
+      getData(body.query, res);
+      console.log("query");
+    }
+    else if(body.table == "customers"){
       getData(getCustomersQuery,res);
     }
-    if(body.table == "orders"){
+    else if(body.table == "orders"){
       getData(getOrdersQuery,res);
     }
-    if(body.table == "keyboardOrders"){
+    else if(body.table == "keyboardOrders"){
       getData(getKeyboardOrdersQuery,res);
     }
-    if(body.table == "keyboards"){
+    else if(body.table == "keyboards"){
       getData(getKeyboardsQuery,res);
     }
-    if(body.table == "switches"){
+    else if(body.table == "switches"){
       getData(getSwitchesQuery,res);
     }
-    if(body.table == "keyColors"){
+    else if(body.table == "keyColors"){
       getData(getKeyColorsQuery,res);
     }
   }
-  if(body.request == "insert"){
+  else if(body.request == "insert"){
     if(body.table == "customers"){
       var {firstName, lastName, phoneNumber} = req.body;
-  
+
       mysql.pool.query(insertCustomersQuery,[firstName, lastName, phoneNumber], (err, result) => {
         if(err){
           next(err);
@@ -85,7 +90,7 @@ app.post('/', function (req,res,next) {
       getData(getCustomersQuery,res);
       });
     }
-    if(body.table == "orders"){
+    else if(body.table == "orders"){
       var {customerNum, orderDate, paymentType} = req.body;
   
       mysql.pool.query(insertOrdersQuery,[customerNum, orderDate, paymentType], (err, result) => {
@@ -96,7 +101,7 @@ app.post('/', function (req,res,next) {
       getData(getOrdersQuery,res);
       });
     }
-    if(body.table == "keyboardOrders"){
+    else if(body.table == "keyboardOrders"){
       var {orderNum, keyboardNum, quantityOrdered, pricePerUnit} = req.body;
   
       mysql.pool.query(insertKeyboardOrdersQuery,[orderNum, keyboardNum, quantityOrdered, pricePerUnit], (err, result) => {
@@ -107,7 +112,7 @@ app.post('/', function (req,res,next) {
       getData(getKeyboardOrdersQuery,res);
       });
     }
-    if(body.table == "keyboards"){
+    else if(body.table == "keyboards"){
       var {name, quantityInStock, switchNum, keyColorNum} = req.body;
   
       mysql.pool.query(insertKeyboardsQuery,[name, quantityInStock, switchNum, keyColorNum], (err, result) => {
@@ -118,7 +123,7 @@ app.post('/', function (req,res,next) {
       getData(getKeyboardsQuery,res);
       });
     }
-    if(body.table == "switches"){
+    else if(body.table == "switches"){
       var {switchName} = req.body;
   
       mysql.pool.query(insertSwitchesQuery,[switchName], (err, result) => {
@@ -129,7 +134,7 @@ app.post('/', function (req,res,next) {
       getData(getSwitchesQuery,res);
       });
     }
-    if(body.table == "keyColors"){
+    else if(body.table == "keyColors"){
       var {keyColorName} = req.body;
   
       mysql.pool.query(insertKeyColorsQuery,[keyColorName], (err, result) => {

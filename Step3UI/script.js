@@ -205,13 +205,7 @@ function buildTableMenuDelete(){
 	return wrapper;
 }
 
-
-
-
-
 // the following four buildCRUDModeControls functions are created on their respective page when a table is selected
-
-
 function buildCRUDModeControlsCreate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
@@ -250,18 +244,19 @@ function buildCRUDModeControlsCreate(table){
 		//start here
 		for(i=0;i<insertedValues.length;i++){
 			if (insertedValues[i] == "" & i == insertedValues.length-1){
-				stringToInsert +="into";
-				stringToInsert +=table;
+				stringToInsert = stringToInsert.concat(" ","into"," ", table);
 				break
 			}
-			if (insertedValues[i] == ""){
+			else if (insertedValues[i] == ""){
 				continue
 			}
-			stringToInsert +=" ";
-			stringToInsert += insertedValues[i];
-			if(i != insertedValues.length-1){
-				stringToInsert +=",";
+			else if(i != insertedValues.length-1){
+				stringToInsert =stringToInsert.concat(" ", insertedValues[i],",");
 			}
+			else{
+				stringToInsert =stringToInsert.concat(" ", insertedValues[i], " ", "into", " ", table);
+			}
+			
 		}
 		resultSpan.innerText = stringToInsert;
 
@@ -272,10 +267,11 @@ function buildCRUDModeControlsCreate(table){
 	return;
 }
 
+
 function buildCRUDModeControlsRead(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<div class="content" id="mode-content"><form action=""><form action=""><ul class="nav-list"><li><div id="col-list"><label for="cols" class="label">SELECT FILTER:</label><select id="cols" name="cols"></select></div></li><li><div><button class="cybr-btn-small">Add<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Add_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></div></li></ul></form><div class="result"><ul class="nav-list"><li><span class="label">CURRENT FILTER SELECTION:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div><ul class="nav-list"><li><div class="spacer"></div></li></ul><ul class="nav-list"><li><div class="div1"><button class="cybr-btn-med">FILTER<span aria-hidden>_</span><span aria-hidden class="cybr-btn-med__glitch">Apply_</span><span aria-hidden class="cybr-btn-med__tag"></span></button></div></li><li><div class="div2"></div></li><li><div class="div3"><button class="cybr-btn-med">Reset<span aria-hidden>_</span><span aria-hidden class="cybr-btn-med__glitch">Reset_</span><span aria-hidden class="cybr-btn-med__tag"></span></button></div></li></ul></form></div>';
+	var html = '<div class="content" id="mode-content"><form action=""><form action=""><ul class="nav-list"><li><div id="col-list"><label for="cols" class="label">SELECT FILTER:</label><select id="cols" name="cols"></select></div></li><li><div><button id="addFilterButton" class="cybr-btn-small">Add<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Add_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></div></li></ul></form><div class="result"><ul class="nav-list"><li><span class="label">CURRENT FILTER SELECTION:</span> <span class="label-content" id="text-result"></span></li></ul></div><ul class="nav-list"><li><div class="spacer"></div></li></ul><ul class="nav-list"><li><div class="div1"><button id="submitFilterButton" class="cybr-btn-med">FILTER<span aria-hidden>_</span><span aria-hidden class="cybr-btn-med__glitch">Apply_</span><span aria-hidden class="cybr-btn-med__tag"></span></button></div></li><li><div class="div2"></div></li><li><div class="div3"><button id="resetFilterButton"class="cybr-btn-med">Reset<span aria-hidden>_</span><span aria-hidden class="cybr-btn-med__glitch">Reset_</span><span aria-hidden class="cybr-btn-med__tag"></span></button></div></li></ul></form></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -286,33 +282,48 @@ function buildCRUDModeControlsRead(table){
 
 	document.body.append(divTwo);
 
-	var select = document.getElementById("cols");
-	 
-	if (table == "customers"){
-		for (variable of customersVariables){select.appendChild(fillReadControls(variable));}
-		sendForReadQuery("read", "customers", customersVariables);
-	}
-	else if(table == "orders"){
-		for (variable of ordersVariables){select.appendChild(fillReadControls(variable));}
-		sendForReadQuery("read", "orders", ordersVariables);
-	}
-	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){select.appendChild(fillReadControls(variable));}
-		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
-	}
-	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){select.appendChild(fillReadControls(variable));}
-		sendForReadQuery("read", "keyboards", keyboardsVariables);
-	}
-	else if(table == "switches"){
-		for (variable of switchesVariables){select.appendChild(fillReadControls(variable));}
-		sendForReadQuery("read", "switches", switchesVariables);
-	}
-	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){select.appendChild(fillReadControls(variable));}
-		sendForReadQuery("read", "keyColors", keyColorsVariables);
-	}
+	fillFilterDropdownCallTableCreation(table);
 	
+	var filterValues = []
+
+	// putting event listener on addFilter button
+	document.getElementById("addFilterButton").addEventListener("click", (event) =>{
+		
+		tableSelected = document.getElementById("cols");
+		valueSelected = tableSelected.value;
+		console.log(valueSelected);
+		
+		resultSpan = document.getElementById("text-result");
+		
+		console.log(filterValues);
+		if ( !(filterValues.includes(valueSelected))){
+			filterValues.push(valueSelected);
+			resultSpan.innerText = filterValues;
+		}
+		console.log(filterValues);
+		event.preventDefault(); //this is keeping the page from changing
+	});
+
+	// putting event listener on Filter button
+	document.getElementById("submitFilterButton").addEventListener("click", (event) =>{
+		// if filterValues is empty then do nothing, no filters chosen
+		// if there are filters chosen, then send a query for only those rows
+		// the post body will have a filter key with the filterValues array as the accompanying value
+		if(!(filterValues.length == 0)){
+			sendForFilteredReadQuery("read", table, filterValues);
+		}	
+		event.preventDefault(); //this is keeping the page from changing
+	});
+
+	// putting event listener on Reset button
+	document.getElementById("resetFilterButton").addEventListener("click", (event) =>{
+		fillFilterDropdownCallTableCreation(table); // should reset most of page
+		resultSpan.innerText = "";
+		filterValues.length = 0; //should delete everything in the array and make it blank again
+		event.preventDefault(); //this is keeping the page from changing
+	});
+
+
 	return;
 }
 
@@ -356,7 +367,6 @@ function buildCRUDModeControlsUpdate(table){
 		for (variable of keyColorsVariables){list.appendChild(fillUpdateControls(variable));}
 		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
-
 	return;
 }
 
@@ -507,13 +517,54 @@ function sendForReadQuery(requestType, tableName, variablesToUse){
 	req.send(payload);
 }
 
+function sendForFilteredReadQuery(requestType, tableName, variablesToUse){
+	var queryToSend = "SELECT"
+	for(x in variablesToUse){
+		if(!(x == variablesToUse.length-1)){
+			queryToSend = queryToSend.concat(" ", variablesToUse[x], ",");
+		}
+		else{
+			queryToSend = queryToSend.concat(" ", variablesToUse[x]);
+		}
+	}
+	queryToSend = queryToSend.concat(" ", "FROM", " ", tableName);
+	console.log(queryToSend);
+
+	var req = new XMLHttpRequest();
+	var payload = {request:requestType, table:tableName, query:queryToSend}
+	console.log(payload.query);
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+			console.log(JSON.parse(req.responseText));
+    		buildTable(JSON.parse(req.responseText), variablesToUse);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
+
+function sendForSpecificColumnQuery(requestType, tableName, variable, dropDownName){
+	var queryToSend = "SELECT"
+	queryToSend = queryToSend.concat(" ", variable, " ", "FROM", " ", tableName);
+	console.log(queryToSend);
+
+	var req = new XMLHttpRequest();
+	var payload = {request:requestType, table:tableName, query:queryToSend}
+	console.log(payload.query);
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+			makeArrayWithJSON(JSON.parse(req.responseText), tableName, variable, dropDownName);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
+
 function checkInput(table){
-	console.log("Adding to "+table);
-	//check which table so I know how many li to check for in crudControls
-	//then go through each li in ul to get the value in each one
-	//if empty, do nothing
-	//if good, send post request
-	// might not need this var unorderedList = document.getElementById("crudControls");
 	var listItems = document.getElementsByClassName("toBeInput");
 	
 	if (table == "customers"){
@@ -591,11 +642,95 @@ function insertPostCreation(inputItems, table, variablesToUse, narrowVariablesTo
 	req.send(payload);
 }
 
+function fillFilterDropdownCallTableCreation(table){
+	var select = document.getElementById("cols");
+	removeAllChildNodes(select);
+
+	if (table == "customers"){
+		for (variable of customersVariables){select.appendChild(fillReadControls(variable));}
+		sendForReadQuery("read", "customers", customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){select.appendChild(fillReadControls(variable));}
+		sendForReadQuery("read", "orders", ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){select.appendChild(fillReadControls(variable));}
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){select.appendChild(fillReadControls(variable));}
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){select.appendChild(fillReadControls(variable));}
+		sendForReadQuery("read", "switches", switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){select.appendChild(fillReadControls(variable));}
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
+	}
+}
+
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 	return;
+}
+
+function makeDropdownInput(variable){
+	var idName = variable.concat("Dropdown");
+	console.log(idName);
+
+	var list = document.createElement("li");
+
+	var outerDiv = document.createElement("div");
+	outerDiv.className = "col-info";
+	list.appendChild(outerDiv);
+
+	var divLabel = document.createElement("div");
+	divLabel.className = "col-label";
+	outerDiv.appendChild(divLabel);
+
+	var label = document.createElement("span");
+	label.textContent = variable;
+	divLabel.appendChild(label);
+
+	var divLabelTwo = document.createElement("div");
+	divLabelTwo.className = "col-content";
+	outerDiv.appendChild(divLabelTwo);
+
+	var input = document.createElement("select");			//have to find way to set correct input type. Or maybe just allow text for all. not sure
+	input.id = idName;
+	input.className = "toBeInput";
+	divLabelTwo.appendChild(input);
+
+	return list;
+}
+
+function makeArrayWithJSON(queryResult, table, variable, dropDownName){
+	// starting to fill table 
+	var count = queryResult.rows.length;
+	var returnArray = ["No customers"];
+	 // For each object in the returned data, make new row and put in the data
+	if(count > 0){
+		returnArray.length = 0;
+		var rows = queryResult.rows;
+		for (i in rows) {
+			for (j in rows[i]){
+		  		returnArray.push(rows[i][j]);
+			};
+		};
+	};
+	fillDropdown(returnArray, table, variable, dropDownName);
+	
+	
+}
+
+function fillDropdown(array, table, variable, dropDownName){
+	var customerDropdown = document.getElementById("customerNumDropdown");
+	for (x in array){customerDropdown.appendChild(fillReadControls(x))};
 }
 
 // checks which table is selected, makes inputs for each variable, then begins process of retrieving data to build table with
@@ -613,8 +748,17 @@ function buildBottomHalfCreate(table){
 	else if(table == "orders"){
 		for (variable of ordersVariables){
 			if(variable != "orderNum"){
-				list.appendChild(fillCreateControls(variable));}
+				if(variable != "customerNum"){
+					list.appendChild(fillCreateControls(variable))
+				}
+				else{
+					list.appendChild(makeDropdownInput(variable));
+					sendForSpecificColumnQuery("read", "customers", "customerNum","customerNumDropdown");
+				}
+			;}
 		}
+		
+		//think I need to wait on second query. first one might not be complete by the time the second one is called.
 		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
