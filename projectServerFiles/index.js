@@ -24,18 +24,18 @@ const insertKeyboardOrdersQuery = "INSERT INTO keyboardOrders (`orderNum`, `keyb
 const insertKeyboardsQuery = "INSERT INTO keyboards (`name`, `quantityInStock`, `switchNum`, `keyColorNum`) VALUES (?,?,?,?)";
 const insertSwitchesQuery = "INSERT INTO switches (`switchName`) VALUES (?)";
 const insertKeyColorsQuery = "INSERT INTO keyColors (`keyColorName`) VALUES (?)";
-/* const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? ";
+/* const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? "; */
 
 // DELETE
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
+const deleteCustomersQuery = "DELETE FROM customers WHERE id=?";
+const deleteOrdersQuery = "DELETE FROM orders WHERE id=?";
+const deleteKeyboardOrdersQuery = "DELETE FROM keyboardOrders WHERE id=?";
+const deleteKeyboardsQuery = "DELETE FROM keyboards WHERE id=?";
+const deleteSwitchesQuery = "DELETE FROM switches WHERE id=?";
+const deleteKeyColorsQuery = "DELETE FROM keyColors WHERE id=?";
 
 // GENERAL TABLE QUERIES
-const dropTableQuery = "DROP TABLE IF EXISTS customers";
+/* const dropTableQuery = "DROP TABLE IF EXISTS customers";
 const makeTableQuery = `CREATE TABLE customers(
 	                      customerNum INT(11) NOT NULL AUTO_INCREMENT,  
 	                      lastName  VARCHAR(255) NOT NULL, 
@@ -158,73 +158,46 @@ app.post('/', function (req,res,next) {
 
   // DELETE
   else if(body.request == "delete"){
-    if(body.table == "customers"){
-      var {firstName, lastName, phoneNumber} = req.body;
+    var id = req.body;
+    var thisBody = body.table;
+    var thisDeleteQuery;
+    var thisGetQuery;
 
-      mysql.pool.query(insertCustomersQuery,[firstName, lastName, phoneNumber], (err, result) => {
-        if(err){
-          next(err);
-          return;
-        }
-      getData(getCustomersQuery,res);
-      });
+    switch(thisBody) {
+      case "customers":
+        thisDeleteQuery = deleteCustomersQuery;
+        thisGetQuery = getCustomersQuery;
+        break;
+      case "orders":
+        thisDeleteQuery = deleteOrdersQuery;
+        thisGetQuery = getOrdersQuery;
+        break;
+      case "keyboardOrders":
+        thisDeleteQuery = deleteKeyboardOrdersQuery;
+        thisGetQuery = getKeyboardOrdersQuery;
+        break;
+      case "keyboards":
+        thisDeleteQuery = deleteKeyboardsQuery;
+        thisGetQuery = getKeyboardsQuery;
+        break;
+      case "switches":
+        thisDeleteQuery = deleteSwitchesQuery;
+        thisGetQuery = getSwitchesQuery;
+        break;
+      case "keyColors":
+        thisDeleteQuery = deleteKeyColorsQuery;
+        thisGetQuery = getKeyColorsQuery;
+        break;      
+      default:
+        print("No table was found -- check index.js");
     }
-    else if(body.table == "orders"){
-      var {customerNum, orderDate, paymentType} = req.body;
-  
-      mysql.pool.query(insertOrdersQuery,[customerNum, orderDate, paymentType], (err, result) => {
-        if(err){
-          next(err);
-          return;
-        }
-      getData(getOrdersQuery,res);
-      });
-    }
-    else if(body.table == "keyboardOrders"){
-      var {orderNum, keyboardNum, quantityOrdered, pricePerUnit} = req.body;
-  
-      mysql.pool.query(insertKeyboardOrdersQuery,[orderNum, keyboardNum, quantityOrdered, pricePerUnit], (err, result) => {
-        if(err){
-          next(err);
-          return;
-        }
-      getData(getKeyboardOrdersQuery,res);
-      });
-    }
-    else if(body.table == "keyboards"){
-      var {name, quantityInStock, switchNum, keyColorNum} = req.body;
-  
-      mysql.pool.query(insertKeyboardsQuery,[name, quantityInStock, switchNum, keyColorNum], (err, result) => {
-        if(err){
-          next(err);
-          return;
-        }
-      getData(getKeyboardsQuery,res);
-      });
-    }
-    else if(body.table == "switches"){
-      var {switchName} = req.body;
-  
-      mysql.pool.query(insertSwitchesQuery,[switchName], (err, result) => {
-        if(err){
-          next(err);
-          return;
-        }
-      getData(getSwitchesQuery,res);
-      });
-    }
-    else if(body.table == "keyColors"){
-      var {keyColorName} = req.body;
-  
-      mysql.pool.query(insertKeyColorsQuery,[keyColorName], (err, result) => {
-        if(err){
-          next(err);
-          return;
-        }
-      getData(getKeyColorsQuery,res);
-      });
-    }
-
+    mysql.pool.query(thisDeleteQuery, id, (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+    getData(thisGetQuery,res);
+    });
   }
 
   /* var {customerNum, firstName, lastName, phoneNumber} = req.body;
