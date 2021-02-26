@@ -672,6 +672,32 @@ function insertPostCreation(inputItems, table, variablesToUse, narrowVariablesTo
 	req.send(payload);
 }
 
+// DELETE QUERY
+/* - Makes and sends post request to insert item into table. 
+Called by checkInput after basic validity check - */ 
+function deletePostCreation(inputItems, table, variablesToUse, narrowVariablesToUse){
+	var req = new XMLHttpRequest();
+	var payload = {request:"delete", table:table}
+	// for(i = 0; i < inputItems.length; i++){
+	// 	if(inputItems[i].value == ""){
+	// 		var value = null;
+	// 	}
+	// 	else{
+	// 		var value = inputItems[i].value;
+	// 	}
+	// 	payload[narrowVariablesToUse[i]]=value;
+	// }
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+    		buildTable(JSON.parse(req.responseText), variablesToUse);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
+
 
 /* - For read page, fills column selection dropdown and begins process of building table. 
 Called by buildCRUDModeControlsRead- */ 
