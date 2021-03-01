@@ -206,6 +206,7 @@ function buildTableMenuDelete(){
 }
 
 /* - The following four buildCRUDModeControls functions are called when a table is selected - */
+// RYAN follow this for how to make a dropdown menu populated -- follow how the function flows
 function buildCRUDModeControlsCreate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
@@ -231,6 +232,7 @@ function buildCRUDModeControlsCreate(table){
 		for(i=0;i<values.length;i++){
 			insertedValues.push(values[i].value);
 		}
+		// YEP preventDefault POGGERS
 		event.preventDefault(); // I think this is keeping the page from changing. don't remove
 
 		//rebuilding input and table after updated
@@ -361,7 +363,7 @@ function buildCRUDModeControlsUpdate(table){
 function buildCRUDModeControlsDelete(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action=""><button class="cybr-btn">Delete Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Delete Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
+	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action=""><button class="cybr-btn" id="deleteEvent">Delete Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Delete Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -372,7 +374,29 @@ function buildCRUDModeControlsDelete(table){
 
 	document.body.append(divTwo);
 
+	// adding event listener to button
+	document.getElementById("deleteEvent").addEventListener("click", (event) =>{
+		
+		tableSelected = document.getElementById("cols");
+		valueSelected = tableSelected.value;
+		console.log(valueSelected);
+		
+		resultSpan = document.getElementById("text-result");
+		
+		console.log(filterValues);
+		if ( !(filterValues.includes(valueSelected))){
+			filterValues.push(valueSelected);
+			resultSpan.innerText = filterValues;
+		}
+		console.log(filterValues);
+		event.preventDefault(); 
+	});
+
 	var list = document.getElementById("crudControls");
+
+	// fill spans --> look at Angel's CREATE query functions
+	// "choose row" should be a dropdown menu --> dynamically populated as soon as table is selected
+	//		* needs to be a part of CRUD controls for DELETE
 
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillDeleteControls(variable));}
@@ -398,6 +422,7 @@ function buildCRUDModeControlsDelete(table){
 		for (variable of keyColorsVariables){list.appendChild(fillDeleteControls(variable));}
 		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
+
 	return;
 }
 
@@ -675,14 +700,14 @@ function insertPostCreation(inputItems, table, variablesToUse, narrowVariablesTo
 // DELETE QUERY
 /* - Makes and sends post request to insert item into table. 
 Called by checkInput after basic validity check - */ 
-function deletePostCreation(table, variablesToUse){
+function deletePostCreation(table, idToUse){
 	var req = new XMLHttpRequest();
 	var payload = {request:"delete", table:table}
 	req.open("POST", baseURL, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load',function(){
   		if(req.status >= 200 && req.status < 400){
-    		buildTable(JSON.parse(req.responseText), variablesToUse);
+    		buildTable(JSON.parse(req.responseText), idToUse);
   		}
  	});
 	payload = JSON.stringify(payload);

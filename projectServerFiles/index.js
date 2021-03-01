@@ -158,7 +158,7 @@ app.post('/', function (req,res,next) {
 
   // DELETE
   else if(body.request == "delete"){
-    var id = req.body;
+    var id = req.body;  // TODO: need to change logic so individual PKs are found
     var thisBody = body.table;
     var thisDeleteQuery;
     var thisGetQuery;
@@ -190,7 +190,9 @@ app.post('/', function (req,res,next) {
         break;      
       default:
         print("No table was found -- check index.js");
+        break;
     }
+    
     mysql.pool.query(thisDeleteQuery, id, (err, result) => {
       if(err){
         next(err);
