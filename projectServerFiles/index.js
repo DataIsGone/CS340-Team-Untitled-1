@@ -27,12 +27,12 @@ const insertKeyColorsQuery = "INSERT INTO keyColors (`keyColorName`) VALUES (?)"
 /* const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? "; */
 
 // DELETE
-const deleteCustomersQuery = "DELETE FROM customers WHERE id=?";
-const deleteOrdersQuery = "DELETE FROM orders WHERE id=?";
-const deleteKeyboardOrdersQuery = "DELETE FROM keyboardOrders WHERE id=?";
-const deleteKeyboardsQuery = "DELETE FROM keyboards WHERE id=?";
-const deleteSwitchesQuery = "DELETE FROM switches WHERE id=?";
-const deleteKeyColorsQuery = "DELETE FROM keyColors WHERE id=?";
+const deleteCustomersQuery = "DELETE FROM customers WHERE customerNum=?";
+const deleteOrdersQuery = "DELETE FROM orders WHERE orderNum=?";
+const deleteKeyboardOrdersQuery = "DELETE FROM keyboardOrders WHERE id=?";  // TODO: figure out id for composite table
+const deleteKeyboardsQuery = "DELETE FROM keyboards WHERE keyboardNum=?";
+const deleteSwitchesQuery = "DELETE FROM switches WHERE switchNum=?";
+const deleteKeyColorsQuery = "DELETE FROM keyColors WHERE keyColorNum=?";
 
 // GENERAL TABLE QUERIES
 /* const dropTableQuery = "DROP TABLE IF EXISTS customers";
