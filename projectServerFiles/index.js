@@ -16,27 +16,21 @@ const getKeyboardOrdersQuery = 'SELECT * FROM keyboardOrders';
 const getKeyboardsQuery = 'SELECT * FROM keyboards';
 const getSwitchesQuery = 'SELECT * FROM switches';
 const getKeyColorsQuery = 'SELECT * FROM keyColors';
+
 const insertCustomersQuery = "INSERT INTO customers (`firstName`,`lastName`,`phoneNumber`) VALUES (?,?,?)";
 const insertOrdersQuery = "INSERT INTO orders (`customerNum`, `orderDate`, `paymentType`) VALUES (?,?,?)";
 const insertKeyboardOrdersQuery = "INSERT INTO keyboardOrders (`orderNum`, `keyboardNum`, `quantityOrdered`, `pricePerUnit`) VALUES (?,?,?,?)";
 const insertKeyboardsQuery = "INSERT INTO keyboards (`name`, `quantityInStock`, `switchNum`, `keyColorNum`) VALUES (?,?,?,?)";
 const insertSwitchesQuery = "INSERT INTO switches (`switchName`) VALUES (?)";
 const insertKeyColorsQuery = "INSERT INTO keyColors (`keyColorName`) VALUES (?)";
-/* const updateQuery = "UPDATE workout SET name=?,reps=?,weight=?,unit=?,date=? WHERE id=? ";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const deleteQuery = "DELETE FROM workout WHERE id=?";
-const dropTableQuery = "DROP TABLE IF EXISTS customers";
-const makeTableQuery = `CREATE TABLE customers(
-	                      customerNum INT(11) NOT NULL AUTO_INCREMENT,  
-	                      lastName  VARCHAR(255) NOT NULL, 
-	                      firstName VARCHAR(255) NOT NULL, 
-	                      phoneNumber VARCHAR(255) DEFAULT NULL,
-	                      PRIMARY KEY (customerNum)
-                        )`; */
+
+const updateCustomersQuery = "UPDATE customers SET firstName=?,lastName=?,phoneNumber=? WHERE customerNum=?";
+const updateOrdersQuery = "UPDATE orders SET customerNum=?,orderDate=?,paymentType=? WHERE orderNum=?";
+const updateKeyboardsQuery = "UPDATE keyboards SET name=?,quantityInStock=?,switchNum=?,keyColorNum=? WHERE keyboardNum=?";
+const updateKeyboardOrdersQuery = "UPDATE keyboardOrders SET quantityOrdered=?,pricePerUnit=? WHERE orderNum=? AND keyboardNum=?";
+const updateSwitchesQuery = "UPDATE switches SET switchName=? WHERE switchNum=?";
+const updateKeyColorsQuery = "UPDATE keyColors SET keyColorName=? WHERE keyColorNum=?";
+
                     
 
 const getData = (query, res) => { 
@@ -46,7 +40,6 @@ const getData = (query, res) => {
       return;
     }
     res.json({"rows":rows});
-    console.log("query2");
   })
 }
 
@@ -57,7 +50,6 @@ app.post('/', function (req,res,next) {
   if(body.request == "read"){
     if(body.hasOwnProperty('query')){
       getData(body.query, res);
-      console.log("query");
     }
     else if(body.table == "customers"){
       getData(getCustomersQuery,res);
@@ -81,7 +73,6 @@ app.post('/', function (req,res,next) {
   else if(body.request == "insert"){
     if(body.table == "customers"){
       var {firstName, lastName, phoneNumber} = req.body;
-
       mysql.pool.query(insertCustomersQuery,[firstName, lastName, phoneNumber], (err, result) => {
         if(err){
           next(err);
@@ -92,7 +83,6 @@ app.post('/', function (req,res,next) {
     }
     else if(body.table == "orders"){
       var {customerNum, orderDate, paymentType} = req.body;
-  
       mysql.pool.query(insertOrdersQuery,[customerNum, orderDate, paymentType], (err, result) => {
         if(err){
           next(err);
@@ -103,7 +93,6 @@ app.post('/', function (req,res,next) {
     }
     else if(body.table == "keyboardOrders"){
       var {orderNum, keyboardNum, quantityOrdered, pricePerUnit} = req.body;
-  
       mysql.pool.query(insertKeyboardOrdersQuery,[orderNum, keyboardNum, quantityOrdered, pricePerUnit], (err, result) => {
         if(err){
           next(err);
@@ -114,7 +103,6 @@ app.post('/', function (req,res,next) {
     }
     else if(body.table == "keyboards"){
       var {name, quantityInStock, switchNum, keyColorNum} = req.body;
-  
       mysql.pool.query(insertKeyboardsQuery,[name, quantityInStock, switchNum, keyColorNum], (err, result) => {
         if(err){
           next(err);
@@ -125,7 +113,6 @@ app.post('/', function (req,res,next) {
     }
     else if(body.table == "switches"){
       var {switchName} = req.body;
-  
       mysql.pool.query(insertSwitchesQuery,[switchName], (err, result) => {
         if(err){
           next(err);
@@ -136,7 +123,6 @@ app.post('/', function (req,res,next) {
     }
     else if(body.table == "keyColors"){
       var {keyColorName} = req.body;
-  
       mysql.pool.query(insertKeyColorsQuery,[keyColorName], (err, result) => {
         if(err){
           next(err);
@@ -147,70 +133,78 @@ app.post('/', function (req,res,next) {
     }
 
   }
-  /* var {customerNum, firstName, lastName, phoneNumber} = req.body;
-  
-  mysql.pool.query(insertQuery,
-     [customerNum, firstName, lastName, phoneNumber], (err, result) => {
-
-    if(err){
-      next(err);
-      return;
-    }
-    getAllData(res); 
-  }); */
-});
-
-// to insert
-/* app.post('/', function (req,res,next) {
-  var {customerNum, firstName, lastName, phoneNumber} = req.body;
-  
-  mysql.pool.query(insertQuery,
-     [customerNum, firstName, lastName, phoneNumber], (err, result) => {
-
-    if(err){
-      next(err);
-      return;
-    }
-    getAllData(res); 
-  });
-}); */
-
-
-/* // to delete
-app.delete('/', function (req,res,next) {
-  mysql.pool.query(deleteQuery, [req.body.id], (err, result) => {
-    if(err){
-      next(err);
-      return;
-    }
-    getAllData(res);
-  });
 });
 
 
 // a simple update
-app.put('/', function (req,res,next) {
-  var {name, reps, weight, unit, date, id} = req.body;
-
-  mysql.pool.query(updateQuery,
-    [name, reps, weight, unit, date, id], (err, result) => {
-   if(err){
-     next(err);
-     return;
-   }
-   getAllData(res);
- });
-}); */
-
-
-//reset table
-app.get('/reset-table',function(req,res,next){
-  mysql.pool.query(dropTableQuery, function(err){
-    mysql.pool.query(makeTableQuery, function(err){
-      res.send("Table reset");
-    })
-  });
-});
+app.put('/', function (req,res,next){
+  if(req.body.table == "customers"){
+    var {customerNum, firstName, lastName, phoneNumber} = req.body;
+    mysql.pool.query(updateCustomersQuery,
+      [firstName, lastName, phoneNumber, customerNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getCustomersQuery,res);
+    });
+  }
+  else if(req.body.table == "orders"){
+    var {orderNum, customerNum, orderDate, paymentType} = req.body;
+    mysql.pool.query(updateOrdersQuery,
+      [customerNum, orderDate, paymentType, orderNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getOrdersQuery,res);
+    });
+  }
+  else if(req.body.table == "keyboards"){
+    var {keyboardNum, name, quantityInStock, switchNum, keyColorNum} = req.body;
+    mysql.pool.query(updateKeyboardsQuery,
+      [name, quantityInStock, switchNum, keyColorNum, keyboardNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getKeyboardsQuery,res);
+    });
+  }
+  else if(req.body.table == "keyboardOrders"){
+    var {orderNum, keyboardNum, quantityOrdered, pricePerUnit} = req.body;
+    mysql.pool.query(updateKeyboardOrdersQuery,
+      [quantityOrdered, pricePerUnit, orderNum, keyboardNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getKeyboardOrdersQuery,res);
+    });
+  }
+  else if(req.body.table == "switches"){
+    var {switchNum, switchName} = req.body;
+    mysql.pool.query(updateSwitchesQuery,
+      [switchName, switchNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getSwitchesQuery,res);
+    });
+  }
+  else if(req.body.table == "keyColors"){
+    var {keyColorNum, keyColorName} = req.body;
+    mysql.pool.query(updateKeyColorsQuery,
+      [keyColorName, keyColorNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getKeyColorsQuery,res);
+    });
+  } 
+}); 
 
 
 app.use(function(req,res){

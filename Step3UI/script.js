@@ -225,7 +225,6 @@ function buildCRUDModeControlsCreate(table){
 	document.getElementById("createButton").addEventListener("click", (event) =>{
 		
 		tableSelected = document.getElementById("tableSelected");
-		console.log(tableSelected.value);
 		var values = checkInput(tableSelected.value);
 		var insertedValues = []
 		for(i=0;i<values.length;i++){
@@ -240,7 +239,6 @@ function buildCRUDModeControlsCreate(table){
 		resultSpan = document.getElementById("result");
 		var stringToInsert = "Inserted"
 		
-		//start here
 		for(i=0;i<insertedValues.length;i++){
 			if (insertedValues[i] == "" & i == insertedValues.length-1){
 				stringToInsert = stringToInsert.concat(" ","into"," ", table);
@@ -283,19 +281,13 @@ function buildCRUDModeControlsRead(table){
 	var filterValues = []
 
 	document.getElementById("addFilterButton").addEventListener("click", (event) =>{
-		
 		tableSelected = document.getElementById("cols");
 		valueSelected = tableSelected.value;
-		console.log(valueSelected);
-		
 		resultSpan = document.getElementById("text-result");
-		
-		console.log(filterValues);
 		if ( !(filterValues.includes(valueSelected))){
 			filterValues.push(valueSelected);
 			resultSpan.innerText = filterValues;
 		}
-		console.log(filterValues);
 		event.preventDefault(); 
 	});
 
@@ -315,10 +307,11 @@ function buildCRUDModeControlsRead(table){
 	return;
 }
 
+
 function buildCRUDModeControlsUpdate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
-	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form action=""><button class="cybr-btn">Update Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Update Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
+	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form id="buttonHolder"action=""><button class="cybr-btn" id="updateButton">Update Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Update Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 
@@ -329,34 +322,39 @@ function buildCRUDModeControlsUpdate(table){
 
 	document.body.append(divTwo);
 
-	var list = document.getElementById("crudControls");
+	buildBottomHalfUpdate(table);
 
-	if (table == "customers"){
-		for (variable of customersVariables){list.appendChild(fillUpdateControls(variable));}
-		sendForReadQuery("read", "customers", customersVariables);
-	}
-	else if(table == "orders"){
-		for (variable of ordersVariables){list.appendChild(fillUpdateControls(variable));}
-		sendForReadQuery("read", "orders", ordersVariables);
-	}
-	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){list.appendChild(fillUpdateControls(variable));}
-		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
-	}
-	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){list.appendChild(fillUpdateControls(variable));}
-		sendForReadQuery("read", "keyboards", keyboardsVariables);
-	}
-	else if(table == "switches"){
-		for (variable of switchesVariables){list.appendChild(fillUpdateControls(variable));}
-		sendForReadQuery("read", "switches", switchesVariables);
-	}
-	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){list.appendChild(fillUpdateControls(variable));}
-		sendForReadQuery("read", "keyColors", keyColorsVariables);
-	}
+	document.getElementById("updateButton").addEventListener("click", (event) =>{
+		if (table == "customers"){
+			var customerNum = document.getElementById("customerNumDropdown").value;
+			getQueryFromUpdate(table, ["customerNum",customerNum],["fill",0]);
+		}
+		else if(table == "orders"){
+			var orderNum = document.getElementById("orderNumDropdown").value;
+			getQueryFromUpdate(table, ["orderNum",orderNum],["fill",0]);
+		}
+		else if(table == "keyboardOrders"){
+			var orderNum = document.getElementById("orderNumDropdown").value;
+			var keyboardNum = document.getElementById("keyboardNumDropdown").value;
+			getQueryFromUpdate(table, ["orderNum",orderNum],["keyboardNum",keyboardNum]);
+		}
+		else if(table == "keyboards"){
+			var keyboardNum = document.getElementById("keyboardNumDropdown").value;
+			getQueryFromUpdate(table, ["keyboardNum",keyboardNum],["fill",0]);
+		}
+		else if(table == "switches"){
+			var switchNum = document.getElementById("switchNumDropdown").value;
+			getQueryFromUpdate(table, ["switchNum",switchNum],["fill",0]);
+		}
+		else if(table == "keyColors"){
+			var keyColorNum = document.getElementById("keyColorNumDropdown").value;
+			getQueryFromUpdate(table, ["keyColorNum",keyColorNum],["fill",0]);
+		}
+		event.preventDefault(); 
+	});
 	return;
 }
+
 
 function buildCRUDModeControlsDelete(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
@@ -402,6 +400,121 @@ function buildCRUDModeControlsDelete(table){
 }
 
 
+/* - Checks table selected, makes inputs for each variable, then begins process of retrieving data to build table with - */ 
+function buildBottomHalfCreate(table){
+	var list = document.getElementById("crudControls");
+	removeAllChildNodes(list);
+
+	if (table == "customers"){
+		for (variable of customersVariables){
+			if(variable != "customerNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "customers", customersVariables);
+	}
+	else if(table == "orders"){
+		for (variable of ordersVariables){
+			if(variable != "orderNum"){
+				if(variable != "customerNum"){
+					list.appendChild(fillCreateControls(variable))
+				}
+				else{
+					list.appendChild(makeDropdownInput(variable));
+					sendForSpecificColumnQuery("read", "customers", "customerNum","customerNumDropdown", table);
+				}
+			}
+		}
+		sendForReadQuery("read", "orders", ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		for (variable of keyboardOrdersVariables){
+			if((variable != "orderNum") & (variable != "keyboardNum")){
+				list.appendChild(fillCreateControls(variable));
+			}
+			else{
+				list.appendChild(makeDropdownInput(variable));
+				if(variable == "orderNum"){
+					sendForSpecificColumnQuery("read", "orders", "orderNum","orderNumDropdown", table);
+				}
+				else if(variable == "keyboardNum"){
+					sendForSpecificColumnQuery("read", "keyboards", "keyboardNum","keyboardNumDropdown", table);
+				}
+			}
+		}
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		for (variable of keyboardsVariables){
+			if(variable != "keyboardNum"){
+				if(variable != "keyColorNum"){
+					list.appendChild(fillCreateControls(variable));
+				}
+				else{
+					list.appendChild(makeDropdownInput(variable));
+					sendForSpecificColumnQuery("read", "keyColors", "keyColorNum","keyColorNumDropdown", table);
+				}
+			}
+		}
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
+	}
+	else if(table == "switches"){
+		for (variable of switchesVariables){
+			if(variable != "switchNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "switches", switchesVariables);
+	}
+	else if(table == "keyColors"){
+		for (variable of keyColorsVariables){
+			if(variable != "keyColorNum"){
+				list.appendChild(fillCreateControls(variable));}
+		}
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
+	}
+	return;
+}
+
+/* - Checks table selected, makes inputs or dropdowns for each variable, then begins process of retrieving data to fill dropdowns 
+and build table with - */ 
+function buildBottomHalfUpdate(table){
+	var list = document.getElementById("crudControls");
+	removeAllChildNodes(list);
+	if (table == "customers"){
+		list.appendChild(makeDropdownInput("customerNum"));
+		sendForSpecificColumnQuery("read", "customers", "customerNum","customerNumDropdown", table);
+		sendForReadQuery("read", "customers", customersVariables);
+	}
+	else if(table == "orders"){
+		list.appendChild(makeDropdownInput("orderNum"));
+		sendForSpecificColumnQuery("read", "orders", "orderNum","orderNumDropdown", table);
+		sendForReadQuery("read", "orders", ordersVariables);
+	}
+	else if(table == "keyboardOrders"){
+		list.appendChild(makeDropdownInput("orderNum"));
+		sendForSpecificColumnQuery("read", "orders", "orderNum","orderNumDropdown", table);
+		list.appendChild(makeDropdownInput("keyboardNum"));
+		sendForSpecificColumnQuery("read", "keyboardOrders", "keyboardNum","keyboardNumDropdown", table);
+		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
+	}
+	else if(table == "keyboards"){
+		list.appendChild(makeDropdownInput("keyboardNum"));
+		sendForSpecificColumnQuery("read", "keyboards", "keyboardNum","keyboardNumDropdown", table);
+		sendForReadQuery("read", "keyboards", keyboardsVariables);
+	}
+	else if(table == "switches"){
+		list.appendChild(makeDropdownInput("switchNum"));
+		sendForSpecificColumnQuery("read", "switches", "switchNum","switchNumDropdown", table);
+		sendForReadQuery("read", "switches", switchesVariables);
+	}
+	else if(table == "keyColors"){
+		list.appendChild(makeDropdownInput("keyColorNum"));
+		sendForSpecificColumnQuery("read", "keyColors", "keyColorNum","keyColorNumDropdown", table);
+		sendForReadQuery("read", "keyColors", keyColorsVariables);
+	}
+	return;
+}
+
+
 /* - These four functions make inputs or options on their respective pages - */
 function fillCreateControls(variable){ 
 	var list = document.createElement("li");
@@ -437,7 +550,7 @@ function fillReadControls(variable){
 	return option;
 }
 
-function fillUpdateControls(variable){
+function fillUpdateControls(variable, value){
 	var list = document.createElement("li");
 
 	var outerDiv = document.createElement("div");
@@ -458,6 +571,7 @@ function fillUpdateControls(variable){
 
 	var input = document.createElement("input");			
 	input.setAttribute("type", "text");
+	input.value = value;
 	divLabelTwo.appendChild(input);
 
 	return list;
@@ -494,8 +608,6 @@ function fillDeleteControls(variable){
 Called by buildBottomHalfCreate- */ 
 function makeDropdownInput(variable){
 	var idName = variable.concat("Dropdown");
-	console.log(idName);
-
 	var list = document.createElement("li");
 
 	var outerDiv = document.createElement("div");
@@ -551,16 +663,13 @@ function sendForFilteredReadQuery(requestType, tableName, variablesToUse){
 		}
 	}
 	queryToSend = queryToSend.concat(" ", "FROM", " ", tableName);
-	console.log(queryToSend);
 
 	var req = new XMLHttpRequest();
 	var payload = {request:requestType, table:tableName, query:queryToSend}
-	console.log(payload.query);
 	req.open("POST", baseURL, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load',function(){
   		if(req.status >= 200 && req.status < 400){
-			console.log(JSON.parse(req.responseText));
     		buildTable(JSON.parse(req.responseText), variablesToUse);
   		}
  	});
@@ -574,11 +683,8 @@ Called in buildBottomHalfCreate when dropdown is made and needs to be filled- */
 function sendForSpecificColumnQuery(requestType, tableName, variable, dropDownName, sentFor){
 	var queryToSend = "SELECT"
 	queryToSend = queryToSend.concat(" ", variable, " ", "FROM", " ", tableName);
-	console.log(queryToSend);
-
 	var req = new XMLHttpRequest();
 	var payload = {request:requestType, table:tableName, query:queryToSend}
-	console.log(payload.query);
 	req.open("POST", baseURL, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load',function(){
@@ -718,7 +824,7 @@ function removeAllChildNodes(parent) {
 Called by sendForSpecificColumnQuery - */ 
 function makeArrayWithJSON(queryResult, table, variable, dropDownName){
 	var count = queryResult.rows.length;
-	var returnArray = ["No customers"];
+	var returnArray = ["Nothing in table"];
 	
 	if(count > 0){
 		returnArray.length = 0;
@@ -736,11 +842,7 @@ function makeArrayWithJSON(queryResult, table, variable, dropDownName){
 /* - Fills appropriate dropdown with fk data. 
 Called by makeArrayWithJSON - */ 
 function fillDropdown(array, table, variable, dropDownName){
-	if(table == "orders"){
-		var customerDropdown = document.getElementById(dropDownName);
-		for (x in array){customerDropdown.appendChild(fillReadControls(parseInt(x)+1))}; //need to add one because they're off by one for some reason
-	}
-	else if(table == "keyboardOrders"){
+	if(table == "keyboardOrders"){
 		
 		if(variable == "orderNum"){
 			var orderNumDropdown = document.getElementById(dropDownName);
@@ -751,88 +853,154 @@ function fillDropdown(array, table, variable, dropDownName){
 			for (x in array){keyboardNumDropdown.appendChild(fillReadControls(parseInt(x)+1))};
 		}
 	}
-	else if(table == "keyboards"){
-		var keyColorNumDropdown = document.getElementById(dropDownName);
-		for (x in array){keyColorNumDropdown.appendChild(fillReadControls(parseInt(x)+1))}; //need to add one because they're off by one for some reason
+	else{ // used in updatePage
+		var dropdown = document.getElementById(dropDownName);
+		for (x in array){dropdown.appendChild(fillReadControls(parseInt(x)+1))}; 
 	}
-	
 }
 
 
+/* - Getting data from chosen row to pass to rebuildControlsUpdate. 
+Called by eventlistener in buildCRUDModeControlsUpdate - */ 
+function getQueryFromUpdate(table, input1, input2){
+	var queryToSend = "SELECT * FROM";
+	queryToSend = queryToSend.concat(" ",table," ","WHERE"," ",input1[0],"=",input1[1]);
+	if(input2[1] != 0){
+		queryToSend = queryToSend.concat(" ","AND"," ",input2[0],"=",input1[1]);
+	}
+	var req = new XMLHttpRequest();
+	var payload = {request:"read", table:table, query:queryToSend}
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+			rebuildControlsUpdate(JSON.parse(req.responseText), table, input1, input2);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
 
-/* - Checks table selected, makes inputs for each variable, then begins process of retrieving data to build table with - */ 
-function buildBottomHalfCreate(table){
+
+/* - Using data from selected row to make and fill inputs that can be edited by user. Then adding confirm button to page
+Called by getQueryFromUpdate - */ 
+function rebuildControlsUpdate(queryResult, table, input1, input2){
 	var list = document.getElementById("crudControls");
 	removeAllChildNodes(list);
+	var row = queryResult.rows[0];
 
 	if (table == "customers"){
-		for (variable of customersVariables){
-			if(variable != "customerNum"){
-				list.appendChild(fillCreateControls(variable));}
+		for (i = 0; i < customersVariables.length; i++){
+			if(customersVariables[i] != "customerNum"){
+				inputBox = fillUpdateControls(customersVariables[i], row[customersVariables[i]]); 
+				list.appendChild(inputBox);
 			}
-		sendForReadQuery("read", "customers", customersVariables);
+		}
 	}
 	else if(table == "orders"){
-		for (variable of ordersVariables){
-			if(variable != "orderNum"){
-				if(variable != "customerNum"){
-					list.appendChild(fillCreateControls(variable))
-				}
-				else{
-					list.appendChild(makeDropdownInput(variable));
-					sendForSpecificColumnQuery("read", "customers", "customerNum","customerNumDropdown", table);
-				}
-			;}
+		for (i = 0; i < ordersVariables.length; i++){
+			if(ordersVariables[i] != "orderNum"){
+				inputBox = fillUpdateControls(ordersVariables[i], row[ordersVariables[i]]);
+				list.appendChild(inputBox);}
 		}
-		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){
-			if((variable != "orderNum") & (variable != "keyboardNum")){
-				list.appendChild(fillCreateControls(variable));
-			}
-			else{
-				list.appendChild(makeDropdownInput(variable));
-				if(variable == "orderNum"){
-					sendForSpecificColumnQuery("read", "orders", "orderNum","orderNumDropdown", table);
-				}
-				else if(variable == "keyboardNum"){
-					sendForSpecificColumnQuery("read", "keyboards", "keyboardNum","keyboardNumDropdown", table);
-				}
-			}
+		for (i = 0; i < keyboardOrdersVariables.length; i++){
+			if((keyboardOrdersVariables[i] != "orderNum") && (keyboardOrdersVariables[i] != "keyboardNum")){
+				inputBox = fillUpdateControls(keyboardOrdersVariables[i], row[keyboardOrdersVariables[i]]);
+				list.appendChild(inputBox);}
 		}
-		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
-		for (variable of keyboardsVariables){
-			if(variable != "keyboardNum"){
-				if(variable != "keyColorNum"){
-					list.appendChild(fillCreateControls(variable));
-				}
-				else{
-					list.appendChild(makeDropdownInput(variable));
-					sendForSpecificColumnQuery("read", "keyColors", "keyColorNum","keyColorNumDropdown", table);
-				}
-			}
+		for (i = 0; i < keyboardsVariables.length; i++){
+			if(keyboardsVariables[i] != "keyboardNum"){
+				inputBox = fillUpdateControls(keyboardsVariables[i], row[keyboardsVariables[i]]);
+				list.appendChild(inputBox);}
 		}
-		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
-		for (variable of switchesVariables){
-			if(variable != "switchNum"){
-				list.appendChild(fillCreateControls(variable));}
+		for (i = 0; i < switchesVariables.length; i++){
+			if(switchesVariables[i] != "switchNum"){
+				inputBox = fillUpdateControls(switchesVariables[i], row[switchesVariables[i]]);
+				list.appendChild(inputBox);}
 		}
-		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
-		for (variable of keyColorsVariables){
-			if(variable != "keyColorNum"){
-				list.appendChild(fillCreateControls(variable));}
+		for (i = 0; i < keyColorsVariables.length; i++){
+			if(keyColorsVariables[i] != "keyColorNum"){
+				inputBox = fillUpdateControls(keyColorsVariables[i], row[keyColorsVariables[i]]);
+				list.appendChild(inputBox);}
 		}
-		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
+	// now get rid of current button and make new one with its own event listener 
+	// make new update query with values given
+	replaceUpdateButton(table, input1, input2);
+
 	return;
 }
+
+/* deletes update button, creates confirm button, and puts eventlistener on it
+called from rebuildControlsUpdate */
+function replaceUpdateButton(table, input1, input2){
+	var list = document.getElementById("crudControls")
+	var buttonHolder = document.getElementById("right-button");
+	removeAllChildNodes(buttonHolder);
+	var html = '<form action=""><button class="cybr-btn" id="confirmButton">Confirm<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Confirm_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form>';
+	buttonHolder.innerHTML= html;
+	
+	// gather data and update the row that was initially selected.
+	document.getElementById("confirmButton").addEventListener("click", (event) =>{
+		var valueHolder = [];
+		valueHolder.push(input1);
+		if(input2[1] != 0){
+			valueHolder.push(input2);
+		}
+		var childNodes = list.childNodes;
+		for (i = 0; i < childNodes.length; i++) {
+			var temp = [];
+			var variableName = childNodes[i].firstChild.firstChild.firstChild.textContent;
+			var value = childNodes[i].firstChild.firstChild.nextSibling.firstChild.value;
+  			temp.push(variableName);
+			temp.push(value);
+			valueHolder.push(temp);
+		} 
+		sendUpdateQuery(table,valueHolder);
+		event.preventDefault(); 
+	});
+	return;
+}
+
+/* takes values submitted and updates row specified
+called from replaceUpdateButton eventlistener */
+function sendUpdateQuery(table,arrayOfArrays){
+	var a = arrayOfArrays;
+	var payload = {table:table};
+	for(i = 0; i < a.length; i++){
+		var currentArray = a[i];
+		if(currentArray[1] == ""){
+			payload[currentArray[0]]=null;
+		}
+		else{
+			payload[currentArray[0]]=currentArray[1];
+		}
+	}
+	var req = new XMLHttpRequest();
+	req.open("PUT", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+			buildCRUDModeControlsUpdate(table);
+			var text = "Updated";
+			text = text.concat(" ",table," ","table");
+			var resultSpan = document.getElementById("text-result");
+			resultSpan.innerText = text;
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+	return
+}
+
 
 
 /* - Builds table with given table and variables and puts it on page - */ 
