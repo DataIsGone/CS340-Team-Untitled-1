@@ -1,4 +1,4 @@
-const baseURL = `http://flip1.engr.oregonstate.edu:21895/`;
+const baseURL = `http://flip3.engr.oregonstate.edu:21895/`;
 /* --- Table variables for setting up UI --- */
 var customersVariables = ["customerNum", "firstName", "lastName", "phoneNumber"];
 var ordersVariables = ["orderNum", "customerNum", "orderDate", "paymentType"];
@@ -199,7 +199,7 @@ function buildTableMenuUpdate(){
 }
 
 function buildTableMenuDelete(){
-	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div class="spacer"></div></li><li><div><label for="row" class="label">CHOOSE ROW:</label><input for="row" class="row-input"></div></li><li><div class="spacer"></div></li><li><button class="cybr-btn-small">Search<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Search_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div class="spacer"></div></li><li><div><label for="row" class="label">CHOOSE ROW:</label><select id="chooseRowDelete"></select></div></li><li><div class="spacer"></div></li><li><button class="cybr-btn-small">Search<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Search_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -374,26 +374,46 @@ function buildCRUDModeControlsDelete(table){
 
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillDeleteControls(variable));}
+		sendForSpecificColumnQuery("read", "customers", "customerNum", "chooseRowDelete");
 		sendForReadQuery("read", "customers", customersVariables);
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){list.appendChild(fillDeleteControls(variable));}
+		sendForSpecificColumnQuery("read", "orders", "orderNum", "chooseRowDelete");
 		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
-		for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
+		// for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
+		// sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
+		for (variable of keyboardOrdersVariables){
+			if((variable != "orderNum") & (variable != "keyboardNum")){
+				list.appendChild(fillCreateControls(variable));
+			}
+			else{
+				list.appendChild(makeDropdownInput(variable));
+				if(variable == "orderNum"){
+					sendForSpecificColumnQuery("read", "orders", "orderNum","orderNumDropdown", table);
+				}
+				else if(variable == "keyboardNum"){
+					sendForSpecificColumnQuery("read", "keyboards", "keyboardNum","keyboardNumDropdown", table);
+				}
+			}
+		}
 		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
 		for (variable of keyboardsVariables){list.appendChild(fillDeleteControls(variable));}
+		sendForSpecificColumnQuery("read", "keyboards", "keyboardNum", "chooseRowDelete");
 		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
 		for (variable of switchesVariables){list.appendChild(fillDeleteControls(variable));}
+		sendForSpecificColumnQuery("read", "switches", "switchNum", "chooseRowDelete");
 		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
 		for (variable of keyColorsVariables){list.appendChild(fillDeleteControls(variable));}
+		sendForSpecificColumnQuery("read", "keyColors", "keyColorNum", "chooseRowDelete");
 		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
 	return;
@@ -603,6 +623,12 @@ function fillDeleteControls(variable){
 	return list;
 }
 
+// RYAN
+// function fillSelectRowDelete(){
+// 	var chooseRowMenu = document.getElementById("choose-row-delete");
+// 	sendForSpecificColumnQuery("read", "keyboards", "keyboardNum", "chooseRowDelete")
+	
+// }
 
 /* - Called when a dropdown input is needed on create page instead of normal text input. 
 Called by buildBottomHalfCreate- */ 
@@ -837,7 +863,6 @@ function makeArrayWithJSON(queryResult, table, variable, dropDownName){
 	};
 	fillDropdown(returnArray, table, variable, dropDownName);
 }
-
 
 /* - Fills appropriate dropdown with fk data. 
 Called by makeArrayWithJSON - */ 
