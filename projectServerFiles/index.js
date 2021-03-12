@@ -3,7 +3,7 @@ var mysql = require('./dbcon.js');
 var CORS = require('cors');           
 
 var app = express();
-app.set('port', 21895);     
+app.set('port', 57340);     
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(CORS()); 
@@ -30,6 +30,13 @@ const updateKeyboardsQuery = "UPDATE keyboards SET name=?,quantityInStock=?,swit
 const updateKeyboardOrdersQuery = "UPDATE keyboardOrders SET quantityOrdered=?,pricePerUnit=? WHERE orderNum=? AND keyboardNum=?";
 const updateSwitchesQuery = "UPDATE switches SET switchName=? WHERE switchNum=?";
 const updateKeyColorsQuery = "UPDATE keyColors SET keyColorName=? WHERE keyColorNum=?";
+
+const deleteCustomersQuery = "DELETE FROM customers WHERE customerNum=?";
+const deleteOrdersQuery = "DELETE FROM orders WHERE orderNum=?";
+const deleteKeyboardOrdersQuery = "DELETE FROM keyboardOrders WHERE orderNum=? AND keyboardNum=?";
+const deleteKeyboardsQuery = "DELETE FROM keyboards WHERE keyboardNum=?";
+const deleteSwitchesQuery = "DELETE FROM switches WHERE switchNum=?";
+const deleteKeyColorsQuery = "DELETE FROM keyColors WHERE keyColorNum=?";
 
                     
 
@@ -204,7 +211,77 @@ app.put('/', function (req,res,next){
       getData(getKeyColorsQuery,res);
     });
   } 
-}); 
+});
+
+// RYAN -- DELETE
+app.delete('/', function (req,res,next){
+  if(req.body.table == "customers"){
+    var {customerNum} = req.body;
+    mysql.pool.query(deleteCustomersQuery,
+      [customerNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getCustomersQuery,res);
+    });
+  }
+  else if(req.body.table == "orders"){
+    var {orderNum} = req.body;
+    mysql.pool.query(deleteOrdersQuery,
+      [orderNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getOrdersQuery,res);
+    });
+  }
+  else if(req.body.table == "keyboards"){
+    var {keyboardNum} = req.body;
+    mysql.pool.query(deleteKeyboardsQuery,
+      [keyboardNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getKeyboardsQuery,res);
+    });
+  }
+  else if(req.body.table == "keyboardOrders"){
+    var {orderNum, keyboardNum} = req.body;
+    mysql.pool.query(deleteKeyboardOrdersQuery,
+      [orderNum, keyboardNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getKeyboardOrdersQuery,res);
+    });
+  }
+  else if(req.body.table == "switches"){
+    var {switchNum} = req.body;
+    mysql.pool.query(deleteSwitchesQuery,
+      [switchName, switchNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getSwitchesQuery,res);
+    });
+  }
+  else if(req.body.table == "keyColors"){
+    var {keyColorNum} = req.body;
+    mysql.pool.query(deleteKeyColorsQuery,
+      [keyColorNum], (err, result) => {
+      if(err){
+        next(err);
+        return;
+      }
+      getData(getKeyColorsQuery,res);
+    });
+  } 
+});
 
 
 app.use(function(req,res){
