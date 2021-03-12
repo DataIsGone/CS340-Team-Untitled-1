@@ -1,4 +1,4 @@
-const baseURL = `http://flip3.engr.oregonstate.edu:21895/`;
+const baseURL = `http://flip3.engr.oregonstate.edu:57340/`;
 /* --- Table variables for setting up UI --- */
 var customersVariables = ["customerNum", "firstName", "lastName", "phoneNumber"];
 var ordersVariables = ["orderNum", "customerNum", "orderDate", "paymentType"];
@@ -198,8 +198,9 @@ function buildTableMenuUpdate(){
 	return wrapper;
 }
 
+// CHOOSE ROW
 function buildTableMenuDelete(){
-	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div class="spacer"></div></li><li><div><label for="row" class="label">CHOOSE ROW:</label><select id="chooseRowDelete"></select></div></li><li><div class="spacer"></div></li><li><button class="cybr-btn-small">Search<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Search_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></li></ul></div>';
+	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div class="spacer"></div></li><li><div id="chooseRowDeleteDiv"><label for="row" class="label">CHOOSE ROW:</label><select id="chooseRowDelete"></select></div></li><li><div class="spacer"></div></li><li><button class="cybr-btn-small" id="searchRowDelete">Search<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Search_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></li></ul></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
 	return wrapper;
@@ -307,7 +308,7 @@ function buildCRUDModeControlsRead(table){
 	return;
 }
 
-
+// RYAN
 function buildCRUDModeControlsUpdate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
@@ -355,7 +356,7 @@ function buildCRUDModeControlsUpdate(table){
 	return;
 }
 
-
+// RYAN
 function buildCRUDModeControlsDelete(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
@@ -370,55 +371,285 @@ function buildCRUDModeControlsDelete(table){
 
 	document.body.append(divTwo);
 
+	// if the table is keyboardOrders, change PK dropdown into two FK dropdowns
+	if (table == "keyboardOrders") {
+		createDeleteFKDropdowns();
+	}
+	else if (!!document.getElementById("orderNumDropdownDelete") && !!document.getElementById("keyboardNumDropdownDelete")) {
+		removeDeleteFKDropdowns();
+	}
+
 	var list = document.getElementById("crudControls");
+
+	// call search query for specific row
 
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillDeleteControls(variable));}
-		sendForSpecificColumnQuery("read", "customers", "customerNum", "chooseRowDelete");
+		clearChooseRowDelete("chooseRowDelete");
+		sendForSpecificColumnQuery("read", "customers", "customerNum", "chooseRowDelete", table);
 		sendForReadQuery("read", "customers", customersVariables);
 	}
 	else if(table == "orders"){
 		for (variable of ordersVariables){list.appendChild(fillDeleteControls(variable));}
-		sendForSpecificColumnQuery("read", "orders", "orderNum", "chooseRowDelete");
+		clearChooseRowDelete("chooseRowDelete");
+		sendForSpecificColumnQuery("read", "orders", "orderNum", "chooseRowDelete", table);
 		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
 		// for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
 		// sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
-		for (variable of keyboardOrdersVariables){
-			if((variable != "orderNum") & (variable != "keyboardNum")){
-				list.appendChild(fillCreateControls(variable));
-			}
-			else{
-				list.appendChild(makeDropdownInput(variable));
-				if(variable == "orderNum"){
-					sendForSpecificColumnQuery("read", "orders", "orderNum","orderNumDropdown", table);
-				}
-				else if(variable == "keyboardNum"){
-					sendForSpecificColumnQuery("read", "keyboards", "keyboardNum","keyboardNumDropdown", table);
-				}
-			}
-		}
+		for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
+		sendForSpecificColumnQuery("read", "keyboardOrders", "orderNum", "orderNumDropdownDelete", table);
+		sendForSpecificColumnQuery("read", "keyboardOrders", "keyboardNum", "keyboardNumDropdownDelete", table);
 		sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 	}
 	else if(table == "keyboards"){
 		for (variable of keyboardsVariables){list.appendChild(fillDeleteControls(variable));}
-		sendForSpecificColumnQuery("read", "keyboards", "keyboardNum", "chooseRowDelete");
+		clearChooseRowDelete("chooseRowDelete");
+		sendForSpecificColumnQuery("read", "keyboards", "keyboardNum", "chooseRowDelete", table);
 		sendForReadQuery("read", "keyboards", keyboardsVariables);
 	}
 	else if(table == "switches"){
 		for (variable of switchesVariables){list.appendChild(fillDeleteControls(variable));}
-		sendForSpecificColumnQuery("read", "switches", "switchNum", "chooseRowDelete");
+		clearChooseRowDelete("chooseRowDelete");
+		sendForSpecificColumnQuery("read", "switches", "switchNum", "chooseRowDelete", table);
 		sendForReadQuery("read", "switches", switchesVariables);
 	}
 	else if(table == "keyColors"){
 		for (variable of keyColorsVariables){list.appendChild(fillDeleteControls(variable));}
-		sendForSpecificColumnQuery("read", "keyColors", "keyColorNum", "chooseRowDelete");
+		clearChooseRowDelete("chooseRowDelete");
+		sendForSpecificColumnQuery("read", "keyColors", "keyColorNum", "chooseRowDelete", table);
 		sendForReadQuery("read", "keyColors", keyColorsVariables);
 	}
+
+	document.getElementById("searchRowDelete").addEventListener("click", (event) => {
+		// grab values from options in select menus
+		getRowToDeleteInfo(table);
+	});
+
 	return;
 }
 
+// --- START: DELETE QUERY HELPER FUNCTIONS
+function clearChooseRowDelete(thisDropdown){
+	var dropdown = document.getElementById(thisDropdown);
+	while (dropdown.firstChild) {
+		dropdown.removeChild(dropdown.firstChild);
+	}
+}
+
+function createDeleteFKDropdowns(){
+	var chooseRowDiv = document.getElementById("chooseRowDeleteDiv");
+	document.getElementById("chooseRowDelete").remove();
+
+	var orderNumLabel = document.createElement("label");
+	orderNumLabel.textContent = "Order Number: ";
+	chooseRowDiv.appendChild(orderNumLabel);
+	var chooseOrderNum = document.createElement("select");
+	chooseOrderNum.classList.add("toBeInput");
+	chooseOrderNum.id = "orderNumDropdownDelete";
+
+	chooseRowDiv.appendChild(chooseOrderNum);
+
+	var keyboardNumLabel = document.createElement("label");
+	keyboardNumLabel.textContent = "Keyboard Number: ";
+	chooseRowDiv.appendChild(keyboardNumLabel);
+	var chooseKeyboardNum = document.createElement("select");
+	chooseKeyboardNum.id = "keyboardNumDropdownDelete";
+	chooseKeyboardNum.classList.add("toBeInput");
+	chooseRowDiv.appendChild(chooseKeyboardNum);
+}
+
+function removeDeleteFKDropdowns(){
+	var chooseRowDiv = document.getElementById("chooseRowDeleteDiv");
+
+	while (chooseRowDiv.firstChild) {
+		chooseRowDiv.removeChild(chooseRowDiv.firstChild);
+	}
+
+	var chooseRowDeleteLabel = document.createElement("label");
+	chooseRowDeleteLabel.htmlFor = "row";
+	chooseRowDeleteLabel.classList.add("label");
+	chooseRowDeleteLabel.textContent = "CHOOSE ROW:";
+	chooseRowDiv.appendChild(chooseRowDeleteLabel);
+
+	var chooseRowDelete = document.createElement("select");
+	chooseRowDelete.id = "chooseRowDelete";
+	chooseRowDelete.add
+	chooseRowDiv.appendChild(chooseRowDelete);
+}
+
+// --- END: DELETE QUERY HELPER FUNCTIONS
+
+// RYAN
+function getRowToDeleteInfo(table){
+	if (table == "customers"){
+		var customerNum = document.getElementById("chooseRowDelete").value;
+		getQueryFromRowToDeleteSearch(table, ["customerNum", customerNum], ["fill",0]);
+	}
+	else if(table == "orders"){
+		var orderNum = document.getElementById("chooseRowDelete").value;
+		getQueryFromRowToDeleteSearch(table, ["orderNum", orderNum], ["fill",0]);
+	}
+	else if(table == "keyboardOrders"){
+		var orderNum = document.getElementById("orderNumDropdownDelete").value;
+		var keyboardNum = document.getElementById("keyboardNumDropdownDelete").value;
+		getQueryFromRowToDeleteSearch(table, ["orderNum",orderNum],["keyboardNum",keyboardNum]);
+	}
+	else if(table == "keyboards"){
+		var keyboardNum = document.getElementById("chooseRowDelete").value;
+		getQueryFromRowToDeleteSearch(table, ["keyboardNum", keyboardNum], ["fill",0]);
+	}
+	else if(table == "switches"){
+		var switchNum = document.getElementById("chooseRowDelete").value;
+		getQueryFromRowToDeleteSearch(table, ["switchNum", switchNum], ["fill",0]);
+	}
+	else if(table == "keyColors"){
+		var keyColorNum = document.getElementById("chooseRowDelete").value;
+		getQueryFromRowToDeleteSearch(table, ["keyColorNum", keyColorNum], ["fill",0]);
+	}
+
+}
+
+// RYAN
+function getQueryFromRowToDeleteSearch(table, input1, input2){
+	var queryToSend = "SELECT * FROM";
+	queryToSend = queryToSend.concat(" ",table," ","WHERE"," ",input1[0],"=",input1[1]);
+
+	if(input2[1] != 0){
+		queryToSend = queryToSend.concat(" ","AND"," ",input2[0],"=",input2[1]);
+	}
+	var req = new XMLHttpRequest();
+	var payload = {request:"read", table:table, query:queryToSend}
+	req.open("POST", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+			rebuildControlsDelete(JSON.parse(req.responseText), table, input1, input2);
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+}
+
+// RYAN
+function rebuildControlsDelete(queryResult, table, input1, input2){
+	var list = document.getElementById("crudControls");
+	removeAllChildNodes(list);
+	var row = queryResult.rows[0];
+	console.log(row);
+
+	if (table == "customers"){
+		for (i = 0; i < customersVariables.length; i++){
+			if(customersVariables[i] != "customerNum"){
+				inputBox = fillDeleteControls(customersVariables[i], row[customersVariables[i]]); 
+				list.appendChild(inputBox);
+			}
+		}
+	}
+	else if(table == "orders"){
+		for (i = 0; i < ordersVariables.length; i++){
+			if(ordersVariables[i] != "orderNum"){
+				inputBox = fillDeleteControls(ordersVariables[i], row[ordersVariables[i]]);
+				list.appendChild(inputBox);}
+		}
+	}
+	else if(table == "keyboardOrders"){
+		console.log(keyboardOrdersVariables);
+		for (i = 0; i < keyboardOrdersVariables.length; i++){
+			if((keyboardOrdersVariables[i] != "orderNum") && (keyboardOrdersVariables[i] != "keyboardNum")){
+				inputBox = fillDeleteControls(keyboardOrdersVariables[i], row[keyboardOrdersVariables[i]]);
+				list.appendChild(inputBox);}
+		}
+	}
+	else if(table == "keyboards"){
+		for (i = 0; i < keyboardsVariables.length; i++){
+			if(keyboardsVariables[i] != "keyboardNum"){
+				inputBox = fillDeleteControls(keyboardsVariables[i], row[keyboardsVariables[i]]);
+				list.appendChild(inputBox);}
+		}
+	}
+	else if(table == "switches"){
+		for (i = 0; i < switchesVariables.length; i++){
+			if(switchesVariables[i] != "switchNum"){
+				inputBox = fillDeleteControls(switchesVariables[i], row[switchesVariables[i]]);
+				list.appendChild(inputBox);}
+		}
+	}
+	else if(table == "keyColors"){
+		for (i = 0; i < keyColorsVariables.length; i++){
+			if(keyColorsVariables[i] != "keyColorNum"){
+				inputBox = fillDeleteControls(keyColorsVariables[i], row[keyColorsVariables[i]]);
+				list.appendChild(inputBox);}
+		}
+	}
+	// now get rid of current button and make new one with its own event listener 
+	// make new update query with values given
+	replaceUpdateButton(table, input1, input2);
+	replaceDeleteButton(table, input1, input2);
+
+	return;
+}
+
+// RYAN
+function replaceDeleteButton(table, input1, input2){
+	var list = document.getElementById("crudControls")
+	var buttonHolder = document.getElementById("right-button");
+	removeAllChildNodes(buttonHolder);
+	var html = '<form action=""><button class="cybr-btn" id="deleteButton">Delete2<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Confirm_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form>';
+	buttonHolder.innerHTML= html;
+	
+	// gather data and update the row that was initially selected.
+	document.getElementById("deleteButton").addEventListener("click", (event) =>{
+		var valueHolder = [];
+		valueHolder.push(input1);
+		if(input2[1] != 0){
+			valueHolder.push(input2);
+		}
+		var childNodes = list.childNodes;
+		for (i = 0; i < childNodes.length; i++) {
+			var temp = [];
+			var variableName = childNodes[i].firstChild.firstChild.firstChild.textContent;
+			var value = childNodes[i].firstChild.firstChild.nextSibling.firstChild.value;
+  			temp.push(variableName);
+			temp.push(value);
+			valueHolder.push(temp);
+		} 
+		// sendUpdateQuery(table,valueHolder);
+		sendDeleteQuery(table,valueHolder);
+		event.preventDefault(); 
+	});
+	return;
+}
+
+function sendDeleteQuery(table,arrayOfArrays){
+	var a = arrayOfArrays;
+	var payload = {table:table};
+	for(i = 0; i < a.length; i++){
+		var currentArray = a[i];
+		if(currentArray[1] == ""){
+			payload[currentArray[0]]=null;
+		}
+		else{
+			payload[currentArray[0]]=currentArray[1];
+		}
+	}
+	var req = new XMLHttpRequest();
+	req.open("DELETE", baseURL, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load',function(){
+  		if(req.status >= 200 && req.status < 400){
+			buildCRUDModeControlsUpdate(table);
+			var text = "Deleted";
+			text = text.concat(" ",table," ","table");
+			var resultSpan = document.getElementById("text-result");
+			resultSpan.innerText = text;
+  		}
+ 	});
+	payload = JSON.stringify(payload);
+	req.send(payload);
+	return
+}
 
 /* - Checks table selected, makes inputs for each variable, then begins process of retrieving data to build table with - */ 
 function buildBottomHalfCreate(table){
@@ -597,7 +828,8 @@ function fillUpdateControls(variable, value){
 	return list;
 }
 
-function fillDeleteControls(variable){
+// RYAN
+function fillDeleteControls(variable, value){
 	var list = document.createElement("li");
 
 	var outerDiv = document.createElement("div");
@@ -616,19 +848,13 @@ function fillDeleteControls(variable){
 	divLabelTwo.className = "col-content";
 	outerDiv.appendChild(divLabelTwo);
 
-	var input = document.createElement("input");			
-	input.setAttribute("type", "text");
-	divLabelTwo.appendChild(input);
+	var content = document.createElement("span");
+	content.textContent = value;
+	//content.textContent = "big chungus";	// TODO: change this, have it dynamically populate
+	divLabelTwo.appendChild(content);
 
 	return list;
 }
-
-// RYAN
-// function fillSelectRowDelete(){
-// 	var chooseRowMenu = document.getElementById("choose-row-delete");
-// 	sendForSpecificColumnQuery("read", "keyboards", "keyboardNum", "chooseRowDelete")
-	
-// }
 
 /* - Called when a dropdown input is needed on create page instead of normal text input. 
 Called by buildBottomHalfCreate- */ 
@@ -662,6 +888,7 @@ function makeDropdownInput(variable){
 
 
 /* - Used when full table is requested for building new table - */
+// RYAN -- this actually sends the query
 function sendForReadQuery(requestType, tableName, variablesToUse){
 	var req = new XMLHttpRequest();
 	var payload = {request:requestType, table:tableName}
@@ -867,6 +1094,7 @@ function makeArrayWithJSON(queryResult, table, variable, dropDownName){
 /* - Fills appropriate dropdown with fk data. 
 Called by makeArrayWithJSON - */ 
 function fillDropdown(array, table, variable, dropDownName){
+	array = array.sort(function(a, b){return a-b});
 	if(table == "keyboardOrders"){
 		
 		if(variable == "orderNum"){
@@ -880,10 +1108,13 @@ function fillDropdown(array, table, variable, dropDownName){
 	}
 	else{ // used in updatePage
 		var dropdown = document.getElementById(dropDownName);
-		for (x in array){dropdown.appendChild(fillReadControls(parseInt(x)+1))}; 
+		// for (x in array){dropdown.appendChild(fillReadControls(parseInt(x)+1))};
+		for (i = 0; i < array.length; i++){
+            var value = array[i];
+            dropdown.appendChild(fillReadControls(parseInt(value)))
+        }
 	}
 }
-
 
 /* - Getting data from chosen row to pass to rebuildControlsUpdate. 
 Called by eventlistener in buildCRUDModeControlsUpdate - */ 
@@ -1029,6 +1260,7 @@ function sendUpdateQuery(table,arrayOfArrays){
 
 
 /* - Builds table with given table and variables and puts it on page - */ 
+// RYAN BUILD TABLE
 function buildTable(table, variables){
 	if(document.body.contains(document.getElementById("outer-table"))){document.getElementById("outer-table").remove();}
 	//outerTable will contain the header table and the values table
