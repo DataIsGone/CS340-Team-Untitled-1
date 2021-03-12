@@ -37,3 +37,9 @@
 - Author: w3schools
 - Date: 02/01/2021
 - Adapted from: [Source URL](https://www.w3schools.com/howto/howto_js_dropdown.asp)
+
+
+### Javascript sort function:
+- Author: w3schools
+- Date: 03/11/2021
+- Adapted from: [Source URL](https://www.w3schools.com/jsref/jsref_sort.asp)
