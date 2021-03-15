@@ -1,4 +1,4 @@
-const baseURL = `http://flip3.engr.oregonstate.edu:57340/`;
+const baseURL = ``;
 /* --- Table variables for setting up UI --- */
 var customersVariables = ["customerNum", "firstName", "lastName", "phoneNumber"];
 var ordersVariables = ["orderNum", "customerNum", "orderDate", "paymentType"];
@@ -201,7 +201,8 @@ function buildTableMenuUpdate(){
 // CHOOSE ROW
 function buildTableMenuDelete(){
 	var html = '<div class="content"><ul class="nav-list"><li><div><form action=""><label for="tables" class="label">SELECT TABLE:</label><select onchange="buildCRUDModeControlsDelete(this.value);"><option value="none" selected disabled hidden> Select a Table </option> <option value="customers">Customers</option><option value="orders">Orders</option><option value="keyboards">Keyboards</option><option value="keyboardOrders">Keyboard Orders</option><option value="switches">Key Switches</option><option value="keyColors">Keycap Colors</option></select></form></div></li><li><div class="spacer"></div></li><li><div id="chooseRowDeleteDiv"><label for="row" class="label">CHOOSE ROW:</label><select id="chooseRowDelete"></select></div></li><li><div class="spacer"></div></li><li><button class="cybr-btn-small" id="searchRowDelete">Search<span aria-hidden>_</span><span aria-hidden class="cybr-btn-small__glitch">Search_</span><span aria-hidden class="cybr-btn-small__tag"></span></button></li></ul></div>';
-	var wrapper= document.createElement('div');
+	var wrapper = document.createElement('div');
+	wrapper.id = "mainDeleteDiv";
 	wrapper.innerHTML= html;
 	return wrapper;
 }
@@ -308,10 +309,8 @@ function buildCRUDModeControlsRead(table){
 	return;
 }
 
-// RYAN
 function buildCRUDModeControlsUpdate(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
-	
 	var html = '<div class="content" id="mode-content"><div class="display-col"><ul class="nav-list" id="crudControls"></ul><div id="right-button"><form id="buttonHolder"action=""><button class="cybr-btn" id="updateButton">Update Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Update Row_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form></div><div class="result"><ul class="nav-list"><li><span class="label">SEARCH RESULT:</span> <span class="label-content" id="text-result">(results go here)</span></li></ul></div></div></div>';
 	var wrapper= document.createElement('div');
 	wrapper.innerHTML= html;
@@ -356,7 +355,6 @@ function buildCRUDModeControlsUpdate(table){
 	return;
 }
 
-// RYAN
 function buildCRUDModeControlsDelete(table){
 	if(document.body.contains(document.getElementById("divTwo"))){document.getElementById("divTwo").remove();}
 	
@@ -370,7 +368,7 @@ function buildCRUDModeControlsDelete(table){
 	divTwo.appendChild(wrapper);
 
 	document.body.append(divTwo);
-
+	
 	// if the table is keyboardOrders, change PK dropdown into two FK dropdowns
 	if (table == "keyboardOrders") {
 		createDeleteFKDropdowns();
@@ -382,7 +380,6 @@ function buildCRUDModeControlsDelete(table){
 	var list = document.getElementById("crudControls");
 
 	// call search query for specific row
-
 	if (table == "customers"){
 		for (variable of customersVariables){list.appendChild(fillDeleteControls(variable));}
 		clearChooseRowDelete("chooseRowDelete");
@@ -396,8 +393,6 @@ function buildCRUDModeControlsDelete(table){
 		sendForReadQuery("read", "orders", ordersVariables);
 	}
 	else if(table == "keyboardOrders"){
-		// for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
-		// sendForReadQuery("read", "keyboardOrders", keyboardOrdersVariables);
 		for (variable of keyboardOrdersVariables){list.appendChild(fillDeleteControls(variable));}
 		sendForSpecificColumnQuery("read", "keyboardOrders", "orderNum", "orderNumDropdownDelete", table);
 		sendForSpecificColumnQuery("read", "keyboardOrders", "keyboardNum", "keyboardNumDropdownDelete", table);
@@ -431,6 +426,7 @@ function buildCRUDModeControlsDelete(table){
 }
 
 // --- START: DELETE QUERY HELPER FUNCTIONS
+
 function clearChooseRowDelete(thisDropdown){
 	var dropdown = document.getElementById(thisDropdown);
 	while (dropdown.firstChild) {
@@ -480,8 +476,6 @@ function removeDeleteFKDropdowns(){
 }
 
 // --- END: DELETE QUERY HELPER FUNCTIONS
-
-// RYAN
 function getRowToDeleteInfo(table){
 	if (table == "customers"){
 		var customerNum = document.getElementById("chooseRowDelete").value;
@@ -511,7 +505,6 @@ function getRowToDeleteInfo(table){
 
 }
 
-// RYAN
 function getQueryFromRowToDeleteSearch(table, input1, input2){
 	var queryToSend = "SELECT * FROM";
 	queryToSend = queryToSend.concat(" ",table," ","WHERE"," ",input1[0],"=",input1[1]);
@@ -532,12 +525,10 @@ function getQueryFromRowToDeleteSearch(table, input1, input2){
 	req.send(payload);
 }
 
-// RYAN
 function rebuildControlsDelete(queryResult, table, input1, input2){
 	var list = document.getElementById("crudControls");
 	removeAllChildNodes(list);
 	var row = queryResult.rows[0];
-	console.log(row);
 
 	if (table == "customers"){
 		for (i = 0; i < customersVariables.length; i++){
@@ -585,7 +576,6 @@ function rebuildControlsDelete(queryResult, table, input1, input2){
 	}
 	// now get rid of current button and make new one with its own event listener 
 	// make new update query with values given
-	replaceUpdateButton(table, input1, input2);
 	replaceDeleteButton(table, input1, input2);
 
 	return;
@@ -596,7 +586,7 @@ function replaceDeleteButton(table, input1, input2){
 	var list = document.getElementById("crudControls")
 	var buttonHolder = document.getElementById("right-button");
 	removeAllChildNodes(buttonHolder);
-	var html = '<form action=""><button class="cybr-btn" id="deleteButton">Delete2<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Confirm_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form>';
+	var html = '<form action=""><button class="cybr-btn" id="deleteButton">Delete Row<span aria-hidden>_</span><span aria-hidden class="cybr-btn__glitch">Confirm_</span><span aria-hidden class="cybr-btn__tag">340</span></button></form>';
 	buttonHolder.innerHTML= html;
 	
 	// gather data and update the row that was initially selected.
@@ -615,7 +605,6 @@ function replaceDeleteButton(table, input1, input2){
 			temp.push(value);
 			valueHolder.push(temp);
 		} 
-		// sendUpdateQuery(table,valueHolder);
 		sendDeleteQuery(table,valueHolder);
 		event.preventDefault(); 
 	});
@@ -828,8 +817,8 @@ function fillUpdateControls(variable, value){
 	return list;
 }
 
-// RYAN
 function fillDeleteControls(variable, value){
+	console.log(value);
 	var list = document.createElement("li");
 
 	var outerDiv = document.createElement("div");
@@ -850,7 +839,6 @@ function fillDeleteControls(variable, value){
 
 	var content = document.createElement("span");
 	content.textContent = value;
-	//content.textContent = "big chungus";	// TODO: change this, have it dynamically populate
 	divLabelTwo.appendChild(content);
 
 	return list;
@@ -888,7 +876,6 @@ function makeDropdownInput(variable){
 
 
 /* - Used when full table is requested for building new table - */
-// RYAN -- this actually sends the query
 function sendForReadQuery(requestType, tableName, variablesToUse){
 	var req = new XMLHttpRequest();
 	var payload = {request:requestType, table:tableName}
@@ -1071,7 +1058,6 @@ function removeAllChildNodes(parent) {
     }
 	return;
 }
-
 
 /* - Makes array with json response from server. 
 Called by sendForSpecificColumnQuery - */ 
@@ -1260,7 +1246,6 @@ function sendUpdateQuery(table,arrayOfArrays){
 
 
 /* - Builds table with given table and variables and puts it on page - */ 
-// RYAN BUILD TABLE
 function buildTable(table, variables){
 	if(document.body.contains(document.getElementById("outer-table"))){document.getElementById("outer-table").remove();}
 	//outerTable will contain the header table and the values table
